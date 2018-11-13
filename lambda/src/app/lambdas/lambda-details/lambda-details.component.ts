@@ -763,7 +763,7 @@ export class LambdaDetailsComponent implements AfterViewInit {
       luigiClient
         .linkManager()
         .fromClosestContext()
-        .navigate(`/lambdas`);
+        .navigate(`lambdas`);
     }, 100);
   }
 

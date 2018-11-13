@@ -13,10 +13,7 @@ import { ServiceInstanceList } from '../../../../shared/datamodel/k8s/service-in
 @Component({
   selector: 'app-lambda-instance-binding-creator',
   templateUrl: './lambda-instance-binding-creator.component.html',
-  styleUrls: [
-    '../../../../app.component.scss',
-    '../../lambda-details.component.scss',
-  ],
+  styleUrls: ['../../lambda-details.component.scss'],
 })
 export class LambdaInstanceBindingCreatorComponent {
   public isActive = false;

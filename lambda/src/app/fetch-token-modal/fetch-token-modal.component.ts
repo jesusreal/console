@@ -5,7 +5,7 @@ import * as luigiClient from '@kyma-project/luigi-client';
 
 @Component({
   selector: 'app-fetch-token-modal',
-  styleUrls: ['../app.component.scss', './fetch-token-modal.component.scss'],
+  styleUrls: ['./fetch-token-modal.component.scss'],
   templateUrl: './fetch-token-modal.component.html',
 })
 export class FetchTokenModalComponent {
