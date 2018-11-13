@@ -72,8 +72,6 @@ export class LambdasEntryRendererComponent extends AbstractTableEntryRendererCom
   }
 
   goToDetails(entry) {
-    luigiClient
-      .linkManager()
-      .openInCurrentEnvironment(`lambdas/details/${entry}`, this.sessionId);
+    luigiClient.linkManager().navigate(`details/${entry}`);
   }
 }

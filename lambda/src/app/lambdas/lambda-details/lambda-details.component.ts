@@ -762,7 +762,8 @@ export class LambdaDetailsComponent implements AfterViewInit {
     setTimeout(() => {
       luigiClient
         .linkManager()
-        .openInCurrentEnvironment(`lambdas`, this.sessionId);
+        .fromClosestContext()
+        .navigate(`/lambdas`);
     }, 100);
   }
 
