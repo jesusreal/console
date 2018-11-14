@@ -17,8 +17,6 @@ import * as luigiClient from '@kyma-project/luigi-client';
   styleUrls: ['./lambdas-entry-renderer.component.scss'],
 })
 export class LambdasEntryRendererComponent extends AbstractTableEntryRendererComponent {
-  private sessionId: string;
-  private eventData: any;
   public statusText: string;
   public status: boolean;
   actions = [
@@ -30,10 +28,6 @@ export class LambdasEntryRendererComponent extends AbstractTableEntryRendererCom
 
   constructor(private appRef: ApplicationRef, protected injector: Injector) {
     super(injector);
-    luigiClient.addInitListener(() => {
-      this.eventData = luigiClient.getEventData();
-      this.sessionId = this.eventData.sessionId;
-    });
     this.entry.functionStatus.subscribe(status => {
       this.statusText = this.getStatus(status);
       this.status = this.isStatusOk(status);

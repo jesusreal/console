@@ -40,7 +40,7 @@ export class LambdasComponent extends GenericTableComponent {
   emptyListText =
     'It looks like you don’t have any lambdas in your namespace yet.';
   createNewElementText = 'Add Lambda';
-  private sessionId: string;
+
   public lambdasEventHandler;
   token: string;
   environment: string;
@@ -216,7 +216,6 @@ export class LambdasComponent extends GenericTableComponent {
     luigiClient.addInitListener(() => {
       const eventData = luigiClient.getEventData();
       this.environment = eventData.currentEnvironmentId;
-      this.sessionId = eventData.sessionId;
       this.token = eventData.idToken;
       this.source = new KubernetesDataProvider(
         `${AppConfig.kubelessApiUrl}/namespaces/${this.environment}/functions`,
