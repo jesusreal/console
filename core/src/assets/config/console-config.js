@@ -72,7 +72,7 @@ function getNodes(environment) {
       pathSegment: 'lambdas',
       navigationContext: 'lambdas',
       label: 'Lambdas',
-      viewUrl: lambdasModuleUrl + '/lambdas',
+      viewUrl: lambdasModuleUrl + '#/lambdas',
       keepSelectedForChildren: true,
       context: {
         idToken: token,
@@ -81,15 +81,14 @@ function getNodes(environment) {
       children: [
         {
           pathSegment: 'create',
-          label: 'Create',
-          viewUrl: lambdasModuleUrl + '/create'
+          viewUrl: lambdasModuleUrl + '#/create'
         },
         {
           pathSegment: 'details',
           children: [
             {
               pathSegment: ':lambda',
-              viewUrl: lambdasModuleUrl + '/lambdas/:lambda'
+              viewUrl: lambdasModuleUrl + '#/lambdas/:lambda'
             }
           ]
         }

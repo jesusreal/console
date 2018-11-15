@@ -7,6 +7,8 @@ import {
   ViewChild,
   AfterViewInit,
   HostListener,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import 'brace';
@@ -55,7 +57,8 @@ const DEFAULT_CODE = `module.exports = { main: function (event, context) {
   styleUrls: ['./lambda-details.component.scss'],
 })
 @HostListener('sf-content')
-export class LambdaDetailsComponent implements AfterViewInit {
+export class LambdaDetailsComponent
+  implements AfterViewInit, OnInit, OnDestroy {
   selectedTriggers: ITrigger[] = [];
   availableEventTriggers: EventTrigger[] = [];
   existingEventTriggers: EventTrigger[] = [];
@@ -114,6 +117,7 @@ export class LambdaDetailsComponent implements AfterViewInit {
   existingHTTPEndpoint: Api;
   bindingState: Map<string, InstanceBindingState>;
   sessionId: string;
+  listenerId: string;
 
   public issuer: string;
   public jwksUri: string;
@@ -137,9 +141,12 @@ export class LambdaDetailsComponent implements AfterViewInit {
     this.aceMode = 'javascript';
     this.aceDependencyMode = 'json';
     this.kind = 'nodejs8';
+  }
+
+  ngOnInit() {
     this.route.params.subscribe(
       params => {
-        luigiClient.addInitListener(() => {
+        this.listenerId = luigiClient.addInitListener(() => {
           const eventData = luigiClient.getEventData();
           this.environment = eventData.currentEnvironmentId;
           this.sessionId = eventData.sessionId;
@@ -213,6 +220,12 @@ export class LambdaDetailsComponent implements AfterViewInit {
         this.navigateToList();
       },
     );
+  }
+
+  ngOnDestroy() {
+    if (this.listenerId) {
+      luigiClient.removeInitListener(this.listenerId);
+    }
   }
 
   selectType(selectedType) {
