@@ -17,11 +17,9 @@ export class FetchTokenModalComponent {
   public show() {
     this.title = 'Fetch token';
     this.isActive = true;
-    let sessionId;
 
     luigiClient.addInitListener(() => {
       const eventData = luigiClient.getEventData();
-      sessionId = eventData.sessionId;
       this.token = `Bearer ${eventData.idToken}`;
     });
   }

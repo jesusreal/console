@@ -65,11 +65,9 @@ export class HttpTriggerComponent {
 
     this.title = 'Expose via HTTPS';
     this.isActive = true;
-    let sessionId;
 
     luigiClient.addInitListener(() => {
       const eventData = luigiClient.getEventData();
-      sessionId = eventData.sessionId;
       this.token = `${eventData.idToken}`;
     });
     luigiClient.uxManager().addBackdrop();

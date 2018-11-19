@@ -116,7 +116,6 @@ export class LambdaDetailsComponent
   isHTTPTriggerAuthenticated = true;
   existingHTTPEndpoint: Api;
   bindingState: Map<string, InstanceBindingState>;
-  sessionId: string;
   listenerId: string;
 
   public issuer: string;
@@ -149,7 +148,6 @@ export class LambdaDetailsComponent
         this.listenerId = luigiClient.addInitListener(() => {
           const eventData = luigiClient.getEventData();
           this.environment = eventData.currentEnvironmentId;
-          this.sessionId = eventData.sessionId;
           this.token = eventData.idToken;
           if (params['name']) {
             this.mode = 'update';
