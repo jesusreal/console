@@ -5,7 +5,6 @@ const DEFAULT_ENVIRONMENT_ID = 'production';
 class Builder {
   currentEnvironmentId = DEFAULT_ENVIRONMENT_ID;
   token = null;
-  sessionId = null;
 
   init() {
     return new Promise((resolve, reject) => {
