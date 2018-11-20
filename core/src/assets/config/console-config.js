@@ -62,7 +62,7 @@ function getNodes(environment) {
           children: [
             {
               pathSegment: ':name',
-              viewUrl: `${config.serviceCatalogModuleUrl}/details/:name`
+              viewUrl: `${config.serviceInstancesModuleUrl}/details/:name`
             }
           ]
         }
