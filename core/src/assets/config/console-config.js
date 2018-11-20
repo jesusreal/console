@@ -7,7 +7,8 @@ if (clusterConfig && clusterConfig['domain']) {
 var k8sServerUrl = `https://apiserver.${k8sDomain}`;
 
 const config = {
-  serviceCatalogModuleUrl: `https://catalog.${k8sDomain}`
+  serviceCatalogModuleUrl: `https://catalog.${k8sDomain}`,
+  serviceInstancesModuleUrl: `https://instances.${k8sDomain}`
 };
 
 if (clusterConfig) {
@@ -51,10 +52,21 @@ function getNodes(environment) {
     },
     {
       category: 'Service Catalog',
+      keepSelectedForChildren: true,
       pathSegment: 'instances',
       label: 'Instances',
-      viewUrl:
-        '/consoleapp.html#/home/environments/' + environment + '/instances'
+      viewUrl: config.serviceInstancesModuleUrl,
+      children: [
+        {
+          pathSegment: 'details',
+          children: [
+            {
+              pathSegment: ':name',
+              viewUrl: `${config.serviceCatalogModuleUrl}/details/:name`
+            }
+          ]
+        }
+      ]
     },
     {
       category: 'Service Catalog',
