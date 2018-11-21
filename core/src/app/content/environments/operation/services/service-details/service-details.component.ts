@@ -5,6 +5,7 @@ import { AppConfig } from '../../../../../app.config';
 import { ComponentCommunicationService } from '../../../../../shared/services/component-communication.service';
 import { CurrentEnvironmentService } from '../../../../environments/services/current-environment.service';
 import { Subscription } from 'rxjs';
+import LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
   selector: 'app-service-details',
@@ -111,19 +112,13 @@ export class ServiceDetailsComponent implements OnInit, OnDestroy {
     return Object.keys(o);
   }
 
-  public goBack() {
-    this.router.navigate([
-      'home/environments/' + this.currentEnvironmentId + '/services'
-    ]);
+  public openExposeApi() {
+    LuigiClient.linkManager().navigate(`apis/create`);
   }
 
-  public openExposeApi() {
-    this.router.navigate([
-      'home/environments/' +
-        this.currentEnvironmentId +
-        '/services/' +
-        this.serviceName +
-        '/apis/create'
-    ]);
+  private navigateToList(serviceName) {
+    LuigiClient.linkManager()
+      .fromContext('services')
+      .navigate('/');
   }
 }

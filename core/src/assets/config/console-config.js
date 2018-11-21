@@ -141,7 +141,48 @@ function getNodes(environment) {
       navigationContext: 'services',
       label: 'Services',
       viewUrl:
-        '/consoleapp.html#/home/environments/' + environment + '/services'
+        '/consoleapp.html#/home/environments/' + environment + '/services',
+      keepSelectedForChildren: true,
+      children: [
+        {
+          pathSegment: 'details',
+          children: [
+            {
+              pathSegment: ':name',
+              viewUrl:
+                '/consoleapp.html#/home/environments/' +
+                environment +
+                '/services/:name',
+              children: [
+                {
+                  pathSegment: 'apis',
+                  children: [
+                    {
+                      pathSegment: 'create',
+                      viewUrl:
+                        '/consoleapp.html#/home/environments/' +
+                        environment +
+                        '/services/:name/apis/create'
+                    },
+                    {
+                      pathSegment: 'details',
+                      children: [
+                        {
+                          pathSegment: ':apiName',
+                          viewUrl:
+                            '/consoleapp.html#/home/environments/' +
+                            environment +
+                            '/services/:name/apis/details/:apiName'
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       category: 'Operation',

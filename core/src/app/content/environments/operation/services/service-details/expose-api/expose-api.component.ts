@@ -80,30 +80,22 @@ export class ExposeApiComponent implements OnInit, OnDestroy {
     this.secure = !this.secure;
   }
 
-  public navigateToServiceDetails() {
-    this.router.navigate([
-      `home/environments/${this.currentEnvironmentId}/services/${
-        this.serviceName
-      }`
-    ]);
+  private navigateToList(list) {
+    LuigiClient.linkManager()
+      .fromContext('environments')
+      .navigate(list);
   }
 
-  public navigateToServicesList() {
-    this.router.navigate([
-      `home/environments/${this.currentEnvironmentId}/services`
-    ]);
-  }
-
-  public navigateToApiList() {
-    this.router.navigate([
-      `home/environments/${this.currentEnvironmentId}/apis`
-    ]);
+  private navigateToDetails(apiName) {
+    LuigiClient.linkManager()
+      .fromContext('environments')
+      .navigate(`services/details/${apiName}`);
   }
 
   public goBack() {
     this.routedFromServiceDetails
-      ? this.navigateToServiceDetails()
-      : this.navigateToApiList();
+      ? this.navigateToDetails(this.serviceName)
+      : this.navigateToList('apis');
   }
 
   public isAbleToMakeRequest() {
@@ -607,17 +599,5 @@ export class ExposeApiComponent implements OnInit, OnDestroy {
           ? `${this.serviceName}-${this.hostname}`
           : `${this.serviceName}${this.hostname}`;
     }
-  }
-
-  private navigateToList(list) {
-    LuigiClient.linkManager()
-      .fromContext('environments')
-      .navigate(list);
-  }
-
-  private navigateToDetails(apiName) {
-    LuigiClient.linkManager()
-      .fromContext('environments')
-      .navigate(`services/details/${apiName}`);
   }
 }
