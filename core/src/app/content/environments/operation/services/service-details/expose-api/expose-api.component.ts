@@ -11,6 +11,7 @@ import { InformationModalComponent } from '../../../../../../shared/components/i
 import { OAuthService } from 'angular-oauth2-oidc';
 import { Copy2ClipboardModalComponent } from '../../../../../../shared/components/copy2clipboard-modal/copy2clipboard-modal.component';
 import { finalize, map } from 'rxjs/operators';
+import LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
   selector: 'app-expose-api',
@@ -606,5 +607,17 @@ export class ExposeApiComponent implements OnInit, OnDestroy {
           ? `${this.serviceName}-${this.hostname}`
           : `${this.serviceName}${this.hostname}`;
     }
+  }
+
+  private navigateToList(list) {
+    LuigiClient.linkManager()
+      .fromContext('environments')
+      .navigate(list);
+  }
+
+  private navigateToDetails(apiName) {
+    LuigiClient.linkManager()
+      .fromContext('environments')
+      .navigate(`services/details/${apiName}`);
   }
 }

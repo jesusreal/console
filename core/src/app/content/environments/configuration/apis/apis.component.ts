@@ -14,6 +14,7 @@ import { KubernetesDataProvider } from '../../operation/kubernetes-data-provider
 import { DataConverter, Filter } from '@kyma-project/y-generic-list';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
   selector: 'app-apis',
@@ -82,5 +83,11 @@ export class ApisComponent extends AbstractKubernetesElementListComponent
 
   public ngOnDestroy() {
     this.currentEnvironmentSubscription.unsubscribe();
+  }
+
+  private navigate() {
+    LuigiClient.linkManager()
+      .fromContext('apis')
+      .navigate('create');
   }
 }
