@@ -119,6 +119,6 @@ export class ServiceDetailsComponent implements OnInit, OnDestroy {
   private navigateToList(serviceName) {
     LuigiClient.linkManager()
       .fromContext('services')
-      .navigate('/');
+      .navigate('');
   }
 }

@@ -7,6 +7,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { InformationModalComponent } from '../../../../../shared/components/information-modal/information-modal.component';
 import { ComponentCommunicationService } from '../../../../../shared/services/component-communication.service';
 import { Subscription } from 'rxjs';
+import LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
   selector: 'app-secret-detail',
@@ -126,10 +127,10 @@ export class SecretDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  goBack() {
-    this.router.navigate([
-      'home/environments/' + this.currentEnvironmentId + '/secrets'
-    ]);
+  private navigateToList() {
+    LuigiClient.linkManager()
+      .fromContext('secrets')
+      .navigate('');
   }
 
   toggleSecret(secret) {

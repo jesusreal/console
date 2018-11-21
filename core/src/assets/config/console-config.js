@@ -189,7 +189,23 @@ function getNodes(environment) {
       pathSegment: 'secrets',
       navigationContext: 'secrets',
       label: 'Secrets',
-      viewUrl: '/consoleapp.html#/home/environments/' + environment + '/secrets'
+      viewUrl:
+        '/consoleapp.html#/home/environments/' + environment + '/secrets',
+      keepSelectedForChildren: true,
+      children: [
+        {
+          pathSegment: 'details',
+          children: [
+            {
+              pathSegment: ':name',
+              viewUrl:
+                '/consoleapp.html#/home/environments/' +
+                environment +
+                '/secrets/:name'
+            }
+          ]
+        }
+      ]
     }
   ];
 
