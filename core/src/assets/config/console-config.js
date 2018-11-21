@@ -74,10 +74,6 @@ function getNodes(environment) {
       label: 'Lambdas',
       viewUrl: lambdasModuleUrl + '#/lambdas',
       keepSelectedForChildren: true,
-      context: {
-        idToken: token,
-        currentEnvironmentId: environment
-      },
       children: [
         {
           pathSegment: 'create',

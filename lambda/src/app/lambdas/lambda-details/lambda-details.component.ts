@@ -147,7 +147,7 @@ export class LambdaDetailsComponent
       params => {
         this.listenerId = luigiClient.addInitListener(() => {
           const eventData = luigiClient.getEventData();
-          this.environment = eventData.currentEnvironmentId;
+          this.environment = eventData.environmentId;
           this.token = eventData.idToken;
           if (params['name']) {
             this.mode = 'update';
