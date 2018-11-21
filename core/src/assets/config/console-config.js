@@ -73,7 +73,22 @@ function getNodes(environment) {
       navigationContext: 'permissions',
       label: 'Permissions',
       viewUrl:
-        '/consoleapp.html#/home/environments/' + environment + '/permissions'
+        '/consoleapp.html#/home/environments/' + environment + '/permissions',
+      keepSelectedForChildren: true,
+      children: [
+        {
+          pathSegment: 'roles',
+          children: [
+            {
+              pathSegment: ':name',
+              viewUrl:
+                '/consoleapp.html#/home/environments/' +
+                environment +
+                '/permissions/roles/:name'
+            }
+          ]
+        }
+      ]
     },
     {
       category: 'Configuration',
@@ -286,7 +301,20 @@ Luigi.setConfig({
                 navigationContext: 'global-permissions',
                 label: 'Global Permissions',
                 category: 'Administration',
-                viewUrl: '/consoleapp.html#/home/settings/globalPermissions'
+                viewUrl: '/consoleapp.html#/home/settings/globalPermissions',
+                keepSelectedForChildren: true,
+                children: [
+                  {
+                    pathSegment: 'roles',
+                    children: [
+                      {
+                        pathSegment: ':name',
+                        viewUrl:
+                          '/consoleapp.html#/home/settings/globalPermissions/roles/:name'
+                      }
+                    ]
+                  }
+                ]
               },
               {
                 label: 'Stats & Metrics',

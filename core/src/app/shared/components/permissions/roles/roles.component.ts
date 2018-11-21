@@ -94,16 +94,4 @@ export class RolesComponent extends AbstractKubernetesElementListComponent
       }`;
     }
   }
-
-  public navigateToDetails(entry: any) {
-    if (this.mode === 'roles') {
-      this.router.navigate(['roles/' + entry.metadata.name], {
-        relativeTo: this.activatedRoute
-      });
-    } else {
-      this.router.navigate([
-        '/home/settings/globalPermissions/roles/' + entry.metadata.name
-      ]);
-    }
-  }
 }
