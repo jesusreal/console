@@ -11,7 +11,7 @@ if (localStorage.getItem('luigi.auth')) {
 
 function getNodes(context) {
   var environment = context.environmentId;
-  var nodes = [
+  return [
     {
       pathSegment: 'details',
       label: 'Overview',
@@ -106,25 +106,10 @@ function getNodes(context) {
       viewUrl: '/consoleapp.html#/home/environments/' + environment + '/secrets'
     }
   ];
-
-  return nodes;
 }
 
-var envsLastFetchTime = false;
-var envsCache = false;
 function getEnvs() {
   reloginIfTokenExpired();
-
-  // simple cache to fetch envs only once every N seconds
-  var cacheSeconds = 15 * 1000;
-  if (
-    envsCache &&
-    envsLastFetchTime &&
-    new Date().getTime() > envsLastFetchTime - cacheSeconds
-  ) {
-    return Promise.resolve(envsCache);
-  }
-
   return new Promise(function(resolve, reject) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
@@ -137,8 +122,6 @@ function getEnvs() {
             pathValue: envName
           });
         });
-        envsLastFetchTime = new Date().getTime();
-        envsCache = envs;
         resolve(envs);
       } else if (xmlHttp.readyState == 4 && xmlHttp.status != 200) {
         if (xmlHttp.status === 401) {
@@ -209,16 +192,19 @@ Luigi.setConfig({
         context: {
           idToken: token
         },
-        children: [
-          {
-            // has to be visible for all views exept 'settings'
-            pathSegment: ':environmentId',
-            context: {
-              environmentId: ':environmentId'
-            },
-            children: getNodes
-          }
-        ]
+        children: () => {
+          console.log('adding :environment children');
+          return [
+            {
+              // has to be visible for all views exept 'settings'
+              pathSegment: ':environmentId',
+              context: {
+                environmentId: ':environmentId'
+              },
+              children: getNodes
+            }
+          ];
+        }
       },
       {
         pathSegment: 'home',
