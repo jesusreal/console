@@ -175,7 +175,6 @@ function reloginIfTokenExpired() {
 Luigi.setConfig({
   auth: {
     use: 'openIdConnect',
-    disableAutoLogin: true,
     openIdConnect: {
       authority: 'https://dex.' + k8sDomain,
       client_id: 'console',
