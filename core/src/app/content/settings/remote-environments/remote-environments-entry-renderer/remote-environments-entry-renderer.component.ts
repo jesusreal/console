@@ -6,6 +6,7 @@ import { RemoteEnvironmentsService } from '../services/remote-environments.servi
 import { ComponentCommunicationService } from '../../../../shared/services/component-communication.service';
 import { Subscription } from 'rxjs';
 import { StatusLabelComponent } from '../../../../shared/components/status-label/status-label.component';
+import LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
   selector: 'app-pods-entry-renderer',
@@ -73,10 +74,6 @@ export class RemoteEnvironmentsEntryRendererComponent
     }
   }
 
-  public openRemoteEnvDetails() {
-    this.router.navigate(['home/settings/remoteEnvs/' + this.entry.name]);
-  }
-
   getStatus(entry) {
     return entry.status;
   }
@@ -86,5 +83,9 @@ export class RemoteEnvironmentsEntryRendererComponent
       return 'ok';
     }
     return 'warning';
+  }
+
+  private navigateToDetails(renvName) {
+    LuigiClient.linkManager().navigate(`details/${renvName}`);
   }
 }

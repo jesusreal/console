@@ -337,7 +337,20 @@ Luigi.setConfig({
                 navigationContext: 'remote-envs',
                 label: 'Remote Environments',
                 category: 'Integration',
-                viewUrl: '/consoleapp.html#/home/settings/remoteEnvs'
+                viewUrl: '/consoleapp.html#/home/settings/remoteEnvs',
+                keepSelectedForChildren: true,
+                children: [
+                  {
+                    pathSegment: 'details',
+                    children: [
+                      {
+                        pathSegment: ':name',
+                        viewUrl:
+                          '/consoleapp.html#/home/settings/remoteEnvs/:name'
+                      }
+                    ]
+                  }
+                ]
               },
               {
                 pathSegment: 'service-brokers',

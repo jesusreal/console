@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { ComponentCommunicationService } from '../../../shared/services/component-communication.service';
 import { Observable, of, Subscription } from 'rxjs';
 import { RemoteEnvironmentBindingService } from '../../settings/remote-environments/remote-environment-details/remote-environment-binding-service';
+import LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
   selector: 'app-environment-details',
@@ -122,5 +123,19 @@ export class EnvironmentDetailsComponent implements OnInit, OnDestroy {
         );
       }
     };
+  }
+
+  private navigateToServices() {
+    LuigiClient.linkManager()
+      .fromContext('environments')
+      .navigate('services');
+  }
+
+  private navigateToRemoteEnvs(envName) {
+    LuigiClient.linkManager().navigate(
+      envName
+        ? '/home/settings/remote-envs/details/' + envName
+        : '/home/settings/remote-envs'
+    );
   }
 }
