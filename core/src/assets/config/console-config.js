@@ -192,19 +192,16 @@ Luigi.setConfig({
         context: {
           idToken: token
         },
-        children: () => {
-          console.log('adding :environment children');
-          return [
-            {
-              // has to be visible for all views exept 'settings'
-              pathSegment: ':environmentId',
-              context: {
-                environmentId: ':environmentId'
-              },
-              children: getNodes
-            }
-          ];
-        }
+        children: [
+          {
+            // has to be visible for all views exept 'settings'
+            pathSegment: ':environmentId',
+            context: {
+              environmentId: ':environmentId'
+            },
+            children: getNodes
+          }
+        ]
       },
       {
         pathSegment: 'home',
