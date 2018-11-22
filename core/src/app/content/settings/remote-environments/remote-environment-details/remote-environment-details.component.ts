@@ -106,7 +106,7 @@ export class RemoteEnvironmentDetailsComponent implements OnInit, OnDestroy {
               data.remoteEnvironment.status
             );
           } else {
-            this.goBack();
+            this.navigateToList();
           }
         },
         err => {
