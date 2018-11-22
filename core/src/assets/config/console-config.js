@@ -116,11 +116,11 @@ function getEnvs() {
   reloginIfTokenExpired();
 
   // simple cache to fetch envs only once every N seconds
-  var oneMinute = 1000 * 15;
+  var cacheSeconds = 15 * 1000;
   if (
     envsCache &&
     envsLastFetchTime &&
-    new Date().getTime() > envsLastFetchTime - oneMinute
+    new Date().getTime() > envsLastFetchTime - cacheSeconds
   ) {
     return Promise.resolve(envsCache);
   }
