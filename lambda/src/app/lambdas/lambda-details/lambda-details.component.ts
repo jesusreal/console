@@ -442,8 +442,10 @@ export class LambdaDetailsComponent
           Function: this.lambda.metadata.name,
           ServiceBinding: serviceBindingName,
         };
-        serviceBindingUsage.spec.parameters.envPrefix.name =
-          bs.currentState.instanceBindingPrefix + '-';
+        if (bs.currentState.instanceBindingPrefix !== undefined) {
+          serviceBindingUsage.spec.parameters.envPrefix.name =
+            bs.currentState.instanceBindingPrefix + '-';
+        }
         createRequests.push(
           this.serviceBindingsService
             .createServiceBinding(serviceBinding, this.token)
@@ -460,8 +462,10 @@ export class LambdaDetailsComponent
           Function: this.lambda.metadata.name,
           ServiceBinding: bs.currentState.serviceBinding,
         };
-        serviceBindingUsage.spec.parameters.envPrefix.name =
-          bs.currentState.instanceBindingPrefix + '-';
+        if (bs.currentState.instanceBindingPrefix !== undefined) {
+          serviceBindingUsage.spec.parameters.envPrefix.name =
+            bs.currentState.instanceBindingPrefix + '-';
+        }
       }
       serviceBindingUsage.spec.usedBy.kind = 'function';
       serviceBindingUsage.spec.usedBy.name = this.lambda.metadata.name;
@@ -521,7 +525,9 @@ export class LambdaDetailsComponent
         });
     });
     // Reaches here when there are deleteBindingStates are empty
-    this.executeCreateBindingRequests(createRequests);
+    if (deleteBindingStates.length === 0) {
+      this.executeCreateBindingRequests(createRequests);
+    }
   }
 
   areEventTriggersEqual(sourceET: EventTrigger, destET: EventTrigger): boolean {
