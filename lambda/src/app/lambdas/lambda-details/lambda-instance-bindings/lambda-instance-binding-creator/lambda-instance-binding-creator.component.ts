@@ -45,6 +45,7 @@ export class LambdaInstanceBindingCreatorComponent {
 
   public show() {
     this.isActive = true;
+    luigiClient.uxManager().addBackdrop();
     luigiClient.addInitListener(() => {
       const eventData = luigiClient.getEventData();
       this.environment = eventData.environmentId;
@@ -96,6 +97,7 @@ export class LambdaInstanceBindingCreatorComponent {
 
   public cancel(event: Event) {
     this.isActive = false;
+    luigiClient.uxManager().removeBackdrop();
     this.reset();
     event.stopPropagation();
   }
@@ -117,6 +119,7 @@ export class LambdaInstanceBindingCreatorComponent {
     this.selectedServiceBindingEmitter.emit(ibInfo);
 
     this.isActive = false;
+    luigiClient.uxManager().removeBackdrop();
     this.reset();
     event.stopPropagation();
   }
