@@ -12,6 +12,7 @@ import { GraphQLDataProvider } from '../../environments/operation/graphql-data-p
 import { GraphQLClientService } from '../../../shared/services/graphql-client-service';
 import { CreateRemoteEnvironmentModalComponent } from './create-remote-environment-modal/create-remote-environment-modal.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
   selector: 'app-remote-environments',
@@ -68,8 +69,8 @@ export class RemoteEnvironmentsComponent extends AbstractKubernetesElementListCo
     return `${this.baseUrl}${entry.name}`;
   }
 
-  navigateToDetails(entry: any) {
-    this.router.navigate([entry.name], { relativeTo: this.activatedRoute });
+  navigateToDetails(entry) {
+    LuigiClient.linkManager().navigate(`details/${entry.name}`);
   }
 
   toggleDropDown() {

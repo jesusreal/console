@@ -32,7 +32,6 @@ export class RoleDetailsComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.route.data.subscribe(routeData => {
-      console.log(routeData);
       this.isGlobalMode = routeData && routeData.global;
 
       if (!this.isGlobalMode) {
@@ -62,7 +61,6 @@ export class RoleDetailsComponent implements OnInit, OnDestroy {
   }
 
   private navigateToList() {
-    console.log(this.isGlobalMode);
     if (!this.isGlobalMode) {
       LuigiClient.linkManager()
         .fromContext('environments')

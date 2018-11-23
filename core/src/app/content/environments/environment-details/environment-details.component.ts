@@ -7,7 +7,6 @@ import { AppConfig } from '../../../app.config';
 import { ResourceUploaderModalComponent } from '../../../shared/components/resource-uploader/resource-uploader-modal/resource-uploader-modal.component';
 import { EnvironmentCreateComponent } from '../environment-create/environment-create.component';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { ComponentCommunicationService } from '../../../shared/services/component-communication.service';
 import { Observable, of, Subscription } from 'rxjs';
 import { RemoteEnvironmentBindingService } from '../../settings/remote-environments/remote-environment-details/remote-environment-binding-service';
@@ -41,7 +40,6 @@ export class EnvironmentDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
     private remoteEnvironmentsService: RemoteEnvironmentsService,
     private environmentsService: EnvironmentsService,
     private currentEnvironmentService: CurrentEnvironmentService,

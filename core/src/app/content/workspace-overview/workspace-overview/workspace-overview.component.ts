@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
 import { ComponentCommunicationService } from '../../../shared/services/component-communication.service';
 import { RemoteEnvironmentBindingService } from '../../settings/remote-environments/remote-environment-details/remote-environment-binding-service';
 import { InformationModalComponent } from '../../../shared/components/information-modal/information-modal.component';
+import LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
   selector: 'app-workspace-overview',
@@ -87,7 +88,7 @@ export class WorkspaceOverviewComponent extends GenericListComponent {
                     type: 'deleteResource',
                     data: entry
                   });
-                  this.router.navigateByUrl('/home/environments');
+                  LuigiClient.linkManager().navigate('/environments');
                 },
                 err => {
                   entry.disabled = false;

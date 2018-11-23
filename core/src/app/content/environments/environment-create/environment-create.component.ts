@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { EnvironmentsService } from '../services/environments.service';
-import { Router } from '@angular/router';
 import LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
@@ -15,10 +14,7 @@ export class EnvironmentCreateComponent {
   private err: string;
   private wrongName = false;
 
-  constructor(
-    private environmentsService: EnvironmentsService,
-    private router: Router
-  ) {}
+  constructor(private environmentsService: EnvironmentsService) {}
 
   public createEnvironment() {
     this.environmentsService.createEnvironment(this.environmentName).subscribe(

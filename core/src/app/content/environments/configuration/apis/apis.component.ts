@@ -13,7 +13,6 @@ import { AppConfig } from '../../../../app.config';
 import { KubernetesDataProvider } from '../../operation/kubernetes-data-provider';
 import { DataConverter, Filter } from '@kyma-project/y-generic-list';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
 import LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
@@ -37,9 +36,7 @@ export class ApisComponent extends AbstractKubernetesElementListComponent
     private http: HttpClient,
     private currentEnvironmentService: CurrentEnvironmentService,
     private commService: ComponentCommunicationService,
-    changeDetector: ChangeDetectorRef,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
+    changeDetector: ChangeDetectorRef
   ) {
     super(currentEnvironmentService, changeDetector, http, commService);
     const converter: DataConverter<IApiDefinition, ApiDefinition> = {
