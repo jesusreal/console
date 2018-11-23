@@ -11,7 +11,6 @@ import { Filter } from '@kyma-project/y-generic-list';
 import { GraphQLDataProvider } from '../../environments/operation/graphql-data-provider';
 import { GraphQLClientService } from '../../../shared/services/graphql-client-service';
 import { CreateRemoteEnvironmentModalComponent } from './create-remote-environment-modal/create-remote-environment-modal.component';
-import { ActivatedRoute, Router } from '@angular/router';
 import LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
@@ -38,9 +37,7 @@ export class RemoteEnvironmentsComponent extends AbstractKubernetesElementListCo
     private currentEnvironmentService: CurrentEnvironmentService,
     private commService: ComponentCommunicationService,
     private graphQLClientService: GraphQLClientService,
-    changeDetector: ChangeDetectorRef,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
+    changeDetector: ChangeDetectorRef
   ) {
     super(currentEnvironmentService, changeDetector, http, commService);
 

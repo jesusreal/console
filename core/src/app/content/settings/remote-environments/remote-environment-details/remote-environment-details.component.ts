@@ -2,7 +2,7 @@ import { RemoteEnvironmentBindingService } from './remote-environment-binding-se
 import { ComponentCommunicationService } from './../../../../shared/services/component-communication.service';
 import { RemoteEnvironmentsService } from './../services/remote-environments.service';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { EditBindingsModalComponent } from './edit-bindings-modal/edit-binding-modal.component';
 
 import * as _ from 'lodash';
@@ -42,7 +42,6 @@ export class RemoteEnvironmentDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private remoteEnvironmentsService: RemoteEnvironmentsService,
     private communication: ComponentCommunicationService,
     private remoteEnvironmentBindingService: RemoteEnvironmentBindingService

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AppConfig } from '../../../../../app.config';
 import { ComponentCommunicationService } from '../../../../../shared/services/component-communication.service';
 import { CurrentEnvironmentService } from '../../../../environments/services/current-environment.service';
@@ -27,7 +27,6 @@ export class ServiceDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     private currentEnvironmentService: CurrentEnvironmentService,
-    private router: Router,
     private route: ActivatedRoute,
     private communicationService: ComponentCommunicationService
   ) {

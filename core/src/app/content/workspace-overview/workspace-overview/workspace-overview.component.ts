@@ -16,7 +16,6 @@ import {
   GenericListComponent
 } from '@kyma-project/y-generic-list';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { Router } from '@angular/router';
 import { ComponentCommunicationService } from '../../../shared/services/component-communication.service';
 import { RemoteEnvironmentBindingService } from '../../settings/remote-environments/remote-environment-details/remote-environment-binding-service';
 import { InformationModalComponent } from '../../../shared/components/information-modal/information-modal.component';
@@ -39,7 +38,6 @@ export class WorkspaceOverviewComponent extends GenericListComponent {
   constructor(
     private http: HttpClient,
     private remoteEnvironmentsService: RemoteEnvironmentsService,
-    private router: Router,
     changeDetector: ChangeDetectorRef,
     @Inject(EnvironmentsService) environmentsService: EnvironmentsService,
     private communicationService: ComponentCommunicationService,

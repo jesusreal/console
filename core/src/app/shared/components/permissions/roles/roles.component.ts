@@ -8,7 +8,6 @@ import { CurrentEnvironmentService } from '../../../../content/environments/serv
 import { ComponentCommunicationService } from '../../../services/component-communication.service';
 import { RolesEntryRendererComponent } from './roles-entry-renderer/roles-entry-renderer.component';
 import { RolesHeaderRendererComponent } from './roles-header-renderer/roles-header-renderer.component';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   host: { class: '' },
@@ -35,9 +34,7 @@ export class RolesComponent extends AbstractKubernetesElementListComponent
     private oAuthService: OAuthService,
     private currentEnvironmentService: CurrentEnvironmentService,
     private commService: ComponentCommunicationService,
-    changeDetector: ChangeDetectorRef,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
+    changeDetector: ChangeDetectorRef
   ) {
     super(currentEnvironmentService, changeDetector, http, commService);
 

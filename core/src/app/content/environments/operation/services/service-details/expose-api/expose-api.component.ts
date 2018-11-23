@@ -1,6 +1,6 @@
 import { IdpPresetsService } from './../../../../../settings/idp-presets/idp-presets.service';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { CurrentEnvironmentService } from '../../../../services/current-environment.service';
 import { ExposeApiService } from './expose-api.service';
 import { AppConfig } from '../../../../../../app.config';
@@ -60,7 +60,6 @@ export class ExposeApiComponent implements OnInit, OnDestroy {
     private currentEnvironmentService: CurrentEnvironmentService,
     private exposeApiService: ExposeApiService,
     private route: ActivatedRoute,
-    private router: Router,
     private http: HttpClient,
     private idpPresetsService: IdpPresetsService,
     private oAuthService: OAuthService

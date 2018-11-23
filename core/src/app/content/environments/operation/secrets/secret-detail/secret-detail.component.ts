@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CurrentEnvironmentService } from '../../../../environments/services/current-environment.service';
 import { AppConfig } from '../../../../../app.config';
-import { Router, ActivatedRoute } from '@angular/router';
-import { forEach } from '@angular/router/src/utils/collection';
+import { ActivatedRoute } from '@angular/router';
 import { InformationModalComponent } from '../../../../../shared/components/information-modal/information-modal.component';
 import { ComponentCommunicationService } from '../../../../../shared/services/component-communication.service';
 import { Subscription } from 'rxjs';
@@ -27,7 +26,6 @@ export class SecretDetailComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     private currentEnvironmentService: CurrentEnvironmentService,
-    private router: Router,
     private route: ActivatedRoute,
     private communicationService: ComponentCommunicationService
   ) {
