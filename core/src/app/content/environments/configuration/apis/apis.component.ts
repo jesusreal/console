@@ -71,12 +71,6 @@ export class ApisComponent extends AbstractKubernetesElementListComponent
       });
   }
 
-  navigateToDetails(entry: any) {
-    this.router.navigate(['details/' + entry.metadata.name], {
-      relativeTo: this.activatedRoute
-    });
-  }
-
   public getResourceUrl(kind: string, entry: any): string {
     return `${this.baseUrl}/${entry.metadata.name}`;
   }
@@ -85,7 +79,13 @@ export class ApisComponent extends AbstractKubernetesElementListComponent
     this.currentEnvironmentSubscription.unsubscribe();
   }
 
-  private navigate() {
+  public navigateToDetails(entry) {
+    LuigiClient.linkManager()
+      .fromContext('apis')
+      .navigate(`details/${entry.metadata.name}`);
+  }
+
+  private navigateToCreate() {
     LuigiClient.linkManager()
       .fromContext('apis')
       .navigate('create');

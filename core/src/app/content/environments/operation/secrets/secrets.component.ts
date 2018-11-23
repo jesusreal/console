@@ -15,6 +15,7 @@ import { ComponentCommunicationService } from '../../../../shared/services/compo
 import { DataConverter } from '@kyma-project/y-generic-list';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
   selector: 'app-secrets',
@@ -66,10 +67,10 @@ export class SecretsComponent extends AbstractKubernetesElementListComponent
       });
   }
 
-  navigateToDetails(entry: any) {
-    this.router.navigate([entry.objectMeta.name], {
-      relativeTo: this.activatedRoute
-    });
+  public navigateToDetails(entry) {
+    LuigiClient.linkManager()
+      .fromContext('secrets')
+      .navigate(`details/${entry.objectMeta.name}`);
   }
 
   createNewElement() {

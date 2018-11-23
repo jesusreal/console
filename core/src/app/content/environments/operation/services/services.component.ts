@@ -15,6 +15,7 @@ import { ComponentCommunicationService } from '../../../../shared/services/compo
 import { DataConverter } from '@kyma-project/y-generic-list';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
   selector: 'app-services',
@@ -70,17 +71,17 @@ export class ServicesComponent extends AbstractKubernetesElementListComponent
   getEntryEventHandler() {
     const handler = super.getEntryEventHandler();
     handler.exposeApi = (entry: any) => {
-      this.router.navigate([entry.objectMeta.name + '/apis/create'], {
-        relativeTo: this.activatedRoute
-      });
+      this.navigateToCreate(entry.objectMeta.name);
     };
     return handler;
   }
 
-  navigateToDetails(entry: any) {
-    this.router.navigate([entry.objectMeta.name], {
-      relativeTo: this.activatedRoute
-    });
+  public navigateToDetails(entry) {
+    LuigiClient.linkManager().navigate(`details/${entry.objectMeta.name}`);
+  }
+
+  public navigateToCreate(serviceName) {
+    LuigiClient.linkManager().navigate(`details/${serviceName}/apis/create`);
   }
 
   public createNewElement() {

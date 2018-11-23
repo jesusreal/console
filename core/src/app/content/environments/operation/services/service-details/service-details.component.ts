@@ -66,9 +66,7 @@ export class ServiceDetailsComponent implements OnInit, OnDestroy {
             },
             err => {
               if (err.status === 404) {
-                this.router.navigate([
-                  `/home/environments/${this.currentEnvironmentId}/services`
-                ]);
+                this.navigateToList();
               } else {
                 this.serviceDetailsLoading = false;
                 this.errorMessage = err.message;
@@ -116,7 +114,7 @@ export class ServiceDetailsComponent implements OnInit, OnDestroy {
     LuigiClient.linkManager().navigate(`apis/create`);
   }
 
-  private navigateToList(serviceName) {
+  private navigateToList() {
     LuigiClient.linkManager()
       .fromContext('services')
       .navigate('');

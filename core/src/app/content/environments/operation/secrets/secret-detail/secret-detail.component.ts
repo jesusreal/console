@@ -64,9 +64,7 @@ export class SecretDetailComponent implements OnInit, OnDestroy {
       },
       err => {
         if (err.status === 404) {
-          this.router.navigate([
-            `/home/environments/${this.currentEnvironmentId}/secrets`
-          ]);
+          this.navigateToList();
         } else {
           this.loading = false;
           this.errorMessage = err.message;
