@@ -290,6 +290,10 @@ Luigi.setConfig({
                 viewUrl: '/consoleapp.html#/home/settings/organisation'
               },
               {
+                link: '/environments/workspace',
+                label: '<- Back to Environment'
+              },
+              {
                 pathSegment: 'remote-envs',
                 label: 'Remote Environments',
                 category: 'Integration',
