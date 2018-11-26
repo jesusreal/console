@@ -25,6 +25,12 @@ if (localStorage.getItem('luigi.auth')) {
 function getNodes(environment) {
   var nodes = [
     {
+      pathSegment: 'workspace',
+      label: 'Workspace',
+      viewUrl:
+        '/consoleapp.html#/home/environments/' + environment + '/workspace'
+    },
+    {
       pathSegment: 'details',
       label: 'Overview',
       viewUrl: '/consoleapp.html#/home/environments/' + environment + '/details'
@@ -167,12 +173,18 @@ function getEnvs() {
     xmlHttp.onreadystatechange = function() {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         var envs = [];
-        envs.push({
-          pathSegment: 'workspace',
-          label: 'Workspace',
-          viewUrl: '/consoleapp.html#/home/environments/workspace',
-          hideFromNav: true
-        });
+        envs.push(
+          {
+            pathSegment: 'workspace',
+            label: 'workspace-hidden',
+            viewUrl: '/consoleapp.html#/home/environments/workspace',
+            hideFromNav: true
+          },
+          {
+            label: 'Workspace',
+            link: '/home/settings'
+          }
+        );
         JSON.parse(xmlHttp.response).items.forEach(env => {
           envName = env.metadata.name;
           envs.push({
@@ -254,7 +266,7 @@ Luigi.setConfig({
       {
         pathSegment: 'environments',
         label: 'Overview',
-        defaultPathSegment: 'workspace',
+        defaultPathSegment: 'workspace-hidden',
         context: {
           idToken: token
         },
