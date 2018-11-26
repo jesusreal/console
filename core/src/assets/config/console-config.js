@@ -1,18 +1,18 @@
-let k8sDomain = 'kyma.local';
+var k8sDomain = 'kyma.local';
 var clusterConfig = window['clusterConfig'];
 
 if (clusterConfig && clusterConfig['domain']) {
   k8sDomain = clusterConfig['domain'];
 }
-var k8sServerUrl = `https://apiserver.${k8sDomain}`;
+var k8sServerUrl = 'https://apiserver.' + k8sDomain;
 
-const config = {
-  serviceCatalogModuleUrl: `https://catalog.${k8sDomain}`,
-  serviceInstancesModuleUrl: `https://instances.${k8sDomain}`
+var config = {
+  serviceCatalogModuleUrl: 'https://catalog.' + k8sDomain,
+  serviceInstancesModuleUrl: 'https://instances' + k8sDomain
 };
 
 if (clusterConfig) {
-  for (const propertyName in config) {
+  for (var propertyName in config) {
     if (clusterConfig.hasOwnProperty(propertyName)) {
       config[propertyName] = clusterConfig[propertyName];
     }
@@ -44,7 +44,7 @@ function getNodes(environment) {
           children: [
             {
               pathSegment: ':serviceId',
-              viewUrl: `${config.serviceCatalogModuleUrl}/details/:serviceId`
+              viewUrl: config.serviceCatalogModuleUrl + '/details/:serviceId'
             }
           ]
         }
@@ -62,7 +62,7 @@ function getNodes(environment) {
           children: [
             {
               pathSegment: ':name',
-              viewUrl: `${config.serviceInstancesModuleUrl}/details/:name`
+              viewUrl: config.serviceInstancesModuleUrl + '/details/:name'
             }
           ]
         }
