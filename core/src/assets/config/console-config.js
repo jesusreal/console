@@ -5,7 +5,8 @@ var k8sServerUrl = 'https://apiserver.' + k8sDomain;
 
 var config = {
   serviceCatalogModuleUrl: 'https://catalog.' + k8sDomain,
-  lambdasModuleUrl: 'https://lambdas-ui.' + k8sDomain
+  lambdasModuleUrl: 'https://lambdas-ui.' + k8sDomain,
+  docsModuleUrl: 'https://docs.' + k8sDomain
 };
 
 if (clusterConfig) {
@@ -142,6 +143,16 @@ function getNodes(environment) {
       pathSegment: 'secrets',
       label: 'Secrets',
       viewUrl: '/consoleapp.html#/home/environments/' + environment + '/secrets'
+    },
+    {
+      category: 'Admin',
+      link: '/home/settings',
+      label: 'Administration'
+    },
+    {
+      category: 'Admin',
+      link: '/home/docs',
+      label: 'Docs'
     }
   ];
 
@@ -305,8 +316,18 @@ Luigi.setConfig({
                   url: 'https://jaeger.' + k8sDomain,
                   sameWindow: false
                 }
+              },
+              {
+                category: 'Admin',
+                link: '/home/docs',
+                label: 'Docs'
               }
             ]
+          },
+          {
+            pathSegment: 'docs',
+            viewUrl: config.docsModuleUrl
+            // navCollapse: true
           }
         ]
       }
