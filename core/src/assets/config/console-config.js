@@ -1,14 +1,12 @@
-var k8sDomain = 'kyma.local';
 var clusterConfig = window['clusterConfig'];
 
-if (clusterConfig && clusterConfig['domain']) {
-  k8sDomain = clusterConfig['domain'];
-}
+var k8sDomain = (clusterConfig && clusterConfig['domain']) || 'kyma.local';
 var k8sServerUrl = 'https://apiserver.' + k8sDomain;
 
 var config = {
   serviceCatalogModuleUrl: 'https://catalog.' + k8sDomain,
-  serviceInstancesModuleUrl: 'https://instances' + k8sDomain
+  serviceInstancesModuleUrl: 'https://instances' + k8sDomain,
+  lambdasModuleUrl: 'https://lambdas-ui.' + k8sDomain
 };
 
 if (clusterConfig) {
@@ -21,7 +19,7 @@ if (clusterConfig) {
 
 var token;
 if (localStorage.getItem('luigi.auth')) {
-  token = 'Bearer ' + JSON.parse(localStorage.getItem('luigi.auth')).idToken;
+  token = JSON.parse(localStorage.getItem('luigi.auth')).idToken;
 }
 
 function getNodes(environment) {
@@ -104,8 +102,25 @@ function getNodes(environment) {
     {
       category: 'Development',
       pathSegment: 'lambdas',
+      navigationContext: 'lambdas',
       label: 'Lambdas',
-      viewUrl: '/consoleapp.html#/home/environments/' + environment + '/lambdas'
+      viewUrl: config.lambdasModuleUrl + '#/lambdas',
+      keepSelectedForChildren: true,
+      children: [
+        {
+          pathSegment: 'create',
+          viewUrl: config.lambdasModuleUrl + '#/create'
+        },
+        {
+          pathSegment: 'details',
+          children: [
+            {
+              pathSegment: ':lambda',
+              viewUrl: config.lambdasModuleUrl + '#/lambdas/:lambda'
+            }
+          ]
+        }
+      ]
     },
     {
       category: 'Operation',
@@ -187,7 +202,7 @@ function getEnvs() {
       k8sServerUrl + '/api/v1/namespaces?labelSelector=env=true',
       true
     );
-    xmlHttp.setRequestHeader('Authorization', token);
+    xmlHttp.setRequestHeader('Authorization', 'Bearer ' + token);
     xmlHttp.send(null);
   });
 }
