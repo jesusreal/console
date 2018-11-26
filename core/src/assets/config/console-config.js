@@ -1,4 +1,5 @@
 let k8sDomain = 'kyma.local';
+k8sDomain = 'nightly.cluster.kyma.cx';
 var clusterConfig = window['clusterConfig'];
 if (clusterConfig && clusterConfig['domain']) {
   k8sDomain = clusterConfig['domain'];
@@ -164,10 +165,11 @@ function relogin() {
 }
 
 function reloginIfTokenExpired() {
-  var accessTokenExpirationDate = JSON.parse(localStorage.getItem('luigi.auth'))
-    .accessTokenExpirationDate;
+  var authData = JSON.parse(localStorage.getItem('luigi.auth'));
+  var accessTokenExpirationDate =
+    authData && authData.accessTokenExpirationDate;
   var currentDate = new Date();
-  if (accessTokenExpirationDate < currentDate) {
+  if (!authData || accessTokenExpirationDate < currentDate) {
     relogin();
   }
 }
@@ -175,6 +177,7 @@ function reloginIfTokenExpired() {
 Luigi.setConfig({
   auth: {
     use: 'openIdConnect',
+    disableAutoLogin: false,
     openIdConnect: {
       authority: 'https://dex.' + k8sDomain,
       client_id: 'console',
