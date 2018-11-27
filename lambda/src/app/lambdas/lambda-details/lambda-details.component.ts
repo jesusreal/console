@@ -7,6 +7,8 @@ import {
   ViewChild,
   AfterViewInit,
   HostListener,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import 'brace';
@@ -55,7 +57,8 @@ const DEFAULT_CODE = `module.exports = { main: function (event, context) {
   styleUrls: ['./lambda-details.component.scss'],
 })
 @HostListener('sf-content')
-export class LambdaDetailsComponent implements AfterViewInit {
+export class LambdaDetailsComponent
+  implements AfterViewInit, OnInit, OnDestroy {
   selectedTriggers: ITrigger[] = [];
   availableEventTriggers: EventTrigger[] = [];
   existingEventTriggers: EventTrigger[] = [];
@@ -118,7 +121,7 @@ export class LambdaDetailsComponent implements AfterViewInit {
   isHTTPTriggerAuthenticated = true;
   existingHTTPEndpoint: Api;
   bindingState: Map<string, InstanceBindingState>;
-  sessionId: string;
+  listenerId: string;
   functionSizes = [];
 
   public issuer: string;
@@ -153,12 +156,14 @@ export class LambdaDetailsComponent implements AfterViewInit {
     this.aceMode = 'javascript';
     this.aceDependencyMode = 'json';
     this.kind = 'nodejs8';
+  }
+
+  ngOnInit() {
     this.route.params.subscribe(
       params => {
-        luigiClient.addInitListener(() => {
+        this.listenerId = luigiClient.addInitListener(() => {
           const eventData = luigiClient.getEventData();
-          this.environment = eventData.currentEnvironmentId;
-          this.sessionId = eventData.sessionId;
+          this.environment = eventData.environmentId;
           this.token = eventData.idToken;
           if (params['name']) {
             this.mode = 'update';
@@ -229,6 +234,12 @@ export class LambdaDetailsComponent implements AfterViewInit {
         this.navigateToList();
       },
     );
+  }
+
+  ngOnDestroy() {
+    if (this.listenerId) {
+      luigiClient.removeInitListener(this.listenerId);
+    }
   }
 
   selectType(selectedType) {
@@ -431,8 +442,10 @@ export class LambdaDetailsComponent implements AfterViewInit {
           Function: this.lambda.metadata.name,
           ServiceBinding: serviceBindingName,
         };
-        serviceBindingUsage.spec.parameters.envPrefix.name =
-          bs.currentState.instanceBindingPrefix + '-';
+        if (bs.currentState.instanceBindingPrefix !== undefined) {
+          serviceBindingUsage.spec.parameters.envPrefix.name =
+            bs.currentState.instanceBindingPrefix + '-';
+        }
         createRequests.push(
           this.serviceBindingsService
             .createServiceBinding(serviceBinding, this.token)
@@ -449,8 +462,10 @@ export class LambdaDetailsComponent implements AfterViewInit {
           Function: this.lambda.metadata.name,
           ServiceBinding: bs.currentState.serviceBinding,
         };
-        serviceBindingUsage.spec.parameters.envPrefix.name =
-          bs.currentState.instanceBindingPrefix + '-';
+        if (bs.currentState.instanceBindingPrefix !== undefined) {
+          serviceBindingUsage.spec.parameters.envPrefix.name =
+            bs.currentState.instanceBindingPrefix + '-';
+        }
       }
       serviceBindingUsage.spec.usedBy.kind = 'function';
       serviceBindingUsage.spec.usedBy.name = this.lambda.metadata.name;
@@ -510,7 +525,9 @@ export class LambdaDetailsComponent implements AfterViewInit {
         });
     });
     // Reaches here when there are deleteBindingStates are empty
-    this.executeCreateBindingRequests(createRequests);
+    if (deleteBindingStates.length === 0) {
+      this.executeCreateBindingRequests(createRequests);
+    }
   }
 
   areEventTriggersEqual(sourceET: EventTrigger, destET: EventTrigger): boolean {
@@ -845,7 +862,8 @@ export class LambdaDetailsComponent implements AfterViewInit {
     setTimeout(() => {
       luigiClient
         .linkManager()
-        .openInCurrentEnvironment(`lambdas`, this.sessionId);
+        .fromContext('lambdas')
+        .navigate('/');
     }, 100);
   }
 
