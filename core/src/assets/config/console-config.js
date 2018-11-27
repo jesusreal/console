@@ -1,18 +1,28 @@
-let k8sDomain = 'kyma.local';
-k8sDomain = 'nightly.cluster.kyma.cx';
 var clusterConfig = window['clusterConfig'];
-if (clusterConfig && clusterConfig['domain']) {
-  k8sDomain = clusterConfig['domain'];
+var k8sDomain = (clusterConfig && clusterConfig['domain']) || 'kyma.local';
+var k8sServerUrl = 'https://apiserver.' + k8sDomain;
+
+var config = {
+  serviceCatalogModuleUrl: 'https://catalog.' + k8sDomain,
+  lambdasModuleUrl: 'https://lambdas-ui.' + k8sDomain
+};
+
+if (clusterConfig) {
+  for (var propertyName in config) {
+    if (clusterConfig.hasOwnProperty(propertyName)) {
+      config[propertyName] = clusterConfig[propertyName];
+    }
+  }
 }
-var k8sServerUrl = `https://apiserver.${k8sDomain}`;
+
 var token;
 if (localStorage.getItem('luigi.auth')) {
-  token = 'Bearer ' + JSON.parse(localStorage.getItem('luigi.auth')).idToken;
+  token = JSON.parse(localStorage.getItem('luigi.auth')).idToken;
 }
 
 function getNodes(context) {
   var environment = context.environmentId;
-  var nodes = [
+  return [
     {
       pathSegment: 'details',
       label: 'Overview',
@@ -20,12 +30,22 @@ function getNodes(context) {
     },
     {
       category: 'Service Catalog',
+      navigationContext: 'service-catalog',
       pathSegment: 'service-catalog',
       label: 'Catalog',
-      viewUrl:
-        '/consoleapp.html#/home/environments/' +
-        environment +
-        '/service-catalog'
+      viewUrl: config.serviceCatalogModuleUrl,
+      keepSelectedForChildren: true,
+      children: [
+        {
+          pathSegment: 'details',
+          children: [
+            {
+              pathSegment: ':serviceId',
+              viewUrl: config.serviceCatalogModuleUrl + '/details/:serviceId'
+            }
+          ]
+        }
+      ]
     },
     {
       category: 'Service Catalog',
@@ -70,8 +90,25 @@ function getNodes(context) {
     {
       category: 'Development',
       pathSegment: 'lambdas',
+      navigationContext: 'lambdas',
       label: 'Lambdas',
-      viewUrl: '/consoleapp.html#/home/environments/' + environment + '/lambdas'
+      viewUrl: config.lambdasModuleUrl + '#/lambdas',
+      keepSelectedForChildren: true,
+      children: [
+        {
+          pathSegment: 'create',
+          viewUrl: config.lambdasModuleUrl + '#/create'
+        },
+        {
+          pathSegment: 'details',
+          children: [
+            {
+              pathSegment: ':lambda',
+              viewUrl: config.lambdasModuleUrl + '#/lambdas/:lambda'
+            }
+          ]
+        }
+      ]
     },
     {
       category: 'Operation',
@@ -107,25 +144,12 @@ function getNodes(context) {
       viewUrl: '/consoleapp.html#/home/environments/' + environment + '/secrets'
     }
   ];
-
-  return nodes;
 }
 
 var envsLastFetchTime = false;
 var envsCache = false;
 function getEnvs() {
   reloginIfTokenExpired();
-
-  // simple cache to fetch envs only once every N seconds
-  var cacheSeconds = 15 * 1000;
-  if (
-    envsCache &&
-    envsLastFetchTime &&
-    new Date().getTime() > envsLastFetchTime - cacheSeconds
-  ) {
-    return Promise.resolve(envsCache);
-  }
-
   return new Promise(function(resolve, reject) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
@@ -134,6 +158,9 @@ function getEnvs() {
         JSON.parse(xmlHttp.response).items.forEach(env => {
           envName = env.metadata.name;
           envs.push({
+            // has to be visible for all views exept 'settings'
+            category: 'Environments',
+            navigationContext: 'environments',
             label: envName,
             pathValue: envName
           });
@@ -154,7 +181,7 @@ function getEnvs() {
       k8sServerUrl + '/api/v1/namespaces?labelSelector=env=true',
       true
     );
-    xmlHttp.setRequestHeader('Authorization', token);
+    xmlHttp.setRequestHeader('Authorization', 'Bearer ' + token);
     xmlHttp.send(null);
   });
 }
