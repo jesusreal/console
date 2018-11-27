@@ -295,17 +295,7 @@ Luigi.setConfig({
         //   label: '+ New Environment',
         //   link: '/create-environment'
         // }
-      ],
-
-      /**
-       * fallbackLabelResolver
-       * Resolve what do display in the context switcher (Label) in case the activated
-       * context (option) is not listed in available options (eg kyma-system namespace),
-       * or if options have not been fetched yet
-       */
-      fallbackLabelResolver: id => {
-        return id.replace(/\b\w/g, l => l.toUpperCase());
-      }
+      ]
     }
   },
   routing: {
