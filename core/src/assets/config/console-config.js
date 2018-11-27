@@ -26,12 +26,6 @@ function getNodes(context) {
   var environment = context.environmentId;
   return [
     {
-      pathSegment: 'workspace',
-      label: 'Workspace',
-      viewUrl:
-        '/consoleapp.html#/home/environments/' + environment + '/workspace'
-    },
-    {
       pathSegment: 'details',
       label: 'Overview',
       viewUrl: '/consoleapp.html#/home/environments/' + environment + '/details'
@@ -150,16 +144,6 @@ function getNodes(context) {
       pathSegment: 'secrets',
       label: 'Secrets',
       viewUrl: '/consoleapp.html#/home/environments/' + environment + '/secrets'
-    },
-    {
-      category: 'Admin',
-      link: '/home/settings',
-      label: 'Administration'
-    },
-    {
-      category: 'Admin',
-      link: '/home/docs',
-      label: 'Docs'
     }
   ];
 }
@@ -171,10 +155,6 @@ function getEnvs() {
     xmlHttp.onreadystatechange = function() {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         var envs = [];
-        envs.push({
-          label: 'Workspace',
-          link: '/home/settings'
-        });
         JSON.parse(xmlHttp.response).items.forEach(env => {
           envName = env.metadata.name;
           envs.push({
@@ -250,8 +230,9 @@ Luigi.setConfig({
     nodes: () => [
       {
         pathSegment: 'environments',
-        label: 'Overview',
+        label: 'Workspace',
         viewUrl: '/consoleapp.html#/home/environments/workspace',
+        // navCollapse: true,
         context: {
           idToken: token
         },
@@ -268,7 +249,7 @@ Luigi.setConfig({
       },
       {
         pathSegment: 'home',
-        label: 'Settings',
+        label: 'General Settings',
         context: {
           idToken: token
         },
@@ -282,10 +263,6 @@ Luigi.setConfig({
                 pathSegment: 'organisation',
                 label: 'General Settings',
                 viewUrl: '/consoleapp.html#/home/settings/organisation'
-              },
-              {
-                link: '/environments/workspace',
-                label: '<- Back to Environment'
               },
               {
                 pathSegment: 'remote-envs',
@@ -328,7 +305,7 @@ Luigi.setConfig({
                 }
               },
               {
-                category: 'Admin',
+                category: 'Documentation',
                 link: '/home/docs',
                 label: 'Docs'
               }
