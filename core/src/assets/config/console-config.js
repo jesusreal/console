@@ -59,7 +59,7 @@ function getNodes(environment) {
       category: 'Service Catalog',
       pathSegment: 'brokers',
       label: 'Brokers',
-      viewUrl: config.serviceBrokersModuleUrl + environment + '/brokers'
+      viewUrl: config.serviceBrokersModuleUrl
     },
     {
       category: 'Configuration',
