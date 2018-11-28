@@ -24,6 +24,9 @@ class Builder {
   }
 
   getBearerToken() {
+    if (!this.token) {
+      return null;
+    }
     return `Bearer ${this.token}`;
   }
 
