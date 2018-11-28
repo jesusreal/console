@@ -6,7 +6,8 @@ var k8sServerUrl = 'https://apiserver.' + k8sDomain;
 var config = {
   serviceCatalogModuleUrl: 'https://catalog.' + k8sDomain,
   lambdasModuleUrl: 'https://lambdas-ui.' + k8sDomain,
-  serviceBrokersModuleUrl: 'https://brokers.' + k8sDomain
+  serviceBrokersModuleUrl: 'https://brokers.' + k8sDomain,
+  docsModuleUrl: 'https://docs.' + k8sDomain
 };
 
 if (clusterConfig) {
@@ -22,8 +23,9 @@ if (localStorage.getItem('luigi.auth')) {
   token = JSON.parse(localStorage.getItem('luigi.auth')).idToken;
 }
 
-function getNodes(environment) {
-  var nodes = [
+function getNodes(context) {
+  var environment = context.environmentId;
+  return [
     {
       pathSegment: 'details',
       label: 'Overview',
@@ -145,24 +147,15 @@ function getNodes(environment) {
       viewUrl: '/consoleapp.html#/home/environments/' + environment + '/secrets'
     }
   ];
-
-  return nodes;
 }
 
 function getEnvs() {
   reloginIfTokenExpired();
-
   return new Promise(function(resolve, reject) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         var envs = [];
-        envs.push({
-          pathSegment: 'workspace',
-          label: 'Workspace',
-          viewUrl: '/consoleapp.html#/home/environments/workspace',
-          hideFromNav: true
-        });
         JSON.parse(xmlHttp.response).items.forEach(env => {
           envName = env.metadata.name;
           envs.push({
@@ -170,11 +163,7 @@ function getEnvs() {
             category: 'Environments',
             navigationContext: 'environments',
             label: envName,
-            pathSegment: envName,
-            context: {
-              environmentId: envName
-            },
-            children: getNodes(envName)
+            pathValue: envName
           });
         });
         resolve(envs);
@@ -209,6 +198,7 @@ function reloginIfTokenExpired() {
     relogin();
   }
 }
+
 Luigi.setConfig({
   auth: {
     use: 'openIdConnect',
@@ -217,8 +207,6 @@ Luigi.setConfig({
       client_id: 'console',
       scope:
         'audience:server:client_id:kyma-client audience:server:client_id:console openid profile email groups',
-      redirect_uri: 'http://console-dev.kyma.local:4200',
-      logoutUrl: 'http://console-dev.kyma.local:4200',
       automaticSilentRenew: true,
       loadUserInfo: false
     },
@@ -243,16 +231,26 @@ Luigi.setConfig({
     nodes: () => [
       {
         pathSegment: 'environments',
-        label: 'Overview',
-        defaultPathSegment: 'workspace',
+        label: 'Workspace',
+        viewUrl: '/consoleapp.html#/home/environments/workspace',
+        // navCollapse: true,
         context: {
           idToken: token
         },
-        children: getEnvs
+        children: [
+          {
+            // has to be visible for all views exept 'settings'
+            pathSegment: ':environmentId',
+            context: {
+              environmentId: ':environmentId'
+            },
+            children: getNodes
+          }
+        ]
       },
       {
         pathSegment: 'home',
-        label: 'Settings',
+        label: 'General Settings',
         context: {
           idToken: token
         },
@@ -306,12 +304,44 @@ Luigi.setConfig({
                   url: 'https://jaeger.' + k8sDomain,
                   sameWindow: false
                 }
+              },
+              {
+                category: 'Documentation',
+                link: '/home/docs',
+                label: 'Docs'
               }
             ]
+          },
+          {
+            pathSegment: 'docs',
+            viewUrl: config.docsModuleUrl
+            // navCollapse: true
           }
         ]
       }
-    ]
+    ],
+    contextSwitcher: {
+      defaultLabel: 'Select Environment ...',
+      parentNodePath: '/environments', // absolute path
+      lazyloadOptions: true, // load options on click instead on page load
+      options: getEnvs,
+      actions: [
+        // {
+        //   label: '+ New Environment',
+        //   link: '/create-environment'
+        // }
+      ],
+
+      /**
+       * fallbackLabelResolver
+       * Resolve what do display in the context switcher (Label) in case the activated
+       * context (option) is not listed in available options (eg kyma-system namespace),
+       * or if options have not been fetched yet
+       */
+      fallbackLabelResolver: id => {
+        return id.replace(/\b\w/g, l => l.toUpperCase());
+      }
+    }
   },
   routing: {
     nodeParamPrefix: '~',
