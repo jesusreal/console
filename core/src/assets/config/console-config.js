@@ -1,16 +1,29 @@
-let k8sDomain = 'kyma.local';
 var clusterConfig = window['clusterConfig'];
-if (clusterConfig && clusterConfig['domain']) {
-  k8sDomain = clusterConfig['domain'];
-}
-var k8sServerUrl = `https://apiserver.${k8sDomain}`;
-var token;
-if (localStorage.getItem('luigi.auth')) {
-  token = 'Bearer ' + JSON.parse(localStorage.getItem('luigi.auth')).idToken;
+
+var k8sDomain = (clusterConfig && clusterConfig['domain']) || 'kyma.local';
+var k8sServerUrl = 'https://apiserver.' + k8sDomain;
+
+var config = {
+  serviceCatalogModuleUrl: 'https://catalog.' + k8sDomain,
+  lambdasModuleUrl: 'https://lambdas-ui.' + k8sDomain
+};
+
+if (clusterConfig) {
+  for (var propertyName in config) {
+    if (clusterConfig.hasOwnProperty(propertyName)) {
+      config[propertyName] = clusterConfig[propertyName];
+    }
+  }
 }
 
-function getNodes(environment) {
-  var nodes = [
+var token;
+if (localStorage.getItem('luigi.auth')) {
+  token = JSON.parse(localStorage.getItem('luigi.auth')).idToken;
+}
+
+function getNodes(context) {
+  var environment = context.environmentId;
+  return [
     {
       pathSegment: 'details',
       label: 'Overview',
@@ -18,12 +31,22 @@ function getNodes(environment) {
     },
     {
       category: 'Service Catalog',
+      navigationContext: 'service-catalog',
       pathSegment: 'service-catalog',
       label: 'Catalog',
-      viewUrl:
-        '/consoleapp.html#/home/environments/' +
-        environment +
-        '/service-catalog'
+      viewUrl: config.serviceCatalogModuleUrl,
+      keepSelectedForChildren: true,
+      children: [
+        {
+          pathSegment: 'details',
+          children: [
+            {
+              pathSegment: ':serviceId',
+              viewUrl: config.serviceCatalogModuleUrl + '/details/:serviceId'
+            }
+          ]
+        }
+      ]
     },
     {
       category: 'Service Catalog',
@@ -109,8 +132,25 @@ function getNodes(environment) {
     {
       category: 'Development',
       pathSegment: 'lambdas',
+      navigationContext: 'lambdas',
       label: 'Lambdas',
-      viewUrl: '/consoleapp.html#/home/environments/' + environment + '/lambdas'
+      viewUrl: config.lambdasModuleUrl + '#/lambdas',
+      keepSelectedForChildren: true,
+      children: [
+        {
+          pathSegment: 'create',
+          viewUrl: config.lambdasModuleUrl + '#/create'
+        },
+        {
+          pathSegment: 'details',
+          children: [
+            {
+              pathSegment: ':lambda',
+              viewUrl: config.lambdasModuleUrl + '#/lambdas/:lambda'
+            }
+          ]
+        }
+      ]
     },
     {
       category: 'Operation',
@@ -208,36 +248,23 @@ function getNodes(environment) {
       ]
     }
   ];
-
-  return nodes;
 }
 
 function getEnvs() {
   reloginIfTokenExpired();
-
   return new Promise(function(resolve, reject) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         var envs = [];
-        envs.push({
-          pathSegment: 'workspace',
-          label: 'Workspace',
-          viewUrl: '/consoleapp.html#/home/environments/workspace',
-          hideFromNav: true
-        });
         JSON.parse(xmlHttp.response).items.forEach(env => {
           envName = env.metadata.name;
           envs.push({
             // has to be visible for all views exept 'settings'
             category: 'Environments',
-            label: envName,
-            pathSegment: envName,
             navigationContext: 'environments',
-            context: {
-              environmentId: envName
-            },
-            children: getNodes(envName)
+            label: envName,
+            pathValue: envName
           });
         });
         resolve(envs);
@@ -254,7 +281,7 @@ function getEnvs() {
       k8sServerUrl + '/api/v1/namespaces?labelSelector=env=true',
       true
     );
-    xmlHttp.setRequestHeader('Authorization', token);
+    xmlHttp.setRequestHeader('Authorization', 'Bearer ' + token);
     xmlHttp.send(null);
   });
 }
@@ -272,6 +299,7 @@ function reloginIfTokenExpired() {
     relogin();
   }
 }
+
 Luigi.setConfig({
   auth: {
     use: 'openIdConnect',
@@ -280,8 +308,6 @@ Luigi.setConfig({
       client_id: 'console',
       scope:
         'audience:server:client_id:kyma-client audience:server:client_id:console openid profile email groups',
-      redirect_uri: 'http://console-dev.kyma.local:4200',
-      logoutUrl: 'http://console-dev.kyma.local:4200',
       automaticSilentRenew: true,
       loadUserInfo: false
     },
@@ -307,11 +333,20 @@ Luigi.setConfig({
       {
         pathSegment: 'environments',
         label: 'Overview',
-        defaultPathSegment: 'workspace',
+        viewUrl: '/consoleapp.html#/home/environments/workspace',
         context: {
           idToken: token
         },
-        children: getEnvs
+        children: [
+          {
+            // has to be visible for all views exept 'settings'
+            pathSegment: ':environmentId',
+            context: {
+              environmentId: ':environmentId'
+            },
+            children: getNodes
+          }
+        ]
       },
       {
         pathSegment: 'home',
@@ -406,7 +441,29 @@ Luigi.setConfig({
           }
         ]
       }
-    ]
+    ],
+    contextSwitcher: {
+      defaultLabel: 'Select Environment ...',
+      parentNodePath: '/environments', // absolute path
+      lazyloadOptions: true, // load options on click instead on page load
+      options: getEnvs,
+      actions: [
+        // {
+        //   label: '+ New Environment',
+        //   link: '/create-environment'
+        // }
+      ],
+
+      /**
+       * fallbackLabelResolver
+       * Resolve what do display in the context switcher (Label) in case the activated
+       * context (option) is not listed in available options (eg kyma-system namespace),
+       * or if options have not been fetched yet
+       */
+      fallbackLabelResolver: id => {
+        return id.replace(/\b\w/g, l => l.toUpperCase());
+      }
+    }
   },
   routing: {
     nodeParamPrefix: '~',
