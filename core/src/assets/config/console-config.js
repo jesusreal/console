@@ -262,7 +262,6 @@ function getEnvs() {
           envs.push({
             // has to be visible for all views exept 'settings'
             category: 'Environments',
-            navigationContext: 'environments',
             label: envName,
             pathValue: envName
           });
@@ -344,7 +343,8 @@ Luigi.setConfig({
             context: {
               environmentId: ':environmentId'
             },
-            children: getNodes
+            children: getNodes,
+            navigationContext: 'environments'
           }
         ]
       },
