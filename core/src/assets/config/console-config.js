@@ -5,7 +5,7 @@ var k8sServerUrl = 'https://apiserver.' + k8sDomain;
 
 var config = {
   serviceCatalogModuleUrl: 'https://catalog.' + k8sDomain,
-  serviceInstancesModuleUrl: 'https://instances' + k8sDomain,
+  serviceInstancesModuleUrl: 'https://instances.' + k8sDomain,
   lambdasModuleUrl: 'https://lambdas-ui.' + k8sDomain
 };
 
