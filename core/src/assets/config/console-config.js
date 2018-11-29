@@ -1,5 +1,6 @@
 var clusterConfig = window['clusterConfig'];
-var k8sDomain = (clusterConfig && clusterConfig['domain']) || 'kyma.local';
+var k8sDomain =
+  (clusterConfig && clusterConfig['domain']) || 'swinka.cluster.kyma.cx';
 var k8sServerUrl = 'https://apiserver.' + k8sDomain;
 
 var config = {
@@ -320,13 +321,12 @@ function reloginIfTokenExpired() {
 Luigi.setConfig({
   auth: {
     use: 'openIdConnect',
-    disableAutoLogin: false,
     openIdConnect: {
       authority: 'https://dex.' + k8sDomain,
       client_id: 'console',
       scope:
         'audience:server:client_id:kyma-client audience:server:client_id:console openid profile email groups',
-      automaticSilentRenew: true,
+      automaticSilentRenew: false,
       loadUserInfo: false
     },
 
