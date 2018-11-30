@@ -1,6 +1,5 @@
 var clusterConfig = window['clusterConfig'];
-var k8sDomain =
-  (clusterConfig && clusterConfig['domain']) || 'swinka.cluster.kyma.cx';
+var k8sDomain = (clusterConfig && clusterConfig['domain']) || 'kyma.local';
 var k8sServerUrl = 'https://apiserver.' + k8sDomain;
 
 var config = {
@@ -326,7 +325,7 @@ Luigi.setConfig({
       client_id: 'console',
       scope:
         'audience:server:client_id:kyma-client audience:server:client_id:console openid profile email groups',
-      automaticSilentRenew: false,
+      automaticSilentRenew: true,
       loadUserInfo: false
     },
 
