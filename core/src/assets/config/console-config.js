@@ -263,8 +263,6 @@ function getNodes(context) {
   ];
 }
 
-var envsLastFetchTime = false;
-var envsCache = false;
 function getEnvs() {
   reloginIfTokenExpired();
   return new Promise(function(resolve, reject) {
