@@ -279,8 +279,6 @@ function getEnvs() {
             pathValue: envName
           });
         });
-        envsLastFetchTime = new Date().getTime();
-        envsCache = envs;
         resolve(envs);
       } else if (xmlHttp.readyState == 4 && xmlHttp.status != 200) {
         if (xmlHttp.status === 401) {
