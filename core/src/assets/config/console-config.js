@@ -462,7 +462,7 @@ Luigi.setConfig({
           {
             pathSegment: 'docs',
             viewUrl: config.docsModuleUrl,
-            navCollapse: true
+            hideSideNav: true
           }
         ]
       }
