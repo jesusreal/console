@@ -347,7 +347,7 @@ Luigi.setConfig({
         pathSegment: 'environments',
         label: 'Workspace',
         viewUrl: '/consoleapp.html#/home/environments/workspace',
-        navCollapse: true,
+        hideSideNav: true,
         context: {
           idToken: token
         },
