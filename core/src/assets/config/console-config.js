@@ -25,7 +25,7 @@ if (localStorage.getItem('luigi.auth')) {
 
 function getNodes(context) {
   var environment = context.environmentId;
-  return [
+  var staticNodes = [
     {
       pathSegment: 'details',
       label: 'Overview',
@@ -261,25 +261,119 @@ function getNodes(context) {
       ]
     }
   ];
+  return Promise.all([
+    getUiEntities('microfrontends', environment),
+    getUiEntities('clustermicrofrontends', undefined, 'environment')
+  ]).then(function(values) {
+    var nodeTree = staticNodes;
+    values.forEach(function(val) {
+      nodeTree = [].concat.apply(nodeTree, val);
+    });
+    return nodeTree;
+  });
 }
 
-function getEnvs() {
+/**
+ * getUiEntities
+ * @param {string} entityname microfrontends | clustermicrofrontends
+ * @param {string} placement environment | cluster
+ */
+function getUiEntities(entityname, environment, placement) {
+  var fetchUrl =
+    k8sServerUrl +
+    '/apis/ui.kyma-project.io/v1alpha1/' +
+    (environment ? 'namespaces/' + environment + '/' : '') +
+    entityname;
+  // console.log("​%cgetUiEntities -> entityname, environment, placement, fetchUrl", "color: orange; font-weight: bold;", entityname, environment, placement, fetchUrl)
+  return fetchFromKyma(fetchUrl)
+    .then(result => {
+      if (!result.items.length) {
+        return [];
+      }
+      return result.items
+        .filter(function(item) {
+          // applies mainly to clustermicrofrontends
+          return !placement || item.spec.placement === placement;
+        })
+        .map(function(item) {
+          function buildNode(node, spec) {
+            var node = {
+              label: node.label,
+              pathSegment: node.navigationPath,
+              navigationContext: name,
+              viewUrl: spec.viewBaseUrl
+                ? spec.viewBaseUrl + node.viewUrl
+                : node.viewUrl,
+              keepSelectedForChildren: true,
+              hideFromNav: node.showInNavigation || undefined
+            };
+            return node;
+          }
+
+          function getDirectChildren(pathSegments, item) {
+            // filter direct childs
+            return item.navigationNodes
+              .filter(function(cNode) {
+                var cPathSegments = cNode.navigationPath.split('/');
+                var isDirectChild =
+                  pathSegments.length === cPathSegments.length - 1 &&
+                  pathSegments.filter(function(segment) {
+                    return cPathSegments.includes(segment);
+                  }).length > 0;
+                return isDirectChild;
+              })
+              .map(function(cNode) {
+                var node = buildNode(cNode, item);
+                var cPathSegments = cNode.navigationPath.split('/');
+                var children = getDirectChildren(cPathSegments, item);
+                if (children.length) {
+                  node.children = children;
+                }
+                return node;
+              });
+          }
+
+          function buildTree(spec) {
+            return spec.navigationNodes
+              .filter(function(pNode) {
+                var segments = pNode.navigationPath.split('/');
+                return segments.length === 1;
+              })
+              .map(function(pNode) {
+                var navNodes = pNode.navigationPath.split('/');
+                var node = buildNode(pNode, spec);
+
+                // category is only added on top level
+                if (spec.category) {
+                  node.category = spec.category;
+                }
+
+                var children = getDirectChildren(navNodes, spec);
+                if (children.length) {
+                  node.children = children || undefined;
+                }
+                return node;
+              });
+          }
+          if (item.spec.navigationNodes) {
+            return buildTree(item.spec);
+          }
+          return [];
+        });
+    })
+    .catch(err => {
+      console.error('Error fetching UiEntity ' + name, err);
+      return [];
+    });
+}
+
+function fetchFromKyma(url) {
   reloginIfTokenExpired();
   return new Promise(function(resolve, reject) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-        var envs = [];
-        JSON.parse(xmlHttp.response).items.forEach(env => {
-          envName = env.metadata.name;
-          envs.push({
-            // has to be visible for all views exept 'settings'
-            category: 'Environments',
-            label: envName,
-            pathValue: envName
-          });
-        });
-        resolve(envs);
+        resolve(JSON.parse(xmlHttp.response));
       } else if (xmlHttp.readyState == 4 && xmlHttp.status != 200) {
         if (xmlHttp.status === 401) {
           relogin();
@@ -288,13 +382,27 @@ function getEnvs() {
       }
     };
 
-    xmlHttp.open(
-      'GET',
-      k8sServerUrl + '/api/v1/namespaces?labelSelector=env=true',
-      true
-    );
+    xmlHttp.open('GET', url, true);
     xmlHttp.setRequestHeader('Authorization', 'Bearer ' + token);
     xmlHttp.send(null);
+  });
+}
+
+function getEnvs() {
+  return fetchFromKyma(
+    k8sServerUrl + '/api/v1/namespaces?labelSelector=env=true'
+  ).then(function(response) {
+    var envs = [];
+    response.items.forEach(env => {
+      envName = env.metadata.name;
+      envs.push({
+        // has to be visible for all views exept 'settings'
+        category: 'Environments',
+        label: envName,
+        pathValue: envName
+      });
+    });
+    return envs;
   });
 }
 
@@ -375,89 +483,100 @@ Luigi.setConfig({
             pathSegment: 'settings',
             navigationContext: 'settings',
             label: 'Administration',
-            children: [
-              {
-                pathSegment: 'organisation',
-                navigationContext: 'organisation',
-                label: 'General Settings',
-                viewUrl: '/consoleapp.html#/home/settings/organisation'
-              },
-              {
-                pathSegment: 'remote-envs',
-                navigationContext: 'remote-envs',
-                label: 'Remote Environments',
-                category: 'Integration',
-                viewUrl: '/consoleapp.html#/home/settings/remoteEnvs',
-                keepSelectedForChildren: true,
-                children: [
+            children: function() {
+              return getUiEntities(
+                'clustermicrofrontends',
+                undefined,
+                'cluster'
+              ).then(function(cmf) {
+                var staticNodes = [
                   {
-                    pathSegment: 'details',
+                    pathSegment: 'organisation',
+                    navigationContext: 'organisation',
+                    label: 'General Settings',
+                    viewUrl: '/consoleapp.html#/home/settings/organisation'
+                  },
+                  {
+                    pathSegment: 'remote-envs',
+                    navigationContext: 'remote-envs',
+                    label: 'Remote Environments',
+                    category: 'Integration',
+                    viewUrl: '/consoleapp.html#/home/settings/remoteEnvs',
+                    keepSelectedForChildren: true,
                     children: [
                       {
-                        pathSegment: ':name',
-                        viewUrl:
-                          '/consoleapp.html#/home/settings/remoteEnvs/:name'
+                        pathSegment: 'details',
+                        children: [
+                          {
+                            pathSegment: ':name',
+                            viewUrl:
+                              '/consoleapp.html#/home/settings/remoteEnvs/:name'
+                          }
+                        ]
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                pathSegment: 'service-brokers',
-                navigationContext: 'service-brokers',
-                label: 'Service Brokers',
-                category: 'Integration',
-                viewUrl: '/consoleapp.html#/home/settings/serviceBrokers'
-              },
-              {
-                pathSegment: 'idp-presets',
-                navigationContext: 'idp-presets',
-                label: 'IDP Presets',
-                category: 'Integration',
-                viewUrl: '/consoleapp.html#/home/settings/idpPresets'
-              },
-              {
-                pathSegment: 'global-permissions',
-                navigationContext: 'global-permissions',
-                label: 'Global Permissions',
-                category: 'Administration',
-                viewUrl: '/consoleapp.html#/home/settings/globalPermissions',
-                keepSelectedForChildren: true,
-                children: [
+                  },
                   {
-                    pathSegment: 'roles',
+                    pathSegment: 'service-brokers',
+                    navigationContext: 'service-brokers',
+                    label: 'Service Brokers',
+                    category: 'Integration',
+                    viewUrl: '/consoleapp.html#/home/settings/serviceBrokers'
+                  },
+                  {
+                    pathSegment: 'idp-presets',
+                    navigationContext: 'idp-presets',
+                    label: 'IDP Presets',
+                    category: 'Integration',
+                    viewUrl: '/consoleapp.html#/home/settings/idpPresets'
+                  },
+                  {
+                    pathSegment: 'global-permissions',
+                    navigationContext: 'global-permissions',
+                    label: 'Global Permissions',
+                    category: 'Administration',
+                    viewUrl:
+                      '/consoleapp.html#/home/settings/globalPermissions',
+                    keepSelectedForChildren: true,
                     children: [
                       {
-                        pathSegment: ':name',
-                        viewUrl:
-                          '/consoleapp.html#/home/settings/globalPermissions/roles/:name'
+                        pathSegment: 'roles',
+                        children: [
+                          {
+                            pathSegment: ':name',
+                            viewUrl:
+                              '/consoleapp.html#/home/settings/globalPermissions/roles/:name'
+                          }
+                        ]
                       }
                     ]
+                  },
+                  {
+                    label: 'Stats & Metrics',
+                    category: 'Diagnostics',
+                    externalLink: {
+                      url: 'https://grafana.' + k8sDomain,
+                      sameWindow: false
+                    }
+                  },
+                  {
+                    label: 'Tracing',
+                    category: 'Diagnostics',
+                    externalLink: {
+                      url: 'https://jaeger.' + k8sDomain,
+                      sameWindow: false
+                    }
+                  },
+                  {
+                    category: 'Documentation',
+                    link: '/home/docs',
+                    label: 'Docs'
                   }
-                ]
-              },
-              {
-                label: 'Stats & Metrics',
-                category: 'Diagnostics',
-                externalLink: {
-                  url: 'https://grafana.' + k8sDomain,
-                  sameWindow: false
-                }
-              },
-              {
-                label: 'Tracing',
-                category: 'Diagnostics',
-                externalLink: {
-                  url: 'https://jaeger.' + k8sDomain,
-                  sameWindow: false
-                }
-              },
-              {
-                category: 'Documentation',
-                link: '/home/docs',
-                label: 'Docs'
-              }
-            ]
+                ];
+                var fetchedNodes = [].concat.apply([], cmf);
+                return [].concat.apply(staticNodes, fetchedNodes);
+              });
+            }
           },
           {
             pathSegment: 'docs',
