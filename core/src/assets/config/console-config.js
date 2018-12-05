@@ -346,11 +346,13 @@ function getUiEntities(entityname, environment, placement) {
               .map(function(node) {
                 return buildNodeWithChildren(node, spec);
               })
-              .map(function addCategoryForTopLevelNodes(node) {
-                // category is only added on top level
+              .map(function addSettingsForTopLevelNodes(node) {
                 if (spec.category) {
                   node.category = spec.category;
                 }
+                // TODO: Clarify if all (C)MFs should have the keepSelected flag
+                // enabled by default, since there is no override possibility
+                // node.keepSelectedForChildren = true;
                 return node;
               });
           }
