@@ -292,7 +292,7 @@ function getUiEntities(entityname, environment, placement) {
       }
       return result.items
         .filter(function(item) {
-          // applies mainly to clustermicrofrontends
+          // placement only exists in clustermicrofrontends
           return !placement || item.spec.placement === placement;
         })
         .map(function(item) {
@@ -310,11 +310,21 @@ function getUiEntities(entityname, environment, placement) {
             return node;
           }
 
-          function getDirectChildren(pathSegments, item) {
+          function buildNodeWithChildren(specNode, spec) {
+            var node = buildNode(specNode, spec);
+            var pathSegments = specNode.navigationPath.split('/');
+            var children = getDirectChildren(pathSegments, spec);
+            if (children.length) {
+              node.children = children;
+            }
+            return node;
+          }
+
+          function getDirectChildren(pathSegments, spec) {
             // filter direct childs
-            return item.navigationNodes
-              .filter(function(cNode) {
-                var cPathSegments = cNode.navigationPath.split('/');
+            return spec.navigationNodes
+              .filter(function(node) {
+                var cPathSegments = node.navigationPath.split('/');
                 var isDirectChild =
                   pathSegments.length === cPathSegments.length - 1 &&
                   pathSegments.filter(function(segment) {
@@ -322,35 +332,24 @@ function getUiEntities(entityname, environment, placement) {
                   }).length > 0;
                 return isDirectChild;
               })
-              .map(function(cNode) {
-                var node = buildNode(cNode, item);
-                var cPathSegments = cNode.navigationPath.split('/');
-                var children = getDirectChildren(cPathSegments, item);
-                if (children.length) {
-                  node.children = children;
-                }
-                return node;
+              .map(function(node) {
+                return buildNodeWithChildren(node, spec);
               });
           }
 
           function buildTree(spec) {
             return spec.navigationNodes
-              .filter(function(pNode) {
-                var segments = pNode.navigationPath.split('/');
+              .filter(function getTopLevelNodes(node) {
+                var segments = node.navigationPath.split('/');
                 return segments.length === 1;
               })
-              .map(function(pNode) {
-                var navNodes = pNode.navigationPath.split('/');
-                var node = buildNode(pNode, spec);
-
+              .map(function(node) {
+                return buildNodeWithChildren(node, spec);
+              })
+              .map(function addCategoryForTopLevelNodes(node) {
                 // category is only added on top level
                 if (spec.category) {
                   node.category = spec.category;
-                }
-
-                var children = getDirectChildren(navNodes, spec);
-                if (children.length) {
-                  node.children = children || undefined;
                 }
                 return node;
               });
