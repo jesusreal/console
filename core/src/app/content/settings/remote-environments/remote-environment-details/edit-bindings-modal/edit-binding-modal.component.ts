@@ -7,7 +7,6 @@ import { RemoteEnvironmentsService } from './../../services/remote-environments.
 
 import * as _ from 'lodash';
 import { forkJoin } from 'rxjs';
-import LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
   selector: 'app-edit-bindings-modal',
@@ -65,7 +64,6 @@ export class EditBindingsModalComponent {
         }
       );
       this.isActive = true;
-      LuigiClient.uxManager().addBackdrop();
     });
   }
 
@@ -120,7 +118,6 @@ export class EditBindingsModalComponent {
 
   public close() {
     this.isActive = false;
-    LuigiClient.uxManager().removeBackdrop();
     this.environmentName = null;
     this.filteredEnvs = [];
     this.filteredEnvsNames = [];

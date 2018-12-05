@@ -20,7 +20,6 @@ export class EnvironmentCreateComponent {
     this.environmentsService.createEnvironment(this.environmentName).subscribe(
       () => {
         this.isActive = false;
-        LuigiClient.uxManager().removeBackdrop();
         this.navigateToDetails(this.environmentName);
       },
       err => {
@@ -38,7 +37,6 @@ export class EnvironmentCreateComponent {
 
   public cancel() {
     this.isActive = false;
-    LuigiClient.uxManager().removeBackdrop();
     this.wrongName = false;
   }
 
@@ -46,7 +44,6 @@ export class EnvironmentCreateComponent {
     this.environmentName = '';
     this.err = undefined;
     this.isActive = true;
-    LuigiClient.uxManager().addBackdrop();
   }
 
   private navigateToDetails(envName) {
