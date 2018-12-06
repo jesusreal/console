@@ -1006,7 +1006,7 @@ export class LambdaDetailsComponent
 
   /** validatesName checks whether a function name is abiding by RFC 1123 or not */
   validatesName(): void {
-    this.warnUnsavedChanges(this.lambda.metadata.name.length > 0 || false);
+    this.lambda.metadata.name.length > 0 && this.warnUnsavedChanges(true);
     const regex = /[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/;
     const found = this.lambda.metadata.name.match(regex);
     this.isFunctionNameInvalid =
@@ -1188,10 +1188,7 @@ export class LambdaDetailsComponent
   }
 
   warnUnsavedChanges(hasChanges: boolean): void {
-    window.parent.postMessage(
-      { msg: 'luigi.set-page-dirty', dirty: hasChanges },
-      '*',
-    );
+    luigiClient.uxManager().setDirtyStatus(hasChanges);
   }
 
   setFunctionSize() {
