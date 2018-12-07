@@ -482,18 +482,30 @@ export class LambdaDetailsComponent
 
     deleteBindingStates.forEach(bs => {
       this.serviceBindingUsagesService
-        .getServiceBindingUsages(this.environment, this.token, {
-          labelSelector: `Function=${
-            this.lambda.metadata.name
-          }, ServiceBinding=${bs.previousState.serviceBinding}`,
-        })
+        .getServiceBindingUsages(this.environment, this.token, {})
         .subscribe(bsuList => {
           bsuList.items.forEach(bsu => {
-            if (bs.previousState.serviceBinding === bsu.metadata.name) {
+            if (
+              bs.previousState.serviceBinding ===
+              bsu.spec.serviceBindingRef.name
+            ) {
               deleteRequests.push(
                 this.serviceBindingUsagesService
                   .deleteServiceBindingUsage(
                     bsu.metadata.name,
+                    this.environment,
+                    this.token,
+                  )
+                  .pipe(
+                    catchError(err => {
+                      return observableOf(err);
+                    }),
+                  ),
+              );
+              deleteRequests.push(
+                this.serviceBindingsService
+                  .deleteServiceBinding(
+                    bs.previousState.serviceBinding,
                     this.environment,
                     this.token,
                   )
@@ -1006,6 +1018,7 @@ export class LambdaDetailsComponent
 
   /** validatesName checks whether a function name is abiding by RFC 1123 or not */
   validatesName(): void {
+    this.lambda.metadata.name.length > 0 && this.warnUnsavedChanges(true);
     const regex = /[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/;
     const found = this.lambda.metadata.name.match(regex);
     this.isFunctionNameInvalid =
@@ -1187,10 +1200,7 @@ export class LambdaDetailsComponent
   }
 
   warnUnsavedChanges(hasChanges: boolean): void {
-    window.parent.postMessage(
-      { msg: 'luigi.set-page-dirty', dirty: hasChanges },
-      '*',
-    );
+    luigiClient.uxManager().setDirtyStatus(hasChanges);
   }
 
   setFunctionSize() {
