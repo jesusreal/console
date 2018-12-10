@@ -485,7 +485,8 @@ Luigi.setConfig({
   },
   routing: {
     nodeParamPrefix: '~',
-    skipRoutingForUrlPatterns: [/access_token=/, /id_token=/]
+    skipRoutingForUrlPatterns: [/access_token=/, /id_token=/],
+    useHashRouting: true
   },
   settings: {
     header: () => ({

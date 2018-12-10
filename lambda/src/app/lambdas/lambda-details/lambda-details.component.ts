@@ -278,7 +278,16 @@ export class LambdaDetailsComponent
     this.lambdaDetailsService
       .getResourceQuotaStatus(this.environment, this.token)
       .subscribe(res => {
-        window.parent.postMessage(res.data, '*');
+        const limitHesBeenExdeeded =
+          res.data && res.data.resourceQuotasStatus
+            ? res.data.resourceQuotasStatus.exceeded
+            : false;
+        if (limitHesBeenExdeeded) {
+          const limitsExceeded = res.data.resourceQuotasStatus.exceededQuotas;
+          luigiClient
+            .uxManager()
+            .showLimitExceededError(limitsExceeded, this.environment);
+        }
         if (this.mode === 'create') {
           this.createFunction();
         } else {
@@ -1200,7 +1209,7 @@ export class LambdaDetailsComponent
   }
 
   warnUnsavedChanges(hasChanges: boolean): void {
-    luigiClient.uxManager().setDirtyStatus(hasChanges);
+    // luigiClient.uxManager().setDirtyStatus(hasChanges);
   }
 
   setFunctionSize() {

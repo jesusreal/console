@@ -21,6 +21,7 @@ import { EnvironmentsService } from '../services/environments.service';
 import { InformationModalComponent } from '../../../shared/components/information-modal/information-modal.component';
 import NavigationUtils from '../../../navigation/services/navigation-utils';
 import { ComponentCommunicationService } from '../../../shared/services/component-communication.service';
+import LuigiClient from '@kyma-project/luigi-client';
 
 const fadeInAnimation = trigger('fadeInAnimation', [
   state('1', style({ opacity: 1 })),
@@ -49,7 +50,6 @@ export class EnvironmentsContainerComponent implements OnInit, OnDestroy {
   public previousEnv = '';
   public displayErrorGlobal = false;
   public limitHasBeenExceeded = false;
-  public limitExceededErrors = [];
   public overview = false;
 
   @ViewChild('infoModal') private infoModal: InformationModalComponent;
@@ -87,22 +87,6 @@ export class EnvironmentsContainerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    window.addEventListener('message', e => {
-      if (e.data && e.data.resourceQuotasStatus) {
-        this.limitHasBeenExceeded = e.data.resourceQuotasStatus.exceeded;
-        this.displayErrorGlobal = true;
-      }
-      if (
-        e.data &&
-        e.data.resourceQuotasStatus &&
-        e.data.resourceQuotasStatus.exceededQuotas &&
-        e.data.resourceQuotasStatus.exceededQuotas.length > 0
-      ) {
-        this.setLimitExceededErrorsMessages(
-          e.data.resourceQuotasStatus.exceededQuotas
-        );
-      }
-    });
     this.route.params.subscribe(params => {
       const envId = params['environmentId'];
       if (envId) {
@@ -215,28 +199,16 @@ export class EnvironmentsContainerComponent implements OnInit, OnDestroy {
             limitExceededErrors &&
             limitExceededErrors.length > 0
           ) {
-            this.setLimitExceededErrorsMessages(limitExceededErrors);
+            LuigiClient.uxManager().showLimitExceededError(
+              limitExceededErrors,
+              env
+            );
           }
         },
         err => {
           console.log(err);
         }
       );
-  }
-
-  private setLimitExceededErrorsMessages(limitExceededErrors) {
-    this.limitExceededErrors = [];
-    limitExceededErrors.forEach(resource => {
-      if (resource.affectedResources && resource.affectedResources.length > 0) {
-        resource.affectedResources.forEach(affectedResource => {
-          this.limitExceededErrors.push(
-            `'${resource.resourceName}' by '${affectedResource}' (${
-              resource.quotaName
-            })`
-          );
-        });
-      }
-    });
   }
 
   public navigateToResources() {
