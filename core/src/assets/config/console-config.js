@@ -350,9 +350,8 @@ function getUiEntities(entityname, environment, placement) {
                 if (spec.category) {
                   node.category = spec.category;
                 }
-                // TODO: Clarify if all (C)MFs should have the keepSelected flag
-                // enabled by default, since there is no override possibility
-                // node.keepSelectedForChildren = true;
+                node.navigationContext = spec.appName;
+                node.keepSelectedForChildren = true;
                 return node;
               });
           }
