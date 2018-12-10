@@ -1,4 +1,3 @@
-import { MockLuigiClientCommunicationDirective } from './../../../mocks/mock-luigi-client-communication-directive';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ResourceUploaderModalComponent } from './resource-uploader-modal.component';
 import { InformationModalComponent } from '../../information-modal/information-modal.component';
@@ -6,6 +5,7 @@ import { UploaderComponent } from '../uploader/uploader.component';
 import { ComponentCommunicationService } from '../../../services/component-communication.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Routes } from '@angular/router';
+import { LuigiClientCommunicationDirective } from '../../../../shared/directives/luigi-client-communication/luigi-client-communication.directive';
 
 describe('ResourceUploaderModalComponent', () => {
   let component: ResourceUploaderModalComponent;
@@ -18,7 +18,7 @@ describe('ResourceUploaderModalComponent', () => {
         ResourceUploaderModalComponent,
         InformationModalComponent,
         UploaderComponent,
-        MockLuigiClientCommunicationDirective
+        LuigiClientCommunicationDirective
       ],
       providers: [ComponentCommunicationService],
       imports: [RouterTestingModule.withRoutes(routes)]

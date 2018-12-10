@@ -1,3 +1,4 @@
+import { LuigiClientCommunicationDirective } from './../../../../shared/directives/luigi-client-communication/luigi-client-communication.directive';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { APP_BASE_HREF } from '@angular/common';
@@ -8,7 +9,6 @@ import { CreatePresetModalComponent } from './create-preset-modal.component';
 import { IdpPresetsService } from '../idp-presets.service';
 import { ComponentCommunicationService } from '../../../../shared/services/component-communication.service';
 import { Observable, of } from 'rxjs';
-import { MockLuigiClientCommunicationDirective } from '../../../../shared/mocks/mock-luigi-client-communication-directive';
 
 class IdpPresetsServiceMock {
   public createIdpPreset(data) {
@@ -33,7 +33,7 @@ describe('CreatePresetModalComponent', () => {
       ],
       declarations: [
         CreatePresetModalComponent,
-        MockLuigiClientCommunicationDirective
+        LuigiClientCommunicationDirective
       ]
     }).compileComponents();
   }));

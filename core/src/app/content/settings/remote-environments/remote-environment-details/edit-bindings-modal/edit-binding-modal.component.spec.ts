@@ -1,4 +1,4 @@
-import { MockLuigiClientCommunicationDirective } from '../../../../../shared/mocks/mock-luigi-client-communication-directive';
+import { LuigiClientCommunicationDirective } from './../../../../../shared/directives/luigi-client-communication/luigi-client-communication.directive';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { EditBindingsModalComponent } from './edit-binding-modal.component';
 import { ActivatedRoute } from '@angular/router';
@@ -56,7 +56,7 @@ describe('EditBindingsModalComponent', () => {
       ],
       declarations: [
         EditBindingsModalComponent,
-        MockLuigiClientCommunicationDirective
+        LuigiClientCommunicationDirective
       ]
     }).compileComponents();
   }));

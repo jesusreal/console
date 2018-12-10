@@ -1,4 +1,3 @@
-import { MockLuigiClientCommunicationDirective } from './../shared/mocks/mock-luigi-client-communication-directive';
 import { TestBed, inject } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
@@ -66,7 +65,6 @@ describe('TokenInterceptor', () => {
         { provide: OAuthService, useValue: OAuthServiceMock },
         { provide: Router, useValue: RouterMock }
       ]
-      // declarations: [MockLuigiClientCommunicationDirective]
     });
 
     httpClientMock = TestBed.get(HttpTestingController);

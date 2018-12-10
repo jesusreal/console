@@ -1,3 +1,4 @@
+import { LuigiClientCommunicationDirective } from './../../directives/luigi-client-communication/luigi-client-communication.directive';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RoleBindingModalComponent } from './role-binding-modal.component';
 import { Observable, of, throwError } from 'rxjs';
@@ -5,8 +6,6 @@ import { ComponentCommunicationService } from '../../services/component-communic
 import { RbacService } from '../../services/rbac.service';
 import { CurrentEnvironmentService } from '../../../content/environments/services/current-environment.service';
 import { FormsModule } from '@angular/forms';
-import { Directive, Input } from '@angular/core';
-import { MockLuigiClientCommunicationDirective } from '../../mocks/mock-luigi-client-communication-directive';
 
 const RbacServiceMock = {
   getClusterRoles() {
@@ -51,7 +50,7 @@ describe('RoleBindingModalComponent', () => {
       ],
       declarations: [
         RoleBindingModalComponent,
-        MockLuigiClientCommunicationDirective
+        LuigiClientCommunicationDirective
       ]
     }).compileComponents();
   }));

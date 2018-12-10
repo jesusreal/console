@@ -4,7 +4,7 @@ import { InformationModalComponent } from './information-modal.component';
 import { APP_BASE_HREF } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Routes } from '@angular/router';
-import { MockLuigiClientCommunicationDirective } from '../../mocks/mock-luigi-client-communication-directive';
+import { LuigiClientCommunicationDirective } from '../../directives/luigi-client-communication/luigi-client-communication.directive';
 
 describe('InformationModalComponent', () => {
   let component: InformationModalComponent;
@@ -16,7 +16,7 @@ describe('InformationModalComponent', () => {
       imports: [RouterTestingModule.withRoutes(routes)],
       declarations: [
         InformationModalComponent,
-        MockLuigiClientCommunicationDirective
+        LuigiClientCommunicationDirective
       ],
       providers: [{ provide: APP_BASE_HREF, useValue: '/my/app' }]
     }).compileComponents();

@@ -1,5 +1,3 @@
-import { MockLuigiClientCommunicationDirective } from './../shared/mocks/mock-luigi-client-communication-directive';
-import { LuigiClientCommunicationDirective } from './../shared/directives/luigi-client-communication/luigi-client-communication.directive';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
 import { NavigationComponent } from './navigation.component';
@@ -29,16 +27,7 @@ describe('NavigationComponent', () => {
           { provide: ExtensionsService, useValue: ExtensionsServiceStub }
         ]
       ]
-    })
-      .overrideModule(AppModule, {
-        remove: {
-          declarations: [LuigiClientCommunicationDirective]
-        },
-        add: {
-          declarations: [MockLuigiClientCommunicationDirective]
-        }
-      })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

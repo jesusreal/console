@@ -1,10 +1,10 @@
+import { LuigiClientCommunicationDirective } from './../../directives/luigi-client-communication/luigi-client-communication.directive';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OAuthService } from 'angular-oauth2-oidc';
 import { ClipboardModule } from 'ngx-clipboard';
 
 import { Copy2ClipboardModalComponent } from './copy2clipboard-modal.component';
-import { MockLuigiClientCommunicationDirective } from '../../mocks/mock-luigi-client-communication-directive';
 
 const FakeOAuthService = {};
 
@@ -16,7 +16,7 @@ describe('Copy2ClipboardModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         Copy2ClipboardModalComponent,
-        MockLuigiClientCommunicationDirective
+        LuigiClientCommunicationDirective
       ],
       imports: [ClipboardModule],
       providers: [{ provide: OAuthService, useValue: FakeOAuthService }]
