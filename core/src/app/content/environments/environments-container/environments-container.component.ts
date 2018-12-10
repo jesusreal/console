@@ -48,8 +48,6 @@ export class EnvironmentsContainerComponent implements OnInit, OnDestroy {
   public leftNavCollapsed = false;
   public previousUrl = '';
   public previousEnv = '';
-  public displayErrorGlobal = false;
-  public limitHasBeenExceeded = false;
   public overview = false;
 
   @ViewChild('infoModal') private infoModal: InformationModalComponent;
@@ -159,10 +157,6 @@ export class EnvironmentsContainerComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  public hideError() {
-    this.displayErrorGlobal = false;
-  }
-
   private checkIfResourceLimitExceeded(url) {
     this.currentEnvironmentService
       .getCurrentEnvironmentId()
@@ -175,11 +169,7 @@ export class EnvironmentsContainerComponent implements OnInit, OnDestroy {
           this.environmentsService.getResourceQueryStatus(env).pipe(
             map(res => ({
               env,
-              quotaExceeded:
-                res && res.resourceQuotasStatus
-                  ? res.resourceQuotasStatus.exceeded
-                  : false,
-              limitExceededErrors:
+              exceededQuotas:
                 res && res.resourceQuotasStatus && res.resourceQuotasStatus
                   ? res.resourceQuotasStatus.exceededQuotas
                   : []
@@ -188,22 +178,11 @@ export class EnvironmentsContainerComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe(
-        ({ env, quotaExceeded, limitExceededErrors }) => {
-          this.limitHasBeenExceeded = quotaExceeded;
+        ({ env, exceededQuotas }) => {
           if (env !== this.previousEnv || this.overview) {
             this.previousEnv = env;
-            this.displayErrorGlobal = quotaExceeded;
           }
-          if (
-            quotaExceeded &&
-            limitExceededErrors &&
-            limitExceededErrors.length > 0
-          ) {
-            LuigiClient.uxManager().showLimitExceededError(
-              limitExceededErrors,
-              env
-            );
-          }
+          LuigiClient.uxManager().showLimitExceededError(exceededQuotas, env);
         },
         err => {
           console.log(err);
