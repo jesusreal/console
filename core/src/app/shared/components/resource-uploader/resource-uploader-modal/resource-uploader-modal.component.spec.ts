@@ -1,3 +1,4 @@
+import { MockLuigiClientCommunicationDirective } from './../../../mocks/mock-luigi-client-communication-directive';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ResourceUploaderModalComponent } from './resource-uploader-modal.component';
 import { InformationModalComponent } from '../../information-modal/information-modal.component';
@@ -11,19 +12,18 @@ describe('ResourceUploaderModalComponent', () => {
   let fixture: ComponentFixture<ResourceUploaderModalComponent>;
   const routes: Routes = [];
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ResourceUploaderModalComponent,
-          InformationModalComponent,
-          UploaderComponent
-        ],
-        providers: [ComponentCommunicationService],
-        imports: [RouterTestingModule.withRoutes(routes)]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        ResourceUploaderModalComponent,
+        InformationModalComponent,
+        UploaderComponent,
+        MockLuigiClientCommunicationDirective
+      ],
+      providers: [ComponentCommunicationService],
+      imports: [RouterTestingModule.withRoutes(routes)]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResourceUploaderModalComponent);

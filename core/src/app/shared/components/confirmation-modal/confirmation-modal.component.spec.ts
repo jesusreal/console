@@ -1,3 +1,4 @@
+import { MockLuigiClientCommunicationDirective } from './../../mocks/mock-luigi-client-communication-directive';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConfirmationModalComponent } from './confirmation-modal.component';
@@ -8,9 +9,11 @@ describe('ConfirmationModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConfirmationModalComponent ]
-    })
-    .compileComponents();
+      declarations: [
+        ConfirmationModalComponent,
+        MockLuigiClientCommunicationDirective
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

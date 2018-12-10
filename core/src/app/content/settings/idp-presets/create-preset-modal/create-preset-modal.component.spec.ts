@@ -8,6 +8,7 @@ import { CreatePresetModalComponent } from './create-preset-modal.component';
 import { IdpPresetsService } from '../idp-presets.service';
 import { ComponentCommunicationService } from '../../../../shared/services/component-communication.service';
 import { Observable, of } from 'rxjs';
+import { MockLuigiClientCommunicationDirective } from '../../../../shared/mocks/mock-luigi-client-communication-directive';
 
 class IdpPresetsServiceMock {
   public createIdpPreset(data) {
@@ -30,7 +31,10 @@ describe('CreatePresetModalComponent', () => {
         { provide: IdpPresetsService, useClass: IdpPresetsServiceMock },
         ComponentCommunicationService
       ],
-      declarations: [CreatePresetModalComponent]
+      declarations: [
+        CreatePresetModalComponent,
+        MockLuigiClientCommunicationDirective
+      ]
     }).compileComponents();
   }));
 

@@ -5,6 +5,8 @@ import { ComponentCommunicationService } from '../../services/component-communic
 import { RbacService } from '../../services/rbac.service';
 import { CurrentEnvironmentService } from '../../../content/environments/services/current-environment.service';
 import { FormsModule } from '@angular/forms';
+import { Directive, Input } from '@angular/core';
+import { MockLuigiClientCommunicationDirective } from '../../mocks/mock-luigi-client-communication-directive';
 
 const RbacServiceMock = {
   getClusterRoles() {
@@ -47,7 +49,10 @@ describe('RoleBindingModalComponent', () => {
         },
         ComponentCommunicationService
       ],
-      declarations: [RoleBindingModalComponent]
+      declarations: [
+        RoleBindingModalComponent,
+        MockLuigiClientCommunicationDirective
+      ]
     }).compileComponents();
   }));
 
