@@ -22,8 +22,6 @@ import { TokenInterceptor } from './auth/token.interceptor';
 import { SortablejsModule } from 'angular-sortablejs';
 import { EnvironmentsContainerComponent } from './content/environments/environments-container/environments-container.component';
 import { WorkspaceOverviewComponent } from './content/workspace-overview/workspace-overview/workspace-overview.component';
-import { HeaderComponent } from './navigation//header/header.component';
-import { NavigationComponent } from './navigation/navigation.component';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ListModule } from '@kyma-project/y-generic-list';
@@ -131,8 +129,6 @@ import { LuigiClientCommunicationDirective } from './shared/directives/luigi-cli
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    NavigationComponent,
     CatalogContainerComponent,
     BrokersContainerComponent,
     InstancesContainerComponent,
