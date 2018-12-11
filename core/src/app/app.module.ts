@@ -33,12 +33,10 @@ import { NavVisibilityService } from './navigation/services/nav-visibility.servi
 
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { TimeAgoPipe } from 'time-ago-pipe';
-import { CatalogContainerComponent } from './content/environments/catalog-container/catalog-container.component';
 import { ApiDefinitionEntryRendererComponent } from './content/environments/configuration/apis/api-definition-entry-renderer/api-definition-entry-renderer.component';
 import { ApiDefinitionHeaderRendererComponent } from './content/environments/configuration/apis/api-definition-header-renderer/api-definition-header-renderer.component';
 import { FilteredApisEntryRendererComponent } from './content/environments/configuration/apis/filtered-apis/filtered-apis-entry-renderer/filtered-apis-entry-renderer.component';
 import { FilteredApisHeaderRendererComponent } from './content/environments/configuration/apis/filtered-apis/filtered-apis-header-renderer/filtered-apis-header-renderer.component';
-import { LambdasComponent } from './content/environments/development/lambdas/lambdas.component';
 import { EnvironmentDetailsComponent } from './content/environments/environment-details/environment-details.component';
 import { DeploymentEntryRendererComponent } from './content/environments/operation/deployments/deployment-entry-renderer/deployment-entry-renderer.component';
 import { DeploymentHeaderRendererComponent } from './content/environments/operation/deployments/deployment-header-renderer/deployment-header-renderer.component';
@@ -95,7 +93,6 @@ import { RolesHeaderRendererComponent } from './shared/components/permissions/ro
 import { BindingsComponent } from './shared/components/permissions/bindings/bindings.component';
 import { BindingEntryRendererComponent } from './shared/components/permissions/bindings/binding-entry-renderer/binding-entry-renderer.component';
 import { BindingHeaderRendererComponent } from './shared/components/permissions/bindings/binding-header-renderer/binding-header-renderer.component';
-import { InstancesContainerComponent } from './content/environments/instances-container/instances-container.component';
 import { AbstractKubernetesElementListComponent } from './content/environments/operation/abstract-kubernetes-element-list.component';
 import { ServiceBrokerHeaderRendererComponent } from './content/settings/service-brokers/services-header-renderer/service-broker-header-renderer.component';
 import { ServiceBrokerEntryRendererComponent } from './content/settings/service-brokers/services-entry-renderer/service-broker-entry-renderer.component';
@@ -123,15 +120,11 @@ import { ConfigMapsEntryRendererComponent } from './content/environments/operati
 import { ConfigMapsHeaderRendererComponent } from './content/environments/operation/configmaps/configmaps-header-renderer/configmaps-header-renderer.component';
 import { StatusLabelComponent } from './shared/components/status-label/status-label.component';
 import { TooltipComponent } from './shared/components/tooltip/tooltip.component';
-import { BrokersContainerComponent } from './content/environments/brokers-container/brokers-container.component';
 import { LuigiClientCommunicationDirective } from './shared/directives/luigi-client-communication/luigi-client-communication.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CatalogContainerComponent,
-    BrokersContainerComponent,
-    InstancesContainerComponent,
     EnvironmentsContainerComponent,
     WorkspaceOverviewComponent,
     EnvironmentCreateComponent,
@@ -175,7 +168,6 @@ import { LuigiClientCommunicationDirective } from './shared/directives/luigi-cli
     EditResourceComponent,
     ExternalAppComponent,
     CustomExternalAppComponent,
-    LambdasComponent,
     ServiceDetailsComponent,
     UploaderComponent,
     ResourceUploaderModalComponent,
