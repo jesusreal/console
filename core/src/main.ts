@@ -10,8 +10,6 @@ if (environment.production) {
 }
 
 LuigiClient.addInitListener(initialContext => {
-  // this.environmentId = initialContext.environmentId;
-  console.info(`InitialContext sent ${initialContext}. bootstraping app`);
   platformBrowserDynamic()
     .bootstrapModule(AppModule)
     .catch(err => console.log(err));
