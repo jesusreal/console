@@ -367,6 +367,12 @@ Luigi.setConfig({
         ]
       },
       {
+        viewUrl: '/consoleapp.html#/home/environments/create',
+        hideFromNav: true,
+        pathSegment: 'create-env'
+        //navigationContext: 'environments'
+      },
+      {
         pathSegment: 'home',
         label: 'General Settings',
         context: {
@@ -480,6 +486,10 @@ Luigi.setConfig({
         //   label: '+ New Environment',
         //   link: '/create-environment'
         // }
+        {
+          label: '+ New Environment',
+          link: '/create-env'
+        }
       ]
     }
   },
