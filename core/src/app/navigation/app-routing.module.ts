@@ -136,10 +136,6 @@ const appRoutes: Routes = [
               }
             ]
           },
-          {
-            path: 'environments/create',
-            component: CreateRemoteEnvironmentModalComponent
-          },
           { path: 'resources', component: ResourcesComponent },
           {
             path: 'permissions',
