@@ -64,12 +64,6 @@ import { RemoteEnvironmentsEntryRendererComponent } from './content/settings/rem
 import { RemoteEnvironmentsHeaderRendererComponent } from './content/settings/remote-environments/remote-environments-header-renderer/remote-environments-header-renderer.component';
 import { RemoteEnvironmentsComponent } from './content/settings/remote-environments/remote-environments.component';
 import { ServiceBrokersComponent } from './content/settings/service-brokers/service-brokers.component';
-import { CustomExternalAppComponent } from './extensibility/components/custom-external-app/custom-external-app.component';
-import { ExternalAppComponent } from './extensibility/components/external-app/external-app.component';
-import { ExtAppListenerDirective } from './extensibility/directives/ext-app-listener.directive';
-import { ExternalViewComponent } from './extensibility/external-view/external-view.component';
-import { ExtAppViewRegistryService } from './extensibility/services/ext-app-view-registry.service';
-import { ExtensionsService } from './extensibility/services/extensions.service';
 import { ConfirmationModalComponent } from './shared/components/confirmation-modal/confirmation-modal.component';
 import { EditResourceComponent } from './shared/components/edit-resource/edit-resource.component';
 import { InformationModalComponent } from './shared/components/information-modal/information-modal.component';
@@ -159,15 +153,11 @@ import { LuigiClientCommunicationDirective } from './shared/directives/luigi-cli
     ServicesHeaderRendererComponent,
     ServicesEntryRendererComponent,
     EditBindingsModalComponent,
-    ExternalViewComponent,
-    ExtAppListenerDirective,
     RemoteEnvironmentsHeaderRendererComponent,
     RemoteEnvironmentsEntryRendererComponent,
     JsonEditorModalComponent,
     JsonEditorComponent,
     EditResourceComponent,
-    ExternalAppComponent,
-    CustomExternalAppComponent,
     ServiceDetailsComponent,
     UploaderComponent,
     ResourceUploaderModalComponent,
@@ -236,8 +226,6 @@ import { LuigiClientCommunicationDirective } from './shared/directives/luigi-cli
     WormholeStatusService,
     LoginService,
     EventService,
-    ExtensionsService,
-    ExtAppViewRegistryService,
     K8sResourceEditorService,
     ComponentCommunicationService,
     ResourceUploadService,

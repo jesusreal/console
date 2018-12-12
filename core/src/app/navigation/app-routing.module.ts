@@ -1,5 +1,4 @@
 import { AppConfig } from './../app.config';
-import { CustomExternalAppComponent } from './../extensibility/components/custom-external-app/custom-external-app.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ApisComponent } from '../content/environments/configuration/apis/apis.component';
@@ -23,7 +22,6 @@ import { RemoteEnvironmentsComponent } from '../content/settings/remote-environm
 import { ServiceBrokersComponent } from '../content/settings/service-brokers/service-brokers.component';
 import { WorkspaceOverviewComponent } from '../content/workspace-overview/workspace-overview/workspace-overview.component';
 import { ExposeApiComponent } from '../content/environments/operation/services/service-details/expose-api/expose-api.component';
-import { ExternalViewComponent } from '../extensibility/external-view/external-view.component';
 import { PermissionsComponent } from '../shared/components/permissions/permissions.component';
 import { RoleDetailsComponent } from '../shared/components/permissions/role-details/role-details.component';
 import { LogoutComponent } from '../content/logout/logout.component';
@@ -87,32 +85,6 @@ const appRoutes: Routes = [
           { path: 'secrets', component: SecretsComponent },
           { path: 'secrets/:name', component: SecretDetailComponent },
           { path: 'configmaps', component: ConfigMapsComponent },
-          {
-            path: 'extensions',
-            component: ExternalViewComponent,
-            data: { navigationContext: 'environment' },
-            children: [
-              {
-                path: ':pathSegment1',
-                component: ExternalViewComponent,
-                data: { navigationContext: 'environment' },
-                children: [
-                  {
-                    path: ':pathSegment2',
-                    component: ExternalViewComponent,
-                    data: { navigationContext: 'environment' },
-                    children: [
-                      {
-                        path: ':pathSegment3',
-                        component: ExternalViewComponent,
-                        data: { navigationContext: 'environment' }
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
           { path: 'resources', component: ResourcesComponent },
           {
             path: 'permissions',
@@ -132,27 +104,6 @@ const appRoutes: Routes = [
           { path: '', redirectTo: 'details', pathMatch: 'full' },
           { path: '**', redirectTo: 'details', pathMatch: 'full' }
         ]
-      },
-      {
-        path: 'docs',
-        component: CustomExternalAppComponent,
-        data: {
-          leftNavCollapsed: true,
-          externalUrl: AppConfig.docsModuleUrl,
-          mountingPath: '/home/',
-          executionAsync: false
-        }
-      },
-      {
-        path: 'docs/:type/:id',
-        component: CustomExternalAppComponent,
-        data: {
-          path: '/:type/:id',
-          externalUrl: AppConfig.docsModuleUrl,
-          leftNavCollapsed: true,
-          mountingPath: '/home/',
-          executionAsync: false
-        }
       },
       {
         path: 'settings',
@@ -177,32 +128,6 @@ const appRoutes: Routes = [
             path: 'globalPermissions/roles/:name',
             component: RoleDetailsComponent,
             data: { global: true }
-          },
-          {
-            path: 'extensions',
-            component: ExternalViewComponent,
-            data: { navigationContext: 'cluster' },
-            children: [
-              {
-                path: ':pathSegment1',
-                component: ExternalViewComponent,
-                data: { navigationContext: 'cluster' },
-                children: [
-                  {
-                    path: ':pathSegment2',
-                    component: ExternalViewComponent,
-                    data: { navigationContext: 'cluster' },
-                    children: [
-                      {
-                        path: ':pathSegment3',
-                        component: ExternalViewComponent,
-                        data: { navigationContext: 'cluster' }
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
           },
           { path: '', redirectTo: 'organisation', pathMatch: 'full' },
           { path: '**', redirectTo: 'organisation', pathMatch: 'full' }
