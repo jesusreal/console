@@ -1,3 +1,4 @@
+import LuigiClient from '@kyma-project/luigi-client';
 import { Injectable } from '@angular/core';
 import {
   HttpRequest,
@@ -5,7 +6,6 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { AppConfig } from './../app.config';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(public oAuthService: OAuthService, private router: Router) {}
+  constructor(private router: Router) {}
 
   private isNewToken(): boolean {
     const now = Date.now();
@@ -29,9 +29,11 @@ export class TokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (!request.url.startsWith(AppConfig.authIssuer)) {
+      const token = LuigiClient.getEventData().idToken;
+      console.log(`intercepting ${token}`);
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${this.oAuthService.getIdToken()}`
+          Authorization: `Bearer ${token}`
         }
       });
     }

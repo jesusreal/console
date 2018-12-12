@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { ClipboardModule } from 'ngx-clipboard';
 
 @Component({
@@ -15,7 +14,7 @@ export class Copy2ClipboardModalComponent {
   private isCopied: false;
   private message: string;
 
-  constructor(private oAuthService: OAuthService) {}
+  constructor() {}
 
   public show(title: string, content: string, message?: string) {
     this.title = title;

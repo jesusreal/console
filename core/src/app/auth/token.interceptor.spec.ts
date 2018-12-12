@@ -4,16 +4,9 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { TokenInterceptor } from './token.interceptor';
 import { Router } from '@angular/router';
 
-const OAuthServiceMock = {
-  getIdToken: () => {
-    return 'token';
-  },
-  initImplicitFlow: () => jasmine.createSpy()
-};
 const RouterMock = {
   navigateByUrl() {
     return Promise.resolve(true);
@@ -62,7 +55,6 @@ describe('TokenInterceptor', () => {
       imports: [HttpClientTestingModule],
       providers: [
         { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-        { provide: OAuthService, useValue: OAuthServiceMock },
         { provide: Router, useValue: RouterMock }
       ]
     });
