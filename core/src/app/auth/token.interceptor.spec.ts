@@ -1,3 +1,4 @@
+import * as LuigiClient from '@kyma-project/luigi-client';
 import { TestBed, inject } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
@@ -13,6 +14,15 @@ const RouterMock = {
   }
 };
 let store = {};
+
+const mockLuigiClient = {
+  getEventData: () => {
+    return {
+      idToken: 'token'
+    };
+  }
+};
+
 const mockSessionStorage = {
   getItem: (key: string): string => {
     return key in store ? store[key] : null;
@@ -50,6 +60,9 @@ describe('TokenInterceptor', () => {
     );
     spyOn(sessionStorage, 'clear').and.callFake(mockSessionStorage.clear);
     spyOn(RouterMock, 'navigateByUrl');
+    spyOn(LuigiClient, 'getEventData').and.callFake(
+      mockLuigiClient.getEventData
+    );
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],

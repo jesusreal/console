@@ -1,4 +1,4 @@
-import LuigiClient from '@kyma-project/luigi-client';
+import * as LuigiClient from '@kyma-project/luigi-client';
 import { Injectable } from '@angular/core';
 import {
   HttpRequest,

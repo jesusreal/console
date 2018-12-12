@@ -1,4 +1,4 @@
-import LuigiClient from '@kyma-project/luigi-client';
+import * as LuigiClient from '@kyma-project/luigi-client';
 import { Injectable, OnDestroy } from '@angular/core';
 import { forkJoin, Observable, Subscription } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';

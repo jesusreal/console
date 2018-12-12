@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 import { InformationModalComponent } from '../../../../../../shared/components/information-modal/information-modal.component';
 import { Copy2ClipboardModalComponent } from '../../../../../../shared/components/copy2clipboard-modal/copy2clipboard-modal.component';
 import { finalize, map } from 'rxjs/operators';
-import LuigiClient from '@kyma-project/luigi-client';
+import * as LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
   selector: 'app-expose-api',
