@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-//import { EnvironmentCreateComponent } from '../environments/environment-create/environment-create.component';
+import LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
   templateUrl: './environment-create-wrapper.component.html'
@@ -12,6 +12,6 @@ export class EnvironmentCreateWrapper implements OnInit {
   }
 
   handleEnvCreated() {
-    alert('env created');
+    LuigiClient.uxManager().refreshContextSwitcher();
   }
 }
