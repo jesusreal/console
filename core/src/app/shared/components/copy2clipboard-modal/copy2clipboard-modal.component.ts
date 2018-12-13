@@ -14,8 +14,6 @@ export class Copy2ClipboardModalComponent {
   private isCopied: false;
   private message: string;
 
-  constructor() {}
-
   public show(title: string, content: string, message?: string) {
     this.title = title;
     this.isActive = true;
