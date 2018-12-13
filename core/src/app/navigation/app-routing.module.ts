@@ -2,10 +2,6 @@ import { AppConfig } from './../app.config';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ApisComponent } from '../content/environments/configuration/apis/apis.component';
-
-import { AuthGuard } from '../auth/auth-guard.service';
-import { LoginComponent } from '../auth/login.component';
-
 import { EnvironmentCreateComponent } from '../content/environments/environment-create/environment-create.component';
 import { EnvironmentDetailsComponent } from '../content/environments/environment-details/environment-details.component';
 import { EnvironmentsContainerComponent } from '../content/environments/environments-container/environments-container.component';
@@ -33,7 +29,6 @@ import { RequestErrorComponent } from '../content/request-error/request-error.co
 import { ConfigMapsComponent } from '../content/environments/operation/configmaps/configmaps.component';
 
 const appRoutes: Routes = [
-  { path: '', component: LoginComponent, pathMatch: 'full' },
   {
     path: 'logout',
     component: LogoutComponent
@@ -48,7 +43,6 @@ const appRoutes: Routes = [
   },
   {
     path: 'home',
-    canActivateChild: [AuthGuard],
     children: [
       {
         path: 'environments',
