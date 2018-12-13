@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { EnvironmentsService } from '../services/environments.service';
 import LuigiClient from '@kyma-project/luigi-client';
 
@@ -8,6 +8,8 @@ import LuigiClient from '@kyma-project/luigi-client';
   styleUrls: ['./environment-create.component.css']
 })
 export class EnvironmentCreateComponent {
+  @Output() onEnvCreated: EventEmitter<any> = new EventEmitter();
+
   public environments = [];
   public environmentName: string;
   public isActive: boolean;
@@ -20,6 +22,7 @@ export class EnvironmentCreateComponent {
     this.environmentsService.createEnvironment(this.environmentName).subscribe(
       () => {
         this.isActive = false;
+        this.onEnvCreated.emit();
         this.navigateToDetails(this.environmentName);
       },
       err => {
@@ -46,7 +49,7 @@ export class EnvironmentCreateComponent {
     this.isActive = true;
   }
 
-  private navigateToDetails(envName) {
+  public navigateToDetails(envName) {
     LuigiClient.linkManager().navigate(`/environments/${envName}/details`);
   }
 }
