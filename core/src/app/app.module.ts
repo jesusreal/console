@@ -26,7 +26,6 @@ import { EnvironmentCreateComponent } from './content/environments/environment-c
 import { CurrentEnvironmentService } from './content/environments/services/current-environment.service';
 import { EnvironmentsService } from './content/environments/services/environments.service';
 import { EnvironmentCardComponent } from './content/workspace-overview/environment-card/environment-card.component';
-import { NavVisibilityService } from './navigation/services/nav-visibility.service';
 
 import { TimeAgoPipe } from 'time-ago-pipe';
 import { ApiDefinitionEntryRendererComponent } from './content/environments/configuration/apis/api-definition-entry-renderer/api-definition-entry-renderer.component';
@@ -70,7 +69,6 @@ import { ResourceUploaderComponent } from './shared/components/resource-uploader
 import { ResourceUploaderModalComponent } from './shared/components/resource-uploader/resource-uploader-modal/resource-uploader-modal.component';
 import { ResourceUploadService } from './shared/components/resource-uploader/services/resource-upload.service';
 import { UploaderComponent } from './shared/components/resource-uploader/uploader/uploader.component';
-import { ReplaceDirective } from './shared/directives/replace/replace.directive';
 import { ComponentCommunicationService } from './shared/services/component-communication.service';
 import { RoleBindingModalComponent } from './shared/components/role-binding-modal/role-binding-modal.component';
 import { GraphQLClientService } from './shared/services/graphql-client-service';
@@ -86,7 +84,6 @@ import { BindingHeaderRendererComponent } from './shared/components/permissions/
 import { AbstractKubernetesElementListComponent } from './content/environments/operation/abstract-kubernetes-element-list.component';
 import { ServiceBrokerHeaderRendererComponent } from './content/settings/service-brokers/services-header-renderer/service-broker-header-renderer.component';
 import { ServiceBrokerEntryRendererComponent } from './content/settings/service-brokers/services-entry-renderer/service-broker-entry-renderer.component';
-import { LogoutComponent } from './content/logout/logout.component';
 import { IdpPresetsComponent } from './content/settings/idp-presets/idp-presets.component';
 import { IdpPresetsEntryRendererComponent } from './content/settings/idp-presets/idp-presets-entry-renderer/idp-presets-entry-renderer.component';
 import { IdpPresetsHeaderRendererComponent } from './content/settings/idp-presets/idp-presets-header-renderer/idp-presets-header-renderer.component';
@@ -100,11 +97,9 @@ import { LimitRangesComponent } from './content/environments/configuration/resou
 import { LimitRangeEntryRendererComponent } from './content/environments/configuration/resources/limit-ranges/limit-range-entry-renderer/limit-range-entry-renderer.component';
 import { LimitRangeHeaderRendererComponent } from './content/environments/configuration/resources/limit-ranges/limit-range-header-renderer/limit-range-header-renderer.component';
 import { Copy2ClipboardModalComponent } from './shared/components/copy2clipboard-modal/copy2clipboard-modal.component';
-import { LoginErrorComponent } from './content/login-error/login-error.component';
 import { CreateRemoteEnvironmentModalComponent } from './content/settings/remote-environments/create-remote-environment-modal/create-remote-environment-modal.component';
 import { EditRemoteEnvironmentModalComponent } from './content/settings/remote-environments/edit-remote-environment-modal/edit-remote-environment-modal.component';
 import { LabelsInputComponent } from './shared/components/labels-input/labels-input.component';
-import { RequestErrorComponent } from './content/request-error/request-error.component';
 import { ConfigMapsComponent } from './content/environments/operation/configmaps/configmaps.component';
 import { ConfigMapsEntryRendererComponent } from './content/environments/operation/configmaps/configmaps-entry-renderer/configmaps-entry-renderer.component';
 import { ConfigMapsHeaderRendererComponent } from './content/environments/operation/configmaps/configmaps-header-renderer/configmaps-header-renderer.component';
@@ -126,7 +121,6 @@ import { LuigiClientCommunicationDirective } from './shared/directives/luigi-cli
     RemoteEnvironmentDetailsComponent,
     OrganisationComponent,
     EnvironmentDetailsComponent,
-    ReplaceDirective,
     ServiceBrokersComponent,
     ReplicaSetsComponent,
     ServicesComponent,
@@ -177,7 +171,6 @@ import { LuigiClientCommunicationDirective } from './shared/directives/luigi-cli
     AbstractKubernetesElementListComponent,
     ServiceBrokerEntryRendererComponent,
     ServiceBrokerHeaderRendererComponent,
-    LogoutComponent,
     IdpPresetsComponent,
     IdpPresetsEntryRendererComponent,
     IdpPresetsHeaderRendererComponent,
@@ -189,11 +182,9 @@ import { LuigiClientCommunicationDirective } from './shared/directives/luigi-cli
     LimitRangesComponent,
     LimitRangeEntryRendererComponent,
     LimitRangeHeaderRendererComponent,
-    LoginErrorComponent,
     CreateRemoteEnvironmentModalComponent,
     EditRemoteEnvironmentModalComponent,
     LabelsInputComponent,
-    RequestErrorComponent,
     StatusLabelComponent,
     TooltipComponent,
     LuigiClientCommunicationDirective
@@ -214,7 +205,6 @@ import { LuigiClientCommunicationDirective } from './shared/directives/luigi-cli
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     EnvironmentsService,
     CurrentEnvironmentService,
-    NavVisibilityService,
     RemoteEnvironmentsService,
     WormholeStatusService,
     EventService,

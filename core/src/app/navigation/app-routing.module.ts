@@ -20,27 +20,12 @@ import { WorkspaceOverviewComponent } from '../content/workspace-overview/worksp
 import { ExposeApiComponent } from '../content/environments/operation/services/service-details/expose-api/expose-api.component';
 import { PermissionsComponent } from '../shared/components/permissions/permissions.component';
 import { RoleDetailsComponent } from '../shared/components/permissions/role-details/role-details.component';
-import { LogoutComponent } from '../content/logout/logout.component';
 import { IdpPresetsComponent } from '../content/settings/idp-presets/idp-presets.component';
 import { ResourcesComponent } from '../content/environments/configuration/resources/resources.component';
-import { LoginErrorComponent } from '../content/login-error/login-error.component';
-import { RequestErrorComponent } from '../content/request-error/request-error.component';
 
 import { ConfigMapsComponent } from '../content/environments/operation/configmaps/configmaps.component';
 
 const appRoutes: Routes = [
-  {
-    path: 'logout',
-    component: LogoutComponent
-  },
-  {
-    path: 'loginError',
-    component: LoginErrorComponent
-  },
-  {
-    path: 'requestError',
-    component: RequestErrorComponent
-  },
   {
     path: 'home',
     children: [
