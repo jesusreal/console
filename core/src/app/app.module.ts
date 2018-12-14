@@ -8,7 +8,6 @@ import { ApisComponent } from './content/environments/configuration/apis/apis.co
 import { FilteredApisComponent } from './content/environments/configuration/apis/filtered-apis/filtered-apis.component';
 import { EventService } from './content/settings/remote-environments/remote-environment-details/services/event.service';
 import { RemoteEnvironmentsService } from './content/settings/remote-environments/services/remote-environments.service';
-import { WormholeStatusService } from './content/settings/remote-environments/services/wormhole-status.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
@@ -206,7 +205,6 @@ import { LuigiClientCommunicationDirective } from './shared/directives/luigi-cli
     EnvironmentsService,
     CurrentEnvironmentService,
     RemoteEnvironmentsService,
-    WormholeStatusService,
     EventService,
     K8sResourceEditorService,
     ComponentCommunicationService,
