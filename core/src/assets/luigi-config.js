@@ -299,10 +299,13 @@ function getUiEntities(entityname, environment, placement) {
           return !placement || item.spec.placement === placement;
         })
         .map(function(item) {
-          function buildNode(node, spec) {
+          function buildToplevelNode(node, spec) {
+            var segmentPrefix =
+              entityname === 'clustermicrofrontends' ? 'cmf-' : 'mf-';
+            console.log('​buildToplevelNode -> segmentPrefix', segmentPrefix);
             var node = {
               label: node.label,
-              pathSegment: node.navigationPath,
+              pathSegment: segmentPrefix + node.navigationPath,
               navigationContext: name,
               viewUrl: spec.viewBaseUrl
                 ? spec.viewBaseUrl + node.viewUrl
@@ -314,7 +317,7 @@ function getUiEntities(entityname, environment, placement) {
           }
 
           function buildNodeWithChildren(specNode, spec) {
-            var node = buildNode(specNode, spec);
+            var node = buildToplevelNode(specNode, spec);
             var pathSegments = specNode.navigationPath.split('/');
             var children = getDirectChildren(pathSegments, spec);
             if (children.length) {
