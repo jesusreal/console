@@ -34,12 +34,14 @@ describeIf(dex.isStaticUser(), 'Console basic tests', () => {
 
   test('Check if envs exist', async () => {
     common.validateTestEnvironment(dexReady);
-    const dropdownButton = '.tn-dropdown__control';
-    const dropdownMenu = '.tn-dropdown.sf-dropdown > .tn-dropdown__menu';
+    const dropdownButton = '.fd-button--shell';
+    const dropdownMenu = '.fd-popover__body';
     await page.reload({ waitUntil: 'networkidle0' });
     await page.click(dropdownButton);
     await page.waitForSelector(dropdownMenu, { visible: true });
-    const environments = await kymaConsole.getEnvironments(page);
+    const environments = await kymaConsole.getEnvironmentsFromContextSwitcher(
+      page
+    );
     await page.click(dropdownButton);
     console.log('Check if envs exist', environments);
     expect(environments.length).toBeGreaterThan(1);
@@ -47,102 +49,82 @@ describeIf(dex.isStaticUser(), 'Console basic tests', () => {
 
   test('Create env', async () => {
     common.validateTestEnvironment(dexReady);
-    const navItem = 'a.sf-toolbar__item';
-    const dropdownButton = '.tn-dropdown__control';
-    const dropdownMenu = '.tn-dropdown.sf-dropdown > .tn-dropdown__menu';
     await kymaConsole.createEnvironment(page, config.testEnv);
-    await page.$$eval(navItem, item =>
-      item.find(text => text.innerText.includes('Workspace')).click()
+    await page.goto(address.console.getEnvironmentsAddress(), {
+      waitUntil: 'networkidle0'
+    });
+    const environmentNames = await kymaConsole.getEnvironmentNamesFromEnvironmentsPage(
+      page
     );
-    await page.click(dropdownButton);
-    await page.waitForSelector(dropdownMenu, { visible: true });
-    const environments = await kymaConsole.getEnvironments(page);
-    expect(environments).toContain(config.testEnv);
+    expect(environmentNames).toContain(config.testEnv);
   });
 
   test('Delete env', async () => {
     common.validateTestEnvironment(dexReady);
-    //checking list of environments before delete
-    const dropdownButton = '.tn-dropdown__control';
-    const dropdownMenu = '.tn-dropdown.sf-dropdown > .tn-dropdown__menu';
-    await page.waitForSelector(dropdownButton, { visible: true });
-    await page.click(dropdownButton);
-    await page.waitForSelector(dropdownMenu, { visible: true });
-    const existingEnvironments = await kymaConsole.getEnvironments(page);
-    //delete operation
-    const deleteConfirmButton =
-      '.tn-modal__button-primary.sf-button--primary.tn-button--small';
-    const dropDownCard = `button[aria-controls=${config.testEnv}]`;
-    await page.click(dropDownCard);
-    await page.click(`#${config.testEnv} > li > a[name=Delete]`);
-    await page.waitFor(deleteConfirmButton);
-    await page.click(deleteConfirmButton);
-    await page.waitForSelector(deleteConfirmButton, { hidden: true });
-    //checking list of environments after delete
-    await page.reload({ waitUntil: 'networkidle0' });
-    await page.waitForSelector(dropdownButton, { visible: true });
-    await page.click(dropdownButton);
-    await page.waitForSelector(dropdownMenu, { visible: true });
-    const environments = await kymaConsole.getEnvironments(page);
-    //temporary logout for debugging purpose
-    console.log('Delete env - exist envs', existingEnvironments);
-    console.log('Delete env - envs after deletion', environments);
-    //assert
-    expect(environments).not.toContain(config.testEnv);
-  });
-
-  test('Check if remote environment exist', async () => {
-    common.validateTestEnvironment(dexReady);
-    const remoteEnvironmentsUrl = address.console.getRemoteEnvironments();
-    await page.goto(remoteEnvironmentsUrl, { waitUntil: 'networkidle0' });
-    const remoteEnvironments = await kymaConsole.getRemoteEnvironments(page);
-    console.log('Check if remote environment exists', remoteEnvironments);
-    expect(remoteEnvironments).not.toContain(config.testEnv);
-  });
-
-  test('Create remote environment', async () => {
-    common.validateTestEnvironment(dexReady);
-    await kymaConsole.createRemoteEnvironment(page, config.testEnv);
-    await page.reload({ waitUntil: 'networkidle0' });
-    const remoteEnvironments = await kymaConsole.getRemoteEnvironments(page);
-    console.log(
-      'Create new remote environment, remote envs: ',
-      remoteEnvironments
-    );
-    expect(remoteEnvironments).toContain(config.testEnv);
-  });
-
-  test('Go to details and back', async () => {
-    common.validateTestEnvironment(dexReady);
-    await kymaConsole.openLink(page, 'div.remoteenv-name', config.testEnv);
-    const detailsText = await page.evaluate(() => document.body.innerText);
-    expect(detailsText).toContain(config.testEnv);
-    expect(detailsText).toContain('General Information');
-    await kymaConsole.openLink(page, 'a', 'Remote Environments');
-    const listText = await page.evaluate(() => document.body.innerText);
-    expect(listText).toContain(config.testEnv);
-    expect(listText).toContain('Search');
-  });
-
-  test('Delete remote environment', async () => {
-    common.validateTestEnvironment(dexReady);
-    const initialRemoteEnvironments = await kymaConsole.getRemoteEnvironments(
+    const existingEnvironmentNames = await kymaConsole.getEnvironmentNamesFromEnvironmentsPage(
       page
     );
-    await kymaConsole.deleteRemoteEnvironment(page, config.testEnv);
-
-    const remoteEnvironments = await common.retry(
-      page,
-      async () =>
-        await kymaConsole.getRemoteEnvironmentsAfterDelete(
-          page,
-          initialRemoteEnvironments
-        )
+    await kymaConsole.deleteEnvironment(page, config.testEnv);
+    const environmentNamesAfterDelete = await kymaConsole.getEnvironmentNamesFromEnvironmentsPage(
+      page
     );
-    console.log(
-      'Delete remote environment, remaining remote envs: ',
-      remoteEnvironments
-    );
-    expect(remoteEnvironments).not.toContain(config.testEnv);
+    //assert
+    expect(existingEnvironmentNames).toContain(config.testEnv);
+    expect(environmentNamesAfterDelete).not.toContain(config.testEnv);
   });
+
+  // test('Check if remote environment exist', async () => {
+  //   common.validateTestEnvironment(dexReady);
+  //   const remoteEnvironmentsUrl = address.console.getRemoteEnvironments();
+  //   await page.goto(remoteEnvironmentsUrl, { waitUntil: 'networkidle0' });
+  //   const remoteEnvironments = await kymaConsole.getRemoteEnvironments(page);
+  //   console.log('Check if remote environment exists', remoteEnvironments);
+  //   expect(remoteEnvironments).not.toContain(config.testEnv);
+  // });
+
+  // test('Create remote environment', async () => {
+  //   common.validateTestEnvironment(dexReady);
+  //   await kymaConsole.createRemoteEnvironment(page, config.testEnv);
+  //   await page.reload({ waitUntil: 'networkidle0' });
+  //   const remoteEnvironments = await kymaConsole.getRemoteEnvironments(page);
+  //   console.log(
+  //     'Create new remote environment, remote envs: ',
+  //     remoteEnvironments
+  //   );
+  //   expect(remoteEnvironments).toContain(config.testEnv);
+  // });
+
+  // test('Go to details and back', async () => {
+  //   common.validateTestEnvironment(dexReady);
+  //   await kymaConsole.openLink(page, 'div.remoteenv-name', config.testEnv);
+  //   const detailsText = await page.evaluate(() => document.body.innerText);
+  //   expect(detailsText).toContain(config.testEnv);
+  //   expect(detailsText).toContain('General Information');
+  //   await kymaConsole.openLink(page, 'a', 'Remote Environments');
+  //   const listText = await page.evaluate(() => document.body.innerText);
+  //   expect(listText).toContain(config.testEnv);
+  //   expect(listText).toContain('Search');
+  // });
+
+  // test('Delete remote environment', async () => {
+  //   common.validateTestEnvironment(dexReady);
+  //   const initialRemoteEnvironments = await kymaConsole.getRemoteEnvironments(
+  //     page
+  //   );
+  //   await kymaConsole.deleteRemoteEnvironment(page, config.testEnv);
+
+  //   const remoteEnvironments = await common.retry(
+  //     page,
+  //     async () =>
+  //       await kymaConsole.getRemoteEnvironmentsAfterDelete(
+  //         page,
+  //         initialRemoteEnvironments
+  //       )
+  //   );
+  //   console.log(
+  //     'Delete remote environment, remaining remote envs: ',
+  //     remoteEnvironments
+  //   );
+  //   expect(remoteEnvironments).not.toContain(config.testEnv);
+  // });
 });

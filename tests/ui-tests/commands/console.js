@@ -20,7 +20,7 @@ async function _loginViaDex(page, config) {
 
 async function login(page, config) {
   await _loginViaDex(page, config);
-  const headerSelector = '.sf-header';
+  const headerSelector = '.fd-shellbar';
   try {
     await page.waitForSelector(headerSelector);
   } catch (err) {
@@ -41,7 +41,8 @@ async function login(page, config) {
 }
 
 async function getFrame(page) {
-  return await page.frames().find(f => f.name() === 'frame');
+  const noOfFrames = page.frames().length;
+  return await page.frames()[noOfFrames - 1];
 }
 
 async function openLink(page, element, name) {
@@ -79,41 +80,60 @@ function clearData(token, env) {
   });
 }
 
-async function getEnvironments(page) {
+async function getEnvironmentsFromContextSwitcher(page) {
   return await page.evaluate(() => {
-    const environmentsArraySelector =
-      '.sf-dropdown .tn-dropdown__menu .tn-dropdown__item';
+    const menuListContainer = document.querySelector('ul.fd-menu__list');
+    const environmentsArraySelector = 'li > a';
     const envs = Array.from(
-      document.querySelectorAll(environmentsArraySelector)
+      menuListContainer.querySelectorAll(environmentsArraySelector)
     );
     return envs.map(env => env.textContent);
   });
 }
 
+async function getEnvironmentNamesFromEnvironmentsPage(page) {
+  const environmentCardTitleSelector = '.tn-card__header';
+  const frame = await getFrame(page);
+
+  const envNames = await frame.$$eval(
+    environmentCardTitleSelector,
+    environmentCardTitles => {
+      const envs = Array.from(environmentCardTitles);
+      return envs.map(env => env.textContent);
+    }
+  );
+  return envNames;
+}
+
 async function createEnvironment(page, name) {
-  // consts
-  const dropdownButton = '.tn-dropdown__control';
-  const dropdownMenu = '.tn-dropdown.sf-dropdown > .tn-dropdown__menu';
-  const createEnvBtn = '.open-create-env-modal';
+  const frame = await getFrame(page);
   const createEnvModal = '.sf-modal.sf-modal--min';
   const createBtn = '.env-create-btn';
   const envNameInput = 'input[name=environmentName].tn-form__control';
+  const createButtonSelector = '.open-create-env-modal';
 
-  await page.waitForSelector(dropdownButton);
-  await page.click(dropdownButton);
-  await page.waitForSelector(dropdownMenu, { visible: true });
-  await page.click(dropdownButton);
-  await page.click(createEnvBtn);
-  await page.waitFor(createEnvModal);
-  await page.focus(envNameInput);
-  await page.type(envNameInput, name);
-  await page.click(createBtn);
-  await page.waitForSelector(createEnvModal, { hidden: true });
+  await frame.waitForSelector(createButtonSelector);
+  await frame.click(createButtonSelector);
+  await frame.waitFor(createEnvModal);
+  await frame.focus(envNameInput);
+  await frame.type(envNameInput, name);
+  await frame.click(createBtn);
+  await frame.waitForSelector(createEnvModal, { hidden: true });
+
   await page.reload({ waitUntil: 'networkidle0' });
   await waitForNavigationAndContext(page);
+}
 
-  const environments = await getEnvironments(page);
-  expect(environments).toContain(name);
+async function deleteEnvironment(page, envName) {
+  const frame = await getFrame(page);
+  const deleteConfirmButton =
+    '.tn-modal__button-primary.sf-button--primary.tn-button--small';
+  const dropDownCard = `button[aria-controls=${envName}]`;
+  await frame.click(dropDownCard);
+  await frame.click(`#${envName} > li > a[name=Delete]`);
+  await frame.waitFor(deleteConfirmButton);
+  await frame.click(deleteConfirmButton);
+  await frame.waitForSelector(deleteConfirmButton, { hidden: true });
 }
 
 async function getRemoteEnvironments(page) {
@@ -192,10 +212,12 @@ module.exports = {
   getFrame,
   openLink,
   clearData,
-  getEnvironments,
+  getEnvironmentsFromContextSwitcher,
   createEnvironment,
   getRemoteEnvironments,
   getRemoteEnvironmentsAfterDelete,
   createRemoteEnvironment,
-  deleteRemoteEnvironment
+  deleteRemoteEnvironment,
+  getEnvironmentNamesFromEnvironmentsPage,
+  deleteEnvironment
 };
