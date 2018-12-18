@@ -73,58 +73,60 @@ describeIf(dex.isStaticUser(), 'Console basic tests', () => {
     expect(environmentNamesAfterDelete).not.toContain(config.testEnv);
   });
 
-  // test('Check if remote environment exist', async () => {
-  //   common.validateTestEnvironment(dexReady);
-  //   const remoteEnvironmentsUrl = address.console.getRemoteEnvironments();
-  //   await page.goto(remoteEnvironmentsUrl, { waitUntil: 'networkidle0' });
-  //   const remoteEnvironments = await kymaConsole.getRemoteEnvironments(page);
-  //   console.log('Check if remote environment exists', remoteEnvironments);
-  //   expect(remoteEnvironments).not.toContain(config.testEnv);
-  // });
+  test('Check if remote environment exist', async () => {
+    common.validateTestEnvironment(dexReady);
+    const remoteEnvironmentsUrl = address.console.getRemoteEnvironments();
+    await page.goto(remoteEnvironmentsUrl, { waitUntil: 'networkidle0' });
+    const remoteEnvironments = await kymaConsole.getRemoteEnvironmentNames(
+      page
+    );
+    console.log('Check if remote environment exists', remoteEnvironments);
+    expect(remoteEnvironments).not.toContain(config.testEnv);
+  });
 
-  // test('Create remote environment', async () => {
-  //   common.validateTestEnvironment(dexReady);
-  //   await kymaConsole.createRemoteEnvironment(page, config.testEnv);
-  //   await page.reload({ waitUntil: 'networkidle0' });
-  //   const remoteEnvironments = await kymaConsole.getRemoteEnvironments(page);
-  //   console.log(
-  //     'Create new remote environment, remote envs: ',
-  //     remoteEnvironments
-  //   );
-  //   expect(remoteEnvironments).toContain(config.testEnv);
-  // });
+  test('Create remote environment', async () => {
+    common.validateTestEnvironment(dexReady);
+    await kymaConsole.createRemoteEnvironment(page, config.testEnv);
+    await page.reload({ waitUntil: 'networkidle0' });
+    const remoteEnvironments = await kymaConsole.getRemoteEnvironmentNames(
+      page
+    );
+    expect(remoteEnvironments).toContain(config.testEnv);
+  });
 
-  // test('Go to details and back', async () => {
-  //   common.validateTestEnvironment(dexReady);
-  //   await kymaConsole.openLink(page, 'div.remoteenv-name', config.testEnv);
-  //   const detailsText = await page.evaluate(() => document.body.innerText);
-  //   expect(detailsText).toContain(config.testEnv);
-  //   expect(detailsText).toContain('General Information');
-  //   await kymaConsole.openLink(page, 'a', 'Remote Environments');
-  //   const listText = await page.evaluate(() => document.body.innerText);
-  //   expect(listText).toContain(config.testEnv);
-  //   expect(listText).toContain('Search');
-  // });
+  test('Go to details and back', async () => {
+    common.validateTestEnvironment(dexReady);
+    const frame = await kymaConsole.getFrame(page);
+    await kymaConsole.openLinkOnFrame(
+      page,
+      'div.remoteenv-name',
+      config.testEnv
+    );
+    frame.waitForXPath(`//div[contains(string(), "${config.testEnv}")]`);
+    frame.waitForXPath(`//h2[contains(string(), "General Information")]`);
+    await kymaConsole.openLinkOnFrame(page, 'a', 'Remote Environments');
+    frame.waitForXPath(
+      `//div[contains(@class, 'remoteenv-name') and contains(string(), "${
+        config.testEnv
+      }")]`
+    );
+  });
 
-  // test('Delete remote environment', async () => {
-  //   common.validateTestEnvironment(dexReady);
-  //   const initialRemoteEnvironments = await kymaConsole.getRemoteEnvironments(
-  //     page
-  //   );
-  //   await kymaConsole.deleteRemoteEnvironment(page, config.testEnv);
+  test('Delete remote environment', async () => {
+    common.validateTestEnvironment(dexReady);
+    await kymaConsole.deleteRemoteEnvironment(page, config.testEnv);
 
-  //   const remoteEnvironments = await common.retry(
-  //     page,
-  //     async () =>
-  //       await kymaConsole.getRemoteEnvironmentsAfterDelete(
-  //         page,
-  //         initialRemoteEnvironments
-  //       )
-  //   );
-  //   console.log(
-  //     'Delete remote environment, remaining remote envs: ',
-  //     remoteEnvironments
-  //   );
-  //   expect(remoteEnvironments).not.toContain(config.testEnv);
-  // });
+    const initialRemoteEnvironments = await kymaConsole.getRemoteEnvironmentNames(
+      page
+    );
+    const remoteEnvironments = await common.retry(
+      page,
+      async () =>
+        await kymaConsole.getRemoteEnvironmentsAfterDelete(
+          page,
+          initialRemoteEnvironments
+        )
+    );
+    expect(remoteEnvironments).not.toContain(config.testEnv);
+  });
 });
