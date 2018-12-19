@@ -20,6 +20,9 @@ import { Router } from '@angular/router';
 import { ComponentCommunicationService } from '../../../shared/services/component-communication.service';
 import { RemoteEnvironmentBindingService } from '../../settings/remote-environments/remote-environment-details/remote-environment-binding-service';
 import { InformationModalComponent } from '../../../shared/components/information-modal/information-modal.component';
+import { ActivatedRoute } from '@angular/router';
+import { OnInit } from '@angular/core';
+import { EnvironmentCreateComponent } from '../../../content/environments/environment-create/environment-create.component';
 
 @Component({
   selector: 'app-workspace-overview',
@@ -27,18 +30,22 @@ import { InformationModalComponent } from '../../../shared/components/informatio
   styleUrls: ['./workspace-overview.component.scss'],
   host: { class: 'sf-content' }
 })
-export class WorkspaceOverviewComponent extends GenericListComponent {
+export class WorkspaceOverviewComponent extends GenericListComponent
+  implements OnInit {
   environmentsService: EnvironmentsService;
 
   entryEventHandler = this.getEntryEventHandler();
 
   @ViewChild('confirmationModal') confirmationModal: ConfirmationModalComponent;
   @ViewChild('infoModal') infoModal: InformationModalComponent;
+  @ViewChild('createModal') createModal: EnvironmentCreateComponent;
+  sub: any;
 
   constructor(
     private http: HttpClient,
     private remoteEnvironmentsService: RemoteEnvironmentsService,
     private router: Router,
+    private route: ActivatedRoute,
     changeDetector: ChangeDetectorRef,
     @Inject(EnvironmentsService) environmentsService: EnvironmentsService,
     private communicationService: ComponentCommunicationService,
@@ -64,7 +71,17 @@ export class WorkspaceOverviewComponent extends GenericListComponent {
       this.reload();
     });
   }
-
+  ngOnInit() {
+    this.sub = this.route.data.subscribe(v => this.handleRouteDataChange(v));
+  }
+  handleRouteDataChange(data) {
+    if (data && data.showModal) {
+      console.warn('SHOW MODAL');
+      this.createModal.show();
+    } else {
+      console.warn('HIDE MODAL');
+    }
+  }
   getEntryEventHandler() {
     return {
       delete: (entry: any) => {

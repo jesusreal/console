@@ -61,8 +61,11 @@ const appRoutes: Routes = [
         children: [
           { path: 'yVirtual', component: WorkspaceOverviewComponent },
           { path: 'workspace', component: WorkspaceOverviewComponent },
-          { path: '_create_', component: EnvironmentCreateComponent },
-          { path: 'create', component: EnvironmentCreateWrapper },
+          {
+            path: 'create',
+            component: WorkspaceOverviewComponent,
+            data: { showModal: true }
+          },
           { path: '', redirectTo: 'workspace', pathMatch: 'full' }
         ]
       },

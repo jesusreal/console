@@ -367,7 +367,8 @@ Luigi.setConfig({
       {
         viewUrl: '/consoleapp.html#/home/environments/create',
         hideFromNav: true,
-        pathSegment: 'create-env'
+        pathSegment: 'create-env',
+        hideSideNav: true
       },
       {
         pathSegment: 'home',
