@@ -12,7 +12,7 @@ class Console {
   }
 
   getRemoteEnvironments() {
-    return this.getConsole() + '/home/settings/remote-envs';
+    return this.getConsole() + '/home/settings/apps';
   }
 
   getEnvironmentsAddress() {

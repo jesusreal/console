@@ -73,18 +73,18 @@ describeIf(dex.isStaticUser(), 'Console basic tests', () => {
     expect(environmentNamesAfterDelete).not.toContain(config.testEnv);
   });
 
-  test('Check if remote environment exist', async () => {
+  test('Check if Application exist', async () => {
     common.validateTestEnvironment(dexReady);
     const remoteEnvironmentsUrl = address.console.getRemoteEnvironments();
     await page.goto(remoteEnvironmentsUrl, { waitUntil: 'networkidle0' });
     const remoteEnvironments = await kymaConsole.getRemoteEnvironmentNames(
       page
     );
-    console.log('Check if remote environment exists', remoteEnvironments);
+    console.log('Check if application exists', remoteEnvironments);
     expect(remoteEnvironments).not.toContain(config.testEnv);
   });
 
-  test('Create remote environment', async () => {
+  test('Create Application', async () => {
     common.validateTestEnvironment(dexReady);
     await kymaConsole.createRemoteEnvironment(page, config.testEnv);
     await page.reload({ waitUntil: 'networkidle0' });
@@ -104,7 +104,7 @@ describeIf(dex.isStaticUser(), 'Console basic tests', () => {
     );
     frame.waitForXPath(`//div[contains(string(), "${config.testEnv}")]`);
     frame.waitForXPath(`//h2[contains(string(), "General Information")]`);
-    await kymaConsole.openLinkOnFrame(page, 'a', 'Remote Environments');
+    await kymaConsole.openLinkOnFrame(page, 'a', 'Applications');
     frame.waitForXPath(
       `//div[contains(@class, 'remoteenv-name') and contains(string(), "${
         config.testEnv
@@ -112,7 +112,7 @@ describeIf(dex.isStaticUser(), 'Console basic tests', () => {
     );
   });
 
-  test('Delete remote environment', async () => {
+  test('Delete Application', async () => {
     common.validateTestEnvironment(dexReady);
     await kymaConsole.deleteRemoteEnvironment(page, config.testEnv);
 
