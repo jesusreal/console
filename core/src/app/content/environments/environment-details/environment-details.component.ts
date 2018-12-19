@@ -79,7 +79,7 @@ export class EnvironmentDetailsComponent implements OnInit, OnDestroy {
   private getRemoteEnvs(id) {
     this.remoteEnvBindingService.getBoundRemoteEnvironments(id).subscribe(
       res => {
-        this.remoteEnvironments = res['remoteEnvironments'];
+        this.remoteEnvironments = res['applications'];
         this.boundRemoteEnvironmentsCount = of(
           this.remoteEnvironments ? this.remoteEnvironments.length : 0
         );
@@ -123,15 +123,15 @@ export class EnvironmentDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  private navigateToServices() {
+  public navigateToServices() {
     LuigiClient.linkManager()
       .fromContext('environments')
       .navigate('services');
   }
 
-  private navigateToRemoteEnvs(envName) {
+  public navigateToRemoteEnvs(envName) {
     LuigiClient.linkManager().navigate(
-      envName ? '/home/remote-envs/details/' + envName : '/home/remote-envs'
+      envName ? '/home/apps/details/' + envName : '/home/apps'
     );
   }
 }
