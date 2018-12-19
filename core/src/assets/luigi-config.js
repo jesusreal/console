@@ -349,7 +349,6 @@ Luigi.setConfig({
   navigation: {
     nodes: () => [
       {
-        // temporary solution! change to '' when luigi issue is fixed
         pathSegment: 'home',
         hideFromNav: true,
         context: {
@@ -366,7 +365,6 @@ Luigi.setConfig({
             },
             children: [
               {
-                // has to be visible for all views exept 'settings'
                 pathSegment: ':environmentId',
                 context: {
                   environmentId: ':environmentId'
