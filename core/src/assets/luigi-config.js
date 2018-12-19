@@ -386,7 +386,7 @@ Luigi.setConfig({
               {
                 pathSegment: 'apps',
                 navigationContext: 'apps',
-                label: 'Remote Environments',
+                label: 'Applications',
                 category: 'Integration',
                 viewUrl: '/consoleapp.html#/home/settings/apps',
                 keepSelectedForChildren: true,
