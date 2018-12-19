@@ -1,5 +1,12 @@
 import { EnvironmentDataConverter } from './environment-data-converter';
-import { ChangeDetectorRef, Component, Inject, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  ViewChild,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
 import { EnvironmentCardComponent } from './../environment-card/environment-card.component';
 import { HttpClient } from '@angular/common/http';
 import { AppConfig } from '../../../app.config';
@@ -8,7 +15,7 @@ import {
   Environment,
   IEnvironment
 } from '../../../shared/datamodel/k8s/environment';
-import { RemoteEnvironmentsService } from '../../settings/remote-environments/services/remote-environments.service';
+
 import { EnvironmentsService } from '../../../content/environments/services/environments.service';
 import {
   DataConverter,
@@ -16,12 +23,11 @@ import {
   GenericListComponent
 } from '@kyma-project/y-generic-list';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ComponentCommunicationService } from '../../../shared/services/component-communication.service';
 import { RemoteEnvironmentBindingService } from '../../settings/remote-environments/remote-environment-details/remote-environment-binding-service';
 import { InformationModalComponent } from '../../../shared/components/information-modal/information-modal.component';
-import { ActivatedRoute } from '@angular/router';
-import { OnInit } from '@angular/core';
+
 import { EnvironmentCreateComponent } from '../../../content/environments/environment-create/environment-create.component';
 
 @Component({
@@ -31,7 +37,7 @@ import { EnvironmentCreateComponent } from '../../../content/environments/enviro
   host: { class: 'sf-content' }
 })
 export class WorkspaceOverviewComponent extends GenericListComponent
-  implements OnInit {
+  implements OnInit, OnDestroy {
   environmentsService: EnvironmentsService;
   entryEventHandler = this.getEntryEventHandler();
   private routeDataSubscription: any;
@@ -42,7 +48,6 @@ export class WorkspaceOverviewComponent extends GenericListComponent
 
   constructor(
     private http: HttpClient,
-    private remoteEnvironmentsService: RemoteEnvironmentsService,
     private router: Router,
     private route: ActivatedRoute,
     changeDetector: ChangeDetectorRef,
@@ -75,6 +80,9 @@ export class WorkspaceOverviewComponent extends GenericListComponent
     this.routeDataSubscription = this.route.data.subscribe(data =>
       this.handleRouteDataChange(data)
     );
+  }
+  ngOnDestroy() {
+    this.routeDataSubscription.unsubscribe();
   }
   handleRouteDataChange(routeData: any) {
     if (routeData && routeData.showModal) {
