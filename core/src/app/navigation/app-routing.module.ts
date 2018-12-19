@@ -5,7 +5,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { ApisComponent } from '../content/environments/configuration/apis/apis.component';
 
 import { CatalogContainerComponent } from '../content/environments/catalog-container/catalog-container.component';
-import { EnvironmentCreateComponent } from '../content/environments/environment-create/environment-create.component';
 import { EnvironmentDetailsComponent } from '../content/environments/environment-details/environment-details.component';
 import { EnvironmentsContainerComponent } from '../content/environments/environments-container/environments-container.component';
 import { DeploymentsComponent } from '../content/environments/operation/deployments/deployments.component';

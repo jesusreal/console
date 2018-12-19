@@ -33,13 +33,12 @@ import { EnvironmentCreateComponent } from '../../../content/environments/enviro
 export class WorkspaceOverviewComponent extends GenericListComponent
   implements OnInit {
   environmentsService: EnvironmentsService;
-
   entryEventHandler = this.getEntryEventHandler();
+  private routeDataSubscription: any;
 
   @ViewChild('confirmationModal') confirmationModal: ConfirmationModalComponent;
   @ViewChild('infoModal') infoModal: InformationModalComponent;
   @ViewChild('createModal') createModal: EnvironmentCreateComponent;
-  sub: any;
 
   constructor(
     private http: HttpClient,
@@ -72,14 +71,14 @@ export class WorkspaceOverviewComponent extends GenericListComponent
     });
   }
   ngOnInit() {
-    this.sub = this.route.data.subscribe(v => this.handleRouteDataChange(v));
+    super.ngOnInit();
+    this.routeDataSubscription = this.route.data.subscribe(data =>
+      this.handleRouteDataChange(data)
+    );
   }
-  handleRouteDataChange(data) {
-    if (data && data.showModal) {
-      console.warn('SHOW MODAL');
+  handleRouteDataChange(routeData: any) {
+    if (routeData && routeData.showModal) {
       this.createModal.show();
-    } else {
-      console.warn('HIDE MODAL');
     }
   }
   getEntryEventHandler() {
