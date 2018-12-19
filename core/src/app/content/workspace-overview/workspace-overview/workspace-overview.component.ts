@@ -15,7 +15,7 @@ import {
   Environment,
   IEnvironment
 } from '../../../shared/datamodel/k8s/environment';
-
+import LuigiClient from '@kyma-project/luigi-client';
 import { EnvironmentsService } from '../../../content/environments/services/environments.service';
 import {
   DataConverter,
@@ -27,7 +27,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ComponentCommunicationService } from '../../../shared/services/component-communication.service';
 import { RemoteEnvironmentBindingService } from '../../settings/remote-environments/remote-environment-details/remote-environment-binding-service';
 import { InformationModalComponent } from '../../../shared/components/information-modal/information-modal.component';
-
 import { EnvironmentCreateComponent } from '../../../content/environments/environment-create/environment-create.component';
 
 @Component({
@@ -127,6 +126,9 @@ export class WorkspaceOverviewComponent extends GenericListComponent
                         ': ' +
                         (err.error.message || err.message || err)
                     );
+                  },
+                  () => {
+                    LuigiClient.uxManager().refreshContextSwitcher();
                   }
                 );
             },

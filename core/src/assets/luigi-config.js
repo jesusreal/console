@@ -273,7 +273,10 @@ function getEnvs() {
     xmlHttp.onreadystatechange = function() {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
         var envs = [];
-        JSON.parse(xmlHttp.response).items.forEach(env => {
+        JSON.parse(xmlHttp.response).items.map(env => {
+          if (env.status && env.status.phase !== 'Active') {
+            return; //"pretend" that inactive env is already removed
+          }
           envName = env.metadata.name;
           envs.push({
             // has to be visible for all views exept 'settings'
