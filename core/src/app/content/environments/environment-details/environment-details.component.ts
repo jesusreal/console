@@ -123,13 +123,13 @@ export class EnvironmentDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  private navigateToServices() {
+  public navigateToServices() {
     LuigiClient.linkManager()
       .fromContext('environments')
       .navigate('services');
   }
 
-  private navigateToRemoteEnvs(envName) {
+  public navigateToRemoteEnvs(envName) {
     LuigiClient.linkManager().navigate(
       envName
         ? '/home/settings/remote-envs/details/' + envName
