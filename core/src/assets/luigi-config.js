@@ -27,7 +27,7 @@ function getNodes(context) {
   var environment = context.environmentId;
   return [
     {
-      link: '/home',
+      link: '/home/overview',
       label: 'Back to Home'
     },
     {
@@ -354,15 +354,17 @@ Luigi.setConfig({
         context: {
           idToken: token
         },
-        viewUrl: '/consoleapp.html#/home/environments/workspace',
         children: [
+          {
+            pathSegment: 'overview',
+            label: 'Environments',
+            viewUrl: '/consoleapp.html#/home/environments/workspace'
+          },
           {
             pathSegment: 'environments',
             label: 'Environments',
             viewUrl: '/consoleapp.html#/home/environments/workspace',
-            context: {
-              idToken: token
-            },
+            hideFromNav: true,
             children: [
               {
                 pathSegment: ':environmentId',
