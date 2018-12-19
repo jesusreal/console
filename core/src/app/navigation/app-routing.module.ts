@@ -36,8 +36,7 @@ import { RequestErrorComponent } from '../content/request-error/request-error.co
 
 import { ConfigMapsComponent } from '../content/environments/operation/configmaps/configmaps.component';
 import { BrokersContainerComponent } from '../content/environments/brokers-container/brokers-container.component';
-import { CreateRemoteEnvironmentModalComponent } from '../content/settings/remote-environments/create-remote-environment-modal/create-remote-environment-modal.component';
-import { EnvironmentCreateWrapper } from '../extensibility/components/environment-create-wrapper/environment-create-wrapper.component';
+
 const appRoutes: Routes = [
   {
     path: 'logout',
