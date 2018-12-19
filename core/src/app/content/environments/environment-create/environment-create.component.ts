@@ -23,6 +23,7 @@ export class EnvironmentCreateComponent {
       () => {
         this.isActive = false;
         this.onEnvCreated.emit();
+        LuigiClient.uxManager().refreshContextSwitcher();
         this.navigateToDetails(this.environmentName);
       },
       err => {
