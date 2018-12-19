@@ -123,7 +123,6 @@ import { StatusLabelComponent } from './shared/components/status-label/status-la
 import { TooltipComponent } from './shared/components/tooltip/tooltip.component';
 import { BrokersContainerComponent } from './content/environments/brokers-container/brokers-container.component';
 import { LuigiClientCommunicationDirective } from './shared/directives/luigi-client-communication/luigi-client-communication.directive';
-import { EnvironmentCreateWrapper } from './extensibility/components/environment-create-wrapper/environment-create-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -219,8 +218,7 @@ import { EnvironmentCreateWrapper } from './extensibility/components/environment
     RequestErrorComponent,
     StatusLabelComponent,
     TooltipComponent,
-    LuigiClientCommunicationDirective,
-    EnvironmentCreateWrapper
+    LuigiClientCommunicationDirective
   ],
   imports: [
     BrowserModule,
