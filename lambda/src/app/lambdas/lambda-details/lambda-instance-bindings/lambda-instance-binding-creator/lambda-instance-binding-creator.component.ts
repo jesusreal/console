@@ -1,15 +1,13 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Clipboard } from 'ts-clipboard';
 import { ServiceInstance } from '../../../../shared/datamodel/k8s/service-instance';
 import { ServiceInstancesService } from '../../../../service-instances/service-instances.service';
 import { ServiceBindingsService } from '../../../../service-bindings/service-bindings.service';
 import { ServiceBinding } from '../../../../shared/datamodel/k8s/service-binding';
-import { Observable } from 'rxjs';
 import { InstanceBindingInfo } from '../../../../shared/datamodel/instance-binding-info';
 import * as luigiClient from '@kyma-project/luigi-client';
 import { ServiceBindingList } from '../../../../shared/datamodel/k8s/service-binding-list';
-import { ServiceInstanceList } from '../../../../shared/datamodel/k8s/service-instance-list';
-import { CoreServicesService } from '../../../../core-services/core-services.service';
+
+const RUNNING = 'RUNNING';
 
 @Component({
   selector: 'app-lambda-instance-binding-creator',
@@ -18,18 +16,16 @@ import { CoreServicesService } from '../../../../core-services/core-services.ser
 })
 export class LambdaInstanceBindingCreatorComponent {
   public isActive = false;
-  private isValid = false;
-  private isSelectedInstanceBindingPrefixInvalid = false;
-  private createSecrets = true;
-  private selectedInstance: ServiceInstance;
-  private selectedBinding: ServiceBinding;
-  private selectedInstanceBindingPrefix: string;
-  private relevantServiceBindings = new ServiceBindingList({
+  public isValid = false;
+  public isSelectedInstanceBindingPrefixInvalid = false;
+  public createSecrets = true;
+  public selectedInstance: ServiceInstance;
+  public selectedBinding: ServiceBinding;
+  public selectedInstanceBindingPrefix: string;
+  public relevantServiceBindings = new ServiceBindingList({
     items: [],
   });
-  private instances = new ServiceInstanceList({
-    items: [],
-  });
+  public instances: ServiceInstance[];
   private serviceBindings = new ServiceBindingList({
     items: [],
   });
@@ -38,10 +34,7 @@ export class LambdaInstanceBindingCreatorComponent {
   constructor(
     private serviceInstancesService: ServiceInstancesService,
     private serviceBindingsService: ServiceBindingsService,
-    private coreService: CoreServicesService,
   ) {}
-
-  private secrets: Map<string, string>;
 
   @Input() alreadyAddedInstances: InstanceBindingInfo[];
   @Output()
@@ -55,23 +48,25 @@ export class LambdaInstanceBindingCreatorComponent {
       this.environment = eventData.environmentId;
       this.token = eventData.idToken;
       this.serviceInstancesService
-        .getServiceInstances(this.environment, this.token)
+        .getServiceInstances(this.environment, this.token, RUNNING)
         .subscribe(
           instances => {
-            instances.items = instances.items.filter(i => {
-              if (i.status.provisionStatus !== 'Provisioned') {
-                return;
-              }
-              let isAdded = false;
-              this.alreadyAddedInstances.forEach(alreadyAddedInst => {
-                if (i.metadata.name === alreadyAddedInst.instanceName) {
-                  isAdded = true;
-                  return;
+            instances.data.serviceInstances = instances.data.serviceInstances.filter(
+              i => {
+                if (!i.bindable) {
+                  return false;
                 }
-              });
-              return !isAdded;
-            });
-            this.instances = instances;
+                let isAdded = false;
+                this.alreadyAddedInstances.forEach(alreadyAddedInst => {
+                  if (i.name === alreadyAddedInst.instanceName) {
+                    isAdded = true;
+                    return;
+                  }
+                });
+                return !isAdded;
+              },
+            );
+            this.instances = instances.data.serviceInstances;
           },
           err => {},
         );
@@ -108,7 +103,7 @@ export class LambdaInstanceBindingCreatorComponent {
 
   public submit(event: Event) {
     const ibInfo: InstanceBindingInfo = {
-      instanceName: this.selectedInstance.metadata.name,
+      instanceName: this.selectedInstance.name,
       createSecret: this.createSecrets,
       serviceBinding: this.createSecrets
         ? ''
@@ -117,27 +112,8 @@ export class LambdaInstanceBindingCreatorComponent {
         ? '-'
         : this.selectedBinding.spec.secretName,
       envVarNames: [],
-      status: this.createSecrets
-        ? ''
-        : this.selectedBinding.status.conditions[0].status,
-      statusType: this.createSecrets
-        ? ''
-        : this.selectedBinding.status.conditions[0].type,
       instanceBindingPrefix: this.selectedInstanceBindingPrefix,
     };
-
-    if (!this.createSecrets && this.selectedBinding.spec.secretName !== '') {
-      this.coreService
-        .getSecret(
-          this.selectedBinding.spec.secretName,
-          this.environment,
-          this.token,
-        )
-        .subscribe(res => {
-          this.secrets = res.data;
-          ibInfo.envVarNames = Object.keys(this.secrets);
-        });
-    }
 
     this.selectedServiceBindingEmitter.emit(ibInfo);
 
@@ -152,8 +128,7 @@ export class LambdaInstanceBindingCreatorComponent {
       item => {
         return (
           this.selectedInstance !== undefined &&
-          this.selectedInstance.metadata !== undefined &&
-          item.spec.instanceRef.name === this.selectedInstance.metadata.name
+          item.spec.instanceRef.name === this.selectedInstance.name
         );
       },
     );
