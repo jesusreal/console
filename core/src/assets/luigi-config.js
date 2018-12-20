@@ -287,7 +287,7 @@ function getUiEntities(entityname, environment, placement) {
     '/apis/ui.kyma-project.io/v1alpha1/' +
     (environment ? 'namespaces/' + environment + '/' : '') +
     entityname;
-  // console.log("​%cgetUiEntities -> entityname, environment, placement, fetchUrl", "color: orange; font-weight: bold;", entityname, environment, placement, fetchUrl)
+
   return fetchFromKyma(fetchUrl)
     .then(result => {
       if (!result.items.length) {
@@ -302,7 +302,6 @@ function getUiEntities(entityname, environment, placement) {
           function buildToplevelNode(node, spec) {
             var segmentPrefix =
               entityname === 'clustermicrofrontends' ? 'cmf-' : 'mf-';
-            console.log('​buildToplevelNode -> segmentPrefix', segmentPrefix);
             var node = {
               label: node.label,
               pathSegment: segmentPrefix + node.navigationPath,
@@ -313,6 +312,11 @@ function getUiEntities(entityname, environment, placement) {
               keepSelectedForChildren: true,
               hideFromNav: node.showInNavigation || undefined
             };
+            console.log(
+              '​buildToplevelNode -> node',
+              node.label,
+              node.navigationContext
+            );
             return node;
           }
 
