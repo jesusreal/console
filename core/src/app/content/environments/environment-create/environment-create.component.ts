@@ -50,6 +50,6 @@ export class EnvironmentCreateComponent {
   }
 
   public navigateToDetails(envName) {
-    LuigiClient.linkManager().navigate(`/environments/${envName}/details`);
+    LuigiClient.linkManager().navigate(`/home/namespaces/${envName}/details`);
   }
 }

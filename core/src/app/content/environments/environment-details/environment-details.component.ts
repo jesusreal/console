@@ -64,7 +64,7 @@ export class EnvironmentDetailsComponent implements OnInit, OnDestroy {
           },
           err => {
             this.errorMessage = err.message;
-            console.log(`error loading environment ${envId}`, err);
+            console.log(`error loading namespace ${envId}`, err);
           }
         );
       });
@@ -79,7 +79,7 @@ export class EnvironmentDetailsComponent implements OnInit, OnDestroy {
   private getRemoteEnvs(id) {
     this.remoteEnvBindingService.getBoundRemoteEnvironments(id).subscribe(
       res => {
-        this.remoteEnvironments = res['remoteEnvironments'];
+        this.remoteEnvironments = res['applications'];
         this.boundRemoteEnvironmentsCount = of(
           this.remoteEnvironments ? this.remoteEnvironments.length : 0
         );
@@ -123,17 +123,15 @@ export class EnvironmentDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  private navigateToServices() {
+  public navigateToServices() {
     LuigiClient.linkManager()
-      .fromContext('environments')
+      .fromContext('namespaces')
       .navigate('services');
   }
 
-  private navigateToRemoteEnvs(envName) {
+  public navigateToRemoteEnvs(envName) {
     LuigiClient.linkManager().navigate(
-      envName
-        ? '/home/settings/remote-envs/details/' + envName
-        : '/home/settings/remote-envs'
+      envName ? '/home/apps/details/' + envName : '/home/apps'
     );
   }
 }

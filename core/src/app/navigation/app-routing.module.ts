@@ -30,7 +30,7 @@ const appRoutes: Routes = [
     path: 'home',
     children: [
       {
-        path: 'environments',
+        path: 'namespaces',
         component: EnvironmentsContainerComponent,
         data: { navCtx: 'environment' },
         children: [
@@ -42,7 +42,7 @@ const appRoutes: Routes = [
         ]
       },
       {
-        path: 'environments/:environmentId',
+        path: 'namespaces/:environmentId',
         component: EnvironmentsContainerComponent,
         data: { navCtx: 'environment' },
         children: [
@@ -92,9 +92,9 @@ const appRoutes: Routes = [
         children: [
           { path: 'yVirtual', component: OrganisationComponent },
           { path: 'organisation', component: OrganisationComponent },
-          { path: 'remoteEnvs', component: RemoteEnvironmentsComponent },
+          { path: 'apps', component: RemoteEnvironmentsComponent },
           {
-            path: 'remoteEnvs/:id',
+            path: 'apps/:id',
             component: RemoteEnvironmentDetailsComponent
           },
           { path: 'idpPresets', component: IdpPresetsComponent },
@@ -113,8 +113,8 @@ const appRoutes: Routes = [
           { path: '**', redirectTo: 'organisation', pathMatch: 'full' }
         ]
       },
-      { path: '', pathMatch: 'full', redirectTo: 'environments/workspace' },
-      { path: '**', pathMatch: 'full', redirectTo: 'environments/workspace' }
+      { path: '', pathMatch: 'full', redirectTo: 'namespaces/workspace' },
+      { path: '**', pathMatch: 'full', redirectTo: 'namespaces/workspace' }
     ]
   }
 ];

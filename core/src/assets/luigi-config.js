@@ -27,9 +27,13 @@ function getNodes(context) {
   var environment = context.environmentId;
   var staticNodes = [
     {
+      link: '/home/workspace',
+      label: 'Back to Home'
+    },
+    {
       pathSegment: 'details',
       label: 'Overview',
-      viewUrl: '/consoleapp.html#/home/environments/' + environment + '/details'
+      viewUrl: '/consoleapp.html#/home/namespaces/' + environment + '/details'
     },
     {
       category: 'Service Catalog',
@@ -81,15 +85,13 @@ function getNodes(context) {
       pathSegment: 'apis',
       navigationContext: 'apis',
       label: 'APIs',
-      viewUrl: '/consoleapp.html#/home/environments/' + environment + '/apis',
+      viewUrl: '/consoleapp.html#/home/namespaces/' + environment + '/apis',
       keepSelectedForChildren: true,
       children: [
         {
           pathSegment: 'create',
           viewUrl:
-            '/consoleapp.html#/home/environments/' +
-            environment +
-            '/apis/create'
+            '/consoleapp.html#/home/namespaces/' + environment + '/apis/create'
         },
         {
           pathSegment: 'details',
@@ -97,7 +99,7 @@ function getNodes(context) {
             {
               pathSegment: ':name',
               viewUrl:
-                '/consoleapp.html#/home/environments/' +
+                '/consoleapp.html#/home/namespaces/' +
                 environment +
                 '/apis/details/:name'
             }
@@ -111,7 +113,7 @@ function getNodes(context) {
       navigationContext: 'permissions',
       label: 'Permissions',
       viewUrl:
-        '/consoleapp.html#/home/environments/' + environment + '/permissions',
+        '/consoleapp.html#/home/namespaces/' + environment + '/permissions',
       keepSelectedForChildren: true,
       children: [
         {
@@ -120,7 +122,7 @@ function getNodes(context) {
             {
               pathSegment: ':name',
               viewUrl:
-                '/consoleapp.html#/home/environments/' +
+                '/consoleapp.html#/home/namespaces/' +
                 environment +
                 '/permissions/roles/:name'
             }
@@ -133,8 +135,7 @@ function getNodes(context) {
       pathSegment: 'resources',
       navigationContext: 'resources',
       label: 'Resources',
-      viewUrl:
-        '/consoleapp.html#/home/environments/' + environment + '/resources'
+      viewUrl: '/consoleapp.html#/home/namespaces/' + environment + '/resources'
     },
     {
       category: 'Configuration',
@@ -142,7 +143,7 @@ function getNodes(context) {
       navigationContext: 'config-maps',
       label: 'Config maps',
       viewUrl:
-        '/consoleapp.html#/home/environments/' + environment + '/configmaps'
+        '/consoleapp.html#/home/namespaces/' + environment + '/configmaps'
     },
     {
       category: 'Development',
@@ -174,7 +175,7 @@ function getNodes(context) {
       navigationContext: 'deployments',
       label: 'Deployments',
       viewUrl:
-        '/consoleapp.html#/home/environments/' + environment + '/deployments'
+        '/consoleapp.html#/home/namespaces/' + environment + '/deployments'
     },
     {
       category: 'Operation',
@@ -182,22 +183,21 @@ function getNodes(context) {
       navigationContext: 'replica-sets',
       label: 'Replica Sets',
       viewUrl:
-        '/consoleapp.html#/home/environments/' + environment + '/replicaSets'
+        '/consoleapp.html#/home/namespaces/' + environment + '/replicaSets'
     },
     {
       category: 'Operation',
       pathSegment: 'pods',
       navigationContext: 'pods',
       label: 'Pods',
-      viewUrl: '/consoleapp.html#/home/environments/' + environment + '/pods'
+      viewUrl: '/consoleapp.html#/home/namespaces/' + environment + '/pods'
     },
     {
       category: 'Operation',
       pathSegment: 'services',
       navigationContext: 'services',
       label: 'Services',
-      viewUrl:
-        '/consoleapp.html#/home/environments/' + environment + '/services',
+      viewUrl: '/consoleapp.html#/home/namespaces/' + environment + '/services',
       keepSelectedForChildren: true,
       children: [
         {
@@ -206,7 +206,7 @@ function getNodes(context) {
             {
               pathSegment: ':name',
               viewUrl:
-                '/consoleapp.html#/home/environments/' +
+                '/consoleapp.html#/home/namespaces/' +
                 environment +
                 '/services/:name',
               children: [
@@ -216,7 +216,7 @@ function getNodes(context) {
                     {
                       pathSegment: 'create',
                       viewUrl:
-                        '/consoleapp.html#/home/environments/' +
+                        '/consoleapp.html#/home/namespaces/' +
                         environment +
                         '/services/:name/apis/create'
                     },
@@ -226,7 +226,7 @@ function getNodes(context) {
                         {
                           pathSegment: ':apiName',
                           viewUrl:
-                            '/consoleapp.html#/home/environments/' +
+                            '/consoleapp.html#/home/namespaces/' +
                             environment +
                             '/services/:name/apis/details/:apiName'
                         }
@@ -245,8 +245,7 @@ function getNodes(context) {
       pathSegment: 'secrets',
       navigationContext: 'secrets',
       label: 'Secrets',
-      viewUrl:
-        '/consoleapp.html#/home/environments/' + environment + '/secrets',
+      viewUrl: '/consoleapp.html#/home/namespaces/' + environment + '/secrets',
       keepSelectedForChildren: true,
       children: [
         {
@@ -255,7 +254,7 @@ function getNodes(context) {
             {
               pathSegment: ':name',
               viewUrl:
-                '/consoleapp.html#/home/environments/' +
+                '/consoleapp.html#/home/namespaces/' +
                 environment +
                 '/secrets/:name'
             }
@@ -407,7 +406,7 @@ function getEnvs() {
       envName = env.metadata.name;
       envs.push({
         // has to be visible for all views exept 'settings'
-        category: 'Environments',
+        category: 'Namespaces',
         label: envName,
         pathValue: envName
       });
@@ -460,148 +459,134 @@ Luigi.setConfig({
   navigation: {
     nodes: () => [
       {
-        pathSegment: 'environments',
-        label: 'Workspace',
-        viewUrl: '/consoleapp.html#/home/environments/workspace',
+        pathSegment: 'home',
+        hideFromNav: true,
+        context: {
+          idToken: token
+        },
+        children: function() {
+          return getUiEntities(
+            'clustermicrofrontends',
+            undefined,
+            'cluster'
+          ).then(function(cmf) {
+            var staticNodes = [
+              {
+                pathSegment: 'workspace',
+                label: 'Namespaces',
+                viewUrl: '/consoleapp.html#/home/namespaces/workspace'
+              },
+              {
+                pathSegment: 'namespaces',
+                viewUrl: '/consoleapp.html#/home/namespaces/workspace',
+                hideFromNav: true,
+                children: [
+                  {
+                    pathSegment: ':environmentId',
+                    context: {
+                      environmentId: ':environmentId'
+                    },
+                    children: getNodes,
+                    navigationContext: 'namespaces',
+                    defaultChildNode: 'details'
+                  }
+                ]
+              },
+              {
+                pathSegment: 'apps',
+                navigationContext: 'apps',
+                label: 'Applications',
+                category: 'Integration',
+                viewUrl: '/consoleapp.html#/home/settings/apps',
+                keepSelectedForChildren: true,
+                children: [
+                  {
+                    pathSegment: 'details',
+                    children: [
+                      {
+                        pathSegment: ':name',
+                        viewUrl: '/consoleapp.html#/home/settings/apps/:name'
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                pathSegment: 'service-brokers',
+                navigationContext: 'service-brokers',
+                label: 'Service Brokers',
+                category: 'Integration',
+                viewUrl: '/consoleapp.html#/home/settings/serviceBrokers'
+              },
+              {
+                pathSegment: 'idp-presets',
+                navigationContext: 'idp-presets',
+                label: 'IDP Presets',
+                category: 'Integration',
+                viewUrl: '/consoleapp.html#/home/settings/idpPresets'
+              },
+              {
+                pathSegment: 'settings',
+                navigationContext: 'settings',
+                label: 'General Settings',
+                category: 'Settings',
+                viewUrl: '/consoleapp.html#/home/settings/organisation'
+              },
+              {
+                pathSegment: 'global-permissions',
+                navigationContext: 'global-permissions',
+                label: 'Global Permissions',
+                category: 'Settings',
+                viewUrl: '/consoleapp.html#/home/settings/globalPermissions',
+                keepSelectedForChildren: true,
+                children: [
+                  {
+                    pathSegment: 'roles',
+                    children: [
+                      {
+                        pathSegment: ':name',
+                        viewUrl:
+                          '/consoleapp.html#/home/settings/globalPermissions/roles/:name'
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                label: 'Stats & Metrics',
+                category: 'Diagnostics',
+                externalLink: {
+                  url: 'https://grafana.' + k8sDomain,
+                  sameWindow: false
+                }
+              },
+              {
+                label: 'Tracing',
+                category: 'Diagnostics',
+                externalLink: {
+                  url: 'https://jaeger.' + k8sDomain,
+                  sameWindow: false
+                }
+              }
+            ];
+            var fetchedNodes = [].concat.apply([], cmf);
+            return [].concat.apply(staticNodes, fetchedNodes);
+          });
+        }
+      },
+      {
+        pathSegment: 'docs',
+        viewUrl: config.docsModuleUrl,
+        label: 'Help',
         hideSideNav: true,
         context: {
           idToken: token
-        },
-        children: [
-          {
-            // has to be visible for all views exept 'settings'
-            pathSegment: ':environmentId',
-            context: {
-              environmentId: ':environmentId'
-            },
-            children: getNodes,
-            navigationContext: 'environments'
-          }
-        ]
-      },
-      {
-        viewUrl: '/consoleapp.html#/home/environments/create',
-        hideFromNav: true,
-        pathSegment: 'create-env'
-      },
-      {
-        pathSegment: 'home',
-        label: 'General Settings',
-        context: {
-          idToken: token
-        },
-        children: [
-          {
-            // has to be visible for all views exept 'settings'
-            pathSegment: 'settings',
-            navigationContext: 'settings',
-            label: 'Administration',
-            children: function() {
-              return getUiEntities(
-                'clustermicrofrontends',
-                undefined,
-                'cluster'
-              ).then(function(cmf) {
-                var staticNodes = [
-                  {
-                    pathSegment: 'organisation',
-                    navigationContext: 'organisation',
-                    label: 'General Settings',
-                    viewUrl: '/consoleapp.html#/home/settings/organisation'
-                  },
-                  {
-                    pathSegment: 'remote-envs',
-                    navigationContext: 'remote-envs',
-                    label: 'Remote Environments',
-                    category: 'Integration',
-                    viewUrl: '/consoleapp.html#/home/settings/remoteEnvs',
-                    keepSelectedForChildren: true,
-                    children: [
-                      {
-                        pathSegment: 'details',
-                        children: [
-                          {
-                            pathSegment: ':name',
-                            viewUrl:
-                              '/consoleapp.html#/home/settings/remoteEnvs/:name'
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    pathSegment: 'service-brokers',
-                    navigationContext: 'service-brokers',
-                    label: 'Service Brokers',
-                    category: 'Integration',
-                    viewUrl: '/consoleapp.html#/home/settings/serviceBrokers'
-                  },
-                  {
-                    pathSegment: 'idp-presets',
-                    navigationContext: 'idp-presets',
-                    label: 'IDP Presets',
-                    category: 'Integration',
-                    viewUrl: '/consoleapp.html#/home/settings/idpPresets'
-                  },
-                  {
-                    pathSegment: 'global-permissions',
-                    navigationContext: 'global-permissions',
-                    label: 'Global Permissions',
-                    category: 'Administration',
-                    viewUrl:
-                      '/consoleapp.html#/home/settings/globalPermissions',
-                    keepSelectedForChildren: true,
-                    children: [
-                      {
-                        pathSegment: 'roles',
-                        children: [
-                          {
-                            pathSegment: ':name',
-                            viewUrl:
-                              '/consoleapp.html#/home/settings/globalPermissions/roles/:name'
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    label: 'Stats & Metrics',
-                    category: 'Diagnostics',
-                    externalLink: {
-                      url: 'https://grafana.' + k8sDomain,
-                      sameWindow: false
-                    }
-                  },
-                  {
-                    label: 'Tracing',
-                    category: 'Diagnostics',
-                    externalLink: {
-                      url: 'https://jaeger.' + k8sDomain,
-                      sameWindow: false
-                    }
-                  },
-                  {
-                    category: 'Documentation',
-                    link: '/home/docs',
-                    label: 'Docs'
-                  }
-                ];
-                var fetchedNodes = [].concat.apply([], cmf);
-                return [].concat.apply(staticNodes, fetchedNodes);
-              });
-            }
-          },
-          {
-            pathSegment: 'docs',
-            viewUrl: config.docsModuleUrl,
-            hideSideNav: true
-          }
-        ]
+        }
       }
     ],
     contextSwitcher: {
-      defaultLabel: 'Select Environment ...',
-      parentNodePath: '/environments', // absolute path
+      defaultLabel: 'Select Namespace ...',
+      parentNodePath: '/home/namespaces', // absolute path
       lazyloadOptions: true, // load options on click instead on page load
       options: getEnvs,
       actions: [

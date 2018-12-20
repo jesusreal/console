@@ -70,6 +70,10 @@ export class RemoteEnvironmentsEntryRendererComponent
     }
   }
 
+  public navigateToDetails(renvName) {
+    LuigiClient.linkManager().navigate(`details/${renvName}`);
+  }
+
   getStatus(entry) {
     return entry.status;
   }
@@ -79,9 +83,5 @@ export class RemoteEnvironmentsEntryRendererComponent
       return 'ok';
     }
     return 'warning';
-  }
-
-  public navigateToDetails(renvName) {
-    LuigiClient.linkManager().navigate(`details/${renvName}`);
   }
 }
