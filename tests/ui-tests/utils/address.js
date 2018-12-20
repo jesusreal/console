@@ -8,7 +8,7 @@ class Console {
   }
 
   getEnvironment(environment) {
-    return this.getConsole() + '/home/environments/' + environment;
+    return this.getConsole() + '/home/namespaces/' + environment;
   }
 
   getRemoteEnvironments() {
@@ -16,7 +16,7 @@ class Console {
   }
 
   getEnvironmentsAddress() {
-    return this.getConsole() + '/home/environments';
+    return this.getConsole() + '/home/namespaces';
   }
 
   getCatalog(environment) {
