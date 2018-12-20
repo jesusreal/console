@@ -27,7 +27,7 @@ function getNodes(context) {
   var environment = context.environmentId;
   return [
     {
-      link: '/home/overview',
+      link: '/home/workspace',
       label: 'Back to Home'
     },
     {
@@ -356,13 +356,12 @@ Luigi.setConfig({
         },
         children: [
           {
-            pathSegment: 'overview',
+            pathSegment: 'workspace',
             label: 'Environments',
             viewUrl: '/consoleapp.html#/home/environments/workspace'
           },
           {
             pathSegment: 'environments',
-            label: 'Environments',
             viewUrl: '/consoleapp.html#/home/environments/workspace',
             hideFromNav: true,
             children: [
@@ -480,8 +479,7 @@ Luigi.setConfig({
   },
   routing: {
     nodeParamPrefix: '~',
-    skipRoutingForUrlPatterns: [/access_token=/, /id_token=/],
-    useHashRouting: true
+    skipRoutingForUrlPatterns: [/access_token=/, /id_token=/]
   },
   settings: {
     header: () => ({
