@@ -1,5 +1,6 @@
 var clusterConfig = window['clusterConfig'];
-var k8sDomain = (clusterConfig && clusterConfig['domain']) || 'kyma.local';
+var k8sDomain =
+  (clusterConfig && clusterConfig['domain']) || 'swinka.cluster.kyma.cx';
 var k8sServerUrl = 'https://apiserver.' + k8sDomain;
 
 var config = {
@@ -286,6 +287,7 @@ function getUiEntities(entityname, environment, placement) {
     '/apis/ui.kyma-project.io/v1alpha1/' +
     (environment ? 'namespaces/' + environment + '/' : '') +
     entityname;
+  var segmentPrefix = entityname === 'clustermicrofrontends' ? 'cmf-' : 'mf-';
 
   return fetchFromKyma(fetchUrl)
     .then(result => {
@@ -298,50 +300,44 @@ function getUiEntities(entityname, environment, placement) {
           return !placement || item.spec.placement === placement;
         })
         .map(function(item) {
-          function buildToplevelNode(node, spec) {
-            var segmentPrefix =
-              entityname === 'clustermicrofrontends' ? 'cmf-' : 'mf-';
+          function buildNode(node, spec) {
             var node = {
               label: node.label,
-              pathSegment: segmentPrefix + node.navigationPath,
-              navigationContext: name,
+              pathSegment: node.navigationPath.split('/').pop(),
               viewUrl: spec.viewBaseUrl
                 ? spec.viewBaseUrl + node.viewUrl
                 : node.viewUrl,
-              keepSelectedForChildren: true,
               hideFromNav: node.showInNavigation || undefined
             };
-            console.log(
-              '​buildToplevelNode -> node',
-              node.label,
-              node.navigationContext
-            );
             return node;
           }
 
           function buildNodeWithChildren(specNode, spec) {
-            var node = buildToplevelNode(specNode, spec);
-            var pathSegments = specNode.navigationPath.split('/');
-            var children = getDirectChildren(pathSegments, spec);
+            var parentNodeSegments = specNode.navigationPath.split('/');
+            var children = getDirectChildren(parentNodeSegments, spec);
+
+            var node = buildNode(specNode, spec);
             if (children.length) {
               node.children = children;
             }
             return node;
           }
 
-          function getDirectChildren(pathSegments, spec) {
-            // filter direct childs
+          function getDirectChildren(parentNodeSegments, spec) {
+            // process only direct childs
             return spec.navigationNodes
               .filter(function(node) {
-                var cPathSegments = node.navigationPath.split('/');
+                var currentNodeSegments = node.navigationPath.split('/');
                 var isDirectChild =
-                  pathSegments.length === cPathSegments.length - 1 &&
-                  pathSegments.filter(function(segment) {
-                    return cPathSegments.includes(segment);
+                  parentNodeSegments.length ===
+                    currentNodeSegments.length - 1 &&
+                  parentNodeSegments.filter(function(segment) {
+                    return currentNodeSegments.includes(segment);
                   }).length > 0;
                 return isDirectChild;
               })
-              .map(function(node) {
+              .map(function mapSecondLevelNodes(node) {
+                // map direct childs
                 return buildNodeWithChildren(node, spec);
               });
           }
@@ -352,10 +348,13 @@ function getUiEntities(entityname, environment, placement) {
                 var segments = node.navigationPath.split('/');
                 return segments.length === 1;
               })
-              .map(function(node) {
+              .map(function processTopLevelNodes(node) {
                 return buildNodeWithChildren(node, spec);
               })
               .map(function addSettingsForTopLevelNodes(node) {
+                if (!node.pathSegment.startsWith(segmentPrefix)) {
+                  node.pathSegment = segmentPrefix + node.pathSegment;
+                }
                 if (spec.category) {
                   node.category = spec.category;
                 }
@@ -365,7 +364,8 @@ function getUiEntities(entityname, environment, placement) {
               });
           }
           if (item.spec.navigationNodes) {
-            return buildTree(item.spec);
+            var tree = buildTree(item.spec);
+            return tree;
           }
           return [];
         });
