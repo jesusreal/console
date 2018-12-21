@@ -8,7 +8,6 @@ import LuigiClient from '@kyma-project/luigi-client';
   styleUrls: ['./environment-create.component.css']
 })
 export class EnvironmentCreateComponent {
-  @Output() onEnvCreated: EventEmitter<any> = new EventEmitter();
   @Output() onCancel: EventEmitter<any> = new EventEmitter();
 
   public environments = [];
@@ -23,7 +22,6 @@ export class EnvironmentCreateComponent {
     this.environmentsService.createEnvironment(this.environmentName).subscribe(
       () => {
         this.isActive = false;
-        this.onEnvCreated.emit();
         LuigiClient.uxManager().refreshContextSwitcher();
         this.navigateToDetails(this.environmentName);
       },
