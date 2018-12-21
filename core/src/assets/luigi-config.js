@@ -1,6 +1,5 @@
 var clusterConfig = window['clusterConfig'];
-var k8sDomain =
-  (clusterConfig && clusterConfig['domain']) || 'swinka.cluster.kyma.cx';
+var k8sDomain = (clusterConfig && clusterConfig['domain']) || 'kyma.local';
 var k8sServerUrl = 'https://apiserver.' + k8sDomain;
 
 var config = {
@@ -266,7 +265,10 @@ function getNodes(context) {
   ];
   return Promise.all([
     getUiEntities('microfrontends', environment),
-    getUiEntities('clustermicrofrontends', undefined, 'environment')
+    getUiEntities('clustermicrofrontends', undefined, [
+      'environment',
+      'namespace'
+    ])
   ]).then(function(values) {
     var nodeTree = staticNodes;
     values.forEach(function(val) {
@@ -279,9 +281,9 @@ function getNodes(context) {
 /**
  * getUiEntities
  * @param {string} entityname microfrontends | clustermicrofrontends
- * @param {string} placement environment | cluster
+ * @param {array} placements array of strings: namespace | environment | cluster
  */
-function getUiEntities(entityname, environment, placement) {
+function getUiEntities(entityname, environment, placements) {
   var fetchUrl =
     k8sServerUrl +
     '/apis/ui.kyma-project.io/v1alpha1/' +
@@ -297,7 +299,7 @@ function getUiEntities(entityname, environment, placement) {
       return result.items
         .filter(function(item) {
           // placement only exists in clustermicrofrontends
-          return !placement || item.spec.placement === placement;
+          return !placements || placements.includes(item.spec.placement);
         })
         .map(function(item) {
           function buildNode(node, spec) {
@@ -359,6 +361,7 @@ function getUiEntities(entityname, environment, placement) {
                   node.category = spec.category;
                 }
                 node.navigationContext = spec.appName;
+                node.viewGroup = spec.appName;
                 node.keepSelectedForChildren = true;
                 return node;
               });
@@ -465,11 +468,9 @@ Luigi.setConfig({
           idToken: token
         },
         children: function() {
-          return getUiEntities(
-            'clustermicrofrontends',
-            undefined,
+          return getUiEntities('clustermicrofrontends', undefined, [
             'cluster'
-          ).then(function(cmf) {
+          ]).then(function(cmf) {
             var staticNodes = [
               {
                 pathSegment: 'workspace',
