@@ -361,7 +361,9 @@ Luigi.setConfig({
           {
             pathSegment: 'workspace',
             label: 'Environments',
-            viewUrl: '/consoleapp.html#/home/environments/workspace'
+
+            viewUrl:
+              '/consoleapp.html#/home/environments/workspace?showModal={nodeParams.showModal}'
           },
           {
             pathSegment: 'environments',
@@ -459,15 +461,6 @@ Luigi.setConfig({
         ]
       },
       {
-        viewUrl: '/consoleapp.html#/home/environments/create',
-        hideFromNav: true,
-        pathSegment: 'create-env',
-        hideSideNav: true,
-        context: {
-          idToken: token
-        }
-      },
-      {
         pathSegment: 'docs',
         viewUrl: config.docsModuleUrl,
         label: 'Help',
@@ -485,7 +478,7 @@ Luigi.setConfig({
       actions: [
         {
           label: '+ New Environment',
-          link: '/create-env'
+          link: '/home/workspace?~showModal=true'
         }
       ]
     }

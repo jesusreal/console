@@ -39,7 +39,7 @@ export class WorkspaceOverviewComponent extends GenericListComponent
   implements OnInit, OnDestroy {
   environmentsService: EnvironmentsService;
   entryEventHandler = this.getEntryEventHandler();
-  private routeDataSubscription: any;
+  private queryParamsSubscription: any;
 
   @ViewChild('confirmationModal') confirmationModal: ConfirmationModalComponent;
   @ViewChild('infoModal') infoModal: InformationModalComponent;
@@ -76,15 +76,18 @@ export class WorkspaceOverviewComponent extends GenericListComponent
   }
   ngOnInit() {
     super.ngOnInit();
-    this.routeDataSubscription = this.route.data.subscribe(data =>
-      this.handleRouteDataChange(data)
+    this.queryParamsSubscription = this.route.queryParams.subscribe(params =>
+      this.handleQueryParamsChange(params)
     );
   }
   ngOnDestroy() {
-    this.routeDataSubscription.unsubscribe();
+    this.queryParamsSubscription.unsubscribe();
   }
-  handleRouteDataChange(routeData: any) {
-    if (routeData && routeData.showModal) {
+  onEnvCreateCancelled() {
+    LuigiClient.linkManager().navigate('/');
+  }
+  handleQueryParamsChange(queryParams: any) {
+    if (queryParams && queryParams.showModal === 'true') {
       this.createModal.show();
     }
   }
