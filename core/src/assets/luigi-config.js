@@ -471,7 +471,7 @@ Luigi.setConfig({
       options: getEnvs,
       actions: [
         {
-          label: '+ New Environment',
+          label: '+ New Namespace',
           link: '/home/workspace?~showModal=true'
         }
       ]
