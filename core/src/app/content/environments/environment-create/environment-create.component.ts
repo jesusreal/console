@@ -9,6 +9,7 @@ import LuigiClient from '@kyma-project/luigi-client';
 })
 export class EnvironmentCreateComponent {
   @Output() onEnvCreated: EventEmitter<any> = new EventEmitter();
+  @Output() onCancel: EventEmitter<any> = new EventEmitter();
 
   public environments = [];
   public environmentName: string;
@@ -42,6 +43,7 @@ export class EnvironmentCreateComponent {
   public cancel() {
     this.isActive = false;
     this.wrongName = false;
+    this.onCancel.emit();
   }
 
   public show() {
