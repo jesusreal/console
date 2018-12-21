@@ -64,7 +64,7 @@ export class EnvironmentDetailsComponent implements OnInit, OnDestroy {
           },
           err => {
             this.errorMessage = err.message;
-            console.log(`error loading environment ${envId}`, err);
+            console.log(`error loading namespace ${envId}`, err);
           }
         );
       });
@@ -125,7 +125,7 @@ export class EnvironmentDetailsComponent implements OnInit, OnDestroy {
 
   public navigateToServices() {
     LuigiClient.linkManager()
-      .fromContext('environments')
+      .fromContext('namespaces')
       .navigate('services');
   }
 
