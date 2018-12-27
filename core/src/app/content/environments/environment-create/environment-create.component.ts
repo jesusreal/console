@@ -22,20 +22,13 @@ export class EnvironmentCreateComponent {
     this.environmentsService.createEnvironment(this.environmentName).subscribe(
       () => {
         this.isActive = false;
-        // TODO LuigiClient.uxManager().refreshContextSwitcher();
+        this.refreshContextSwitcher();
         this.navigateToDetails(this.environmentName);
       },
       err => {
         this.err = err.error.message;
       }
     );
-  }
-
-  private validateRegex() {
-    const regex = /^[a-z0-9]([-a-z0-9]*[a-z0-9])?$/;
-    this.environmentName
-      ? (this.wrongName = !regex.test(this.environmentName))
-      : (this.wrongName = false);
   }
 
   public cancel() {
@@ -52,5 +45,16 @@ export class EnvironmentCreateComponent {
 
   public navigateToDetails(envName) {
     LuigiClient.linkManager().navigate(`/home/namespaces/${envName}/details`);
+  }
+
+  private validateRegex() {
+    const regex = /^[a-z0-9]([-a-z0-9]*[a-z0-9])?$/;
+    this.environmentName
+      ? (this.wrongName = !regex.test(this.environmentName))
+      : (this.wrongName = false);
+  }
+
+  private refreshContextSwitcher() {
+    window.parent.postMessage({ msg: 'luigi.refresh-context-switcher' }, '*');
   }
 }
