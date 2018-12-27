@@ -22,7 +22,6 @@ export class EnvironmentCreateComponent {
     this.environmentsService.createEnvironment(this.environmentName).subscribe(
       () => {
         this.isActive = false;
-        LuigiClient.uxManager().refreshContextSwitcher();
         this.navigateToDetails(this.environmentName);
       },
       err => {
