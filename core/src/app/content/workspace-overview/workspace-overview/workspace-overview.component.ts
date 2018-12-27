@@ -131,7 +131,7 @@ export class WorkspaceOverviewComponent extends GenericListComponent
                     );
                   },
                   () => {
-                    // TODO LuigiClient.uxManager().refreshContextSwitcher();
+                    this.refreshContextSwitcher();
                   }
                 );
             },
@@ -139,5 +139,9 @@ export class WorkspaceOverviewComponent extends GenericListComponent
           );
       }
     };
+  }
+
+  private refreshContextSwitcher() {
+    window.parent.postMessage({ msg: 'luigi.refresh-context-switcher' }, '*');
   }
 }
