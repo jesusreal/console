@@ -22,8 +22,8 @@ class ConfirmationModal extends React.Component {
     borderFooter: PropTypes.bool,
     handleClose: PropTypes.any,
     headerAdditionalInfo: PropTypes.string,
-    onShow: PropTypes.any,
-    onHide: PropTypes.any,
+    onShow: PropTypes.func,
+    onHide: PropTypes.func,
   };
 
   static defaultProps = {

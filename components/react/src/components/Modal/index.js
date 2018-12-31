@@ -33,7 +33,8 @@ class Modal extends React.Component {
     borderFooter: PropTypes.bool,
     modalAppRef: PropTypes.string,
     width: PropTypes.string,
-    onShow: PropTypes.any,
+    onShow: PropTypes.func,
+    onHide: PropTypes.func,
   };
 
   static defaultProps = {
@@ -56,10 +57,8 @@ class Modal extends React.Component {
 
   handleOpenModal = () => {
     const { onShow } = this.props;
-    if (onShow) {
-      if (typeof onShow === 'function') {
-        onShow();
-      }
+    if (onShow && typeof onShow === 'function') {
+      onShow();
     }
     this.setState({ showModal: true });
   };
@@ -76,10 +75,8 @@ class Modal extends React.Component {
         }
       }
     }
-    if (onHide) {
-      if (typeof onHide === 'function') {
-        onHide();
-      }
+    if (onHide && typeof onHide === 'function') {
+      onHide();
     }
     this.setState({ showModal: false });
   };

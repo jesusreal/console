@@ -11,8 +11,8 @@ class InformationModal extends React.Component {
     modalOpeningComponent: PropTypes.any,
     width: PropTypes.string,
     headerAdditionalInfo: PropTypes.string,
-    onShow: PropTypes.any,
-    onHide: PropTypes.any,
+    onShow: PropTypes.func,
+    onHide: PropTypes.func,
   };
 
   static defaultProps = {
