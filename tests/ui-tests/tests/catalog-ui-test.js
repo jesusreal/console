@@ -24,6 +24,7 @@ describeIf(dex.isStaticUser(), 'Catalog basic tests', () => {
       logOnEvents(page, t => (token = t));
 
       await common.testLogin(isEnvironmentReady, page);
+      await page.waitFor(800);
       await page.reload({ waitUntil: 'networkidle0' });
       await waitForNavigationAndContext(page);
       await kymaConsole.createEnvironment(page, config.catalogTestEnv);

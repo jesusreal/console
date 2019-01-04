@@ -21,6 +21,7 @@ describeIf(dex.isStaticUser(), 'Console basic tests', () => {
     logOnEvents(page, t => (token = t));
 
     await common.testLogin(dexReady, page);
+    await page.waitFor(800);
     await page.reload({ waitUntil: 'networkidle0' });
     await waitForNavigationAndContext(page);
   });
