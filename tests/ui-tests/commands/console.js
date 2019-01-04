@@ -41,8 +41,7 @@ async function login(page, config) {
 }
 
 async function getFrame(page) {
-  const noOfFrames = page.frames().length;
-  return await page.frames()[noOfFrames - 1];
+  return page.frames().find(frame => frame.parentFrame() !== null);
 }
 
 async function openLinkOnFrame(page, element, name) {
