@@ -7,6 +7,7 @@ async function _loginViaDex(page, config) {
   console.log(`Trying to log in ${config.login} via dex`);
   try {
     await page.reload({ waitUntil: 'networkidle0' });
+    await waitForNavigationAndContext(page);
     await page.waitForSelector('#login');
     await page.type('#login', config.login);
     await page.waitForSelector('#password');
@@ -41,6 +42,12 @@ async function login(page, config) {
 }
 
 async function getFrame(page) {
+  if (page.frames().length === 1) {
+    console.log(`Only ${page.frames().length} frame on the page`);
+    await page.reload({ waitUntil: 'networkidle0' });
+    await waitForNavigationAndContext(page);
+  }
+
   return page.frames().find(frame => frame.parentFrame() !== null);
 }
 
@@ -53,8 +60,6 @@ async function openLinkOnFrame(page, element, name) {
     },
     name
   );
-  await page.reload({ waitUntil: 'networkidle0' });
-  await waitForNavigationAndContext(page);
 }
 
 async function openLink(page, element, name) {
