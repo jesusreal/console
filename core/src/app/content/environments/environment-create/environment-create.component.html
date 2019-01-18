@@ -1,37 +1,88 @@
 <div luigiClientCommunication [isActive]="isActive">
-  <div *ngIf="isActive" class="sf-modal sf-modal--min" [ngClass]="{'is-active': isActive===true}" role="dialog" aria-labelledby="createEnv">
-    <div class="tn-modal" role="document">
-        <div class="tn-modal__content">
-            <div class="tn-modal__header">
-                <button class="tn-button tn-button--text tn-button--icon tn-button--small" aria-label="close" (click)="cancel()">
-                <span class="tn-icon tn-icon--close" role="presentation"></span>
-              </button>
-                <h4 class="tn-modal__title">Create New Namespace</h4>
-            </div>
-            <div class="tn-modal__body">
-                <div class="error-message-placeholder" *ngIf="err">{{ err }}</div>
-                <div class="tn-form__group">
-                    <div class="tn-form__item">
-                        <label class="tn-form__label">Namespace Name *</label>
-                        <input class="tn-form__control"
-                            type="text"
-                            placeholder=""
-                            name="environmentName"
-                            [(ngModel)]="environmentName"
-                            (ngModelChange)=validateRegex()>
-                            <div *ngIf="wrongName" class="alert">The namespace name has the wrong format. The name must consist of lower case alphanumeric characters or dashes, and must start and end with an alphanumeric character. (e.g. 'my-name1')</div>
-                    </div>
+    <fd-modal #createEnvironmentModal [ngClass]="{'is-active': isActive===true}" role="dialog" aria-labelledby="createEnv">
+        <fd-modal-header>
+            Create New Namespace
+        </fd-modal-header>
+        <fd-modal-body>
+            <div class="error-message-placeholder" *ngIf="err">{{ err }}</div>
+            <div fd-form-set>
+                <div fd-form-item>
+                    <fd-form-label>Namespace Name *</fd-form-label>
+                    <input fd-form-control
+                        [type]="'text'"
+                        placeholder=""
+                        name="environmentName"
+                        [(ngModel)]="environmentName"
+                        (ngModelChange)=validateRegex()>
+                        <fd-form-message [type]="'error'" *ngIf="wrongName">The namespace name has the wrong format. The name must consist of lower case alphanumeric characters or dashes, and must start and end with an alphanumeric character. (e.g. 'my-name1')</fd-form-message>
                 </div>
-                <footer class="tn-modal__footer-items">
-                    <button class="tn-modal__button-primary sf-button--primary tn-button--small env-create-btn"
-                        (click)="createEnvironment()"
-                        [disabled]="(!environmentName) || wrongName">
-                        Create
-                    </button>
-                    <button class="tn-modal__button-secondary tn-button--small" (click)="cancel()">Cancel</button>
-                </footer>
             </div>
-        </div>
-    </div>
-  </div>
+        </fd-modal-body>
+        <fd-modal-footer>
+            <button fd-button class="env-create-btn"
+                [fdType]="'main'"
+                (click)="createEnvironment()"
+                [disabled]="(!environmentName) || wrongName">
+                Create
+            </button>
+            <button fd-button 
+                [options]="'light'" 
+                (click)="cancel()">
+                Cancel
+            </button>
+        </fd-modal-footer>
+    </fd-modal>
 </div>
+
+<!-- <fd-modal #confirmationModal>
+    <fd-modal-header>
+        Modal Header/Title
+    </fd-modal-header>
+    <fd-modal-body>
+        Modal Body
+    </fd-modal-body>
+    <fd-modal-footer>
+        <button fd-button (click)="confirmationModal.close('No')" [options]="'light'">No</button>
+        <button fd-button (click)="confirmationModal.close('Yes')" [fdType]="'main'">Yes</button>
+    </fd-modal-footer>
+</fd-modal>
+
+<button fd-button (click)="openConfirmationModal(confirmationModal)">Launch Demo</button> -->
+
+<!-- <div luigiClientCommunication [isActive]="isActive">
+    <div *ngIf="isActive" class="sf-modal sf-modal--min" [ngClass]="{'is-active': isActive===true}" role="dialog" aria-labelledby="createEnv">
+      <div class="tn-modal" role="document">
+          <div class="tn-modal__content">
+              <div class="tn-modal__header">
+                  <button class="tn-button tn-button--text tn-button--icon tn-button--small" aria-label="close" (click)="cancel()">
+                  <span class="tn-icon tn-icon--close" role="presentation"></span>
+                </button>
+                  <h4 class="tn-modal__title">Create New Namespace</h4>
+              </div>
+              <div class="tn-modal__body">
+                  <div class="error-message-placeholder" *ngIf="err">{{ err }}</div>
+                  <div class="tn-form__group">
+                      <div class="tn-form__item">
+                          <label class="tn-form__label">Namespace Name *</label>
+                          <input class="tn-form__control"
+                              type="text"
+                              placeholder=""
+                              name="environmentName"
+                              [(ngModel)]="environmentName"
+                              (ngModelChange)=validateRegex()>
+                              <div *ngIf="wrongName" class="alert">The namespace name has the wrong format. The name must consist of lower case alphanumeric characters or dashes, and must start and end with an alphanumeric character. (e.g. 'my-name1')</div>
+                      </div>
+                  </div>
+                  <footer class="tn-modal__footer-items">
+                      <button class="tn-modal__button-primary sf-button--primary tn-button--small env-create-btn"
+                          (click)="createEnvironment()"
+                          [disabled]="(!environmentName) || wrongName">
+                          Create
+                      </button>
+                      <button class="tn-modal__button-secondary tn-button--small" (click)="cancel()">Cancel</button>
+                  </footer>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div> -->
