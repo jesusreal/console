@@ -1,5 +1,5 @@
 <div luigiClientCommunication [isActive]="isActive">
-  <fd-modal #confirmationModal class="sf-modal sf-modal--min" [ngClass]="{'is-active': isActive===true}" role="dialog" aria-labelledby="confirm" (click)="$event.stopPropagation()">
+  <fd-modal #confirmationModal role="dialog" aria-labelledby="confirm" (click)="$event.stopPropagation()">
     <fd-modal-header>
       {{ title }}
     </fd-modal-header>
