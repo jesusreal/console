@@ -11,9 +11,10 @@
           <input fd-form-control 
             [type]="'text'" 
             placeholder="" 
-            name="environmentName" 
+            name="environmentName"
             [(ngModel)]="environmentName"
-            (ngModelChange)=validateRegex()>
+            (ngModelChange)=validateRegex()
+            [state]="wrongName ? 'invalid' : ''">
           <fd-form-message [type]="'error'" *ngIf="wrongName">The namespace name has the wrong format. The name must
             consist of lower case alphanumeric characters or dashes, and must start and end with an alphanumeric
             character. (e.g. 'my-name1')</fd-form-message>
@@ -22,16 +23,16 @@
     </fd-modal-body>
     <fd-modal-footer>
       <button fd-button 
+        [options]="'light'" 
+        (click)="cancel()">
+        Cancel
+      </button>
+      <button fd-button 
         class="env-create-btn" 
         [fdType]="'main'" 
         (click)="createEnvironment()" 
         [disabled]="(!environmentName) || wrongName">
         Create
-      </button>
-      <button fd-button 
-        [options]="'light'" 
-        (click)="cancel()">
-        Cancel
       </button>
     </fd-modal-footer>
   </fd-modal>

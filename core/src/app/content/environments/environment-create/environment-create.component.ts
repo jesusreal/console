@@ -7,7 +7,7 @@ import { ModalService } from 'fundamental-ngx';
 @Component({
   selector: 'app-environment-create',
   templateUrl: './environment-create.component.html',
-  styleUrls: ['./environment-create.component.css']
+  styleUrls: ['./environment-create.component.scss']
 })
 export class EnvironmentCreateComponent {
   @Output() cancelEvent: EventEmitter<any> = new EventEmitter();
