@@ -4,7 +4,9 @@
       Create New Namespace
     </fd-modal-header>
     <fd-modal-body>
-      <div class="error-message-placeholder" *ngIf="err">{{ err }}</div>
+      <fd-alert [dismissible]="false" [type]="'error'" *ngIf="err">
+          <p>{{ err }}</p>
+      </fd-alert>
       <div fd-form-set>
         <div fd-form-item>
           <fd-form-label>Namespace Name *</fd-form-label>
@@ -14,7 +16,7 @@
             name="environmentName"
             [(ngModel)]="environmentName"
             (ngModelChange)=validateRegex()
-            [state]="wrongName ? 'invalid' : ''">
+            [state]="wrongName ? 'invalid' : undefind">
           <fd-form-message [type]="'error'" *ngIf="wrongName">The namespace name has the wrong format. The name must
             consist of lower case alphanumeric characters or dashes, and must start and end with an alphanumeric
             character. (e.g. 'my-name1')</fd-form-message>
