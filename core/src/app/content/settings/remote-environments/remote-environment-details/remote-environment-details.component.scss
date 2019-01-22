@@ -44,3 +44,13 @@ fd-breadcrumb {
 fd-panel {
   display: block;
 }
+
+fd-table td:last-child,
+fd-table th:last-child {
+  padding-right: 24px;
+}
+
+fd-table td:first-child,
+fd-table th:first-child {
+  padding-left: 24px;
+}
