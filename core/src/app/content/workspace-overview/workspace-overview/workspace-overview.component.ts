@@ -28,8 +28,7 @@ import { EnvironmentCreateComponent } from '../../environments/environment-creat
 @Component({
   selector: 'app-workspace-overview',
   templateUrl: './workspace-overview.component.html',
-  styleUrls: ['./workspace-overview.component.scss'],
-  host: { class: 'sf-content' }
+  styleUrls: ['./workspace-overview.component.scss']
 })
 export class WorkspaceOverviewComponent extends GenericListComponent
   implements OnInit, OnDestroy {
