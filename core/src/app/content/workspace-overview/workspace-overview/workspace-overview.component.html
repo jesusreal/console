@@ -1,28 +1,30 @@
-<fd-action-bar>
-  <fd-action-bar-header>
-    <fd-action-bar-title>
-      Namespaces
-    </fd-action-bar-title>
-  </fd-action-bar-header>
-  <fd-action-bar-actions>
-    <y-list-search [hidden]="!initialized || showEmptyPage" [filterState]="filterState" (onFilterChanged)="onFilterChanged($event)"></y-list-search>
-    <y-list-filter [hidden]="!initialized || showEmptyPage" [filterState]="filterState" (onFilterChanged)="onFilterChanged($event)"></y-list-filter>
-    <button fd-button [options]="'light'" class="open-create-env-modal" (click)="createModal.show()">+ Create Namespace</button>
-  </fd-action-bar-actions>
-</fd-action-bar>
+<section class="fd-section">
+  <fd-action-bar>
+    <fd-action-bar-header>
+      <fd-action-bar-title>
+        Namespaces
+      </fd-action-bar-title>
+    </fd-action-bar-header>
+    <fd-action-bar-actions>
+      <y-list-search [hidden]="!initialized || showEmptyPage" [filterState]="filterState" (onFilterChanged)="onFilterChanged($event)"></y-list-search>
+      <y-list-filter [hidden]="!initialized || showEmptyPage" [filterState]="filterState" (onFilterChanged)="onFilterChanged($event)"></y-list-filter>
+      <button fd-button [options]="'light'" class="open-create-env-modal" (click)="createModal.show()">+ Create Namespace</button>
+    </fd-action-bar-actions>
+  </fd-action-bar>
 
-<app-environment-create (cancelEvent)="onEnvCreateCancelled()" #createModal></app-environment-create>
-<app-confirmation-modal #confirmationModal></app-confirmation-modal>
-<app-information-modal #infoModal></app-information-modal>
-<div class="fd-container fd-container--fluid">
-  <div class="fd-col--12">
-    <y-list-paging [pagingState]="pagingState" (onPageChanged)="onPageChanged($event)"></y-list-paging>
+  <app-environment-create (cancelEvent)="onEnvCreateCancelled()" #createModal></app-environment-create>
+  <app-confirmation-modal #confirmationModal></app-confirmation-modal>
+  <app-information-modal #infoModal></app-information-modal>
+  <div class="fd-container fd-container--fluid">
+    <div class="fd-col--12">
+      <y-list-paging [pagingState]="pagingState" (onPageChanged)="onPageChanged($event)"></y-list-paging>
 
-    <y-plain-list [source]="data" [entryRenderer]="entryRenderer" [entryEventHandler]="entryEventHandler">
-      <div empty-list-placeholder *ngIf="showEmptyPage" class="sf-section__empty-teaser">
-      </div>
-    </y-plain-list>
+      <y-plain-list [source]="data" [entryRenderer]="entryRenderer" [entryEventHandler]="entryEventHandler">
+        <div empty-list-placeholder *ngIf="showEmptyPage" class="sf-section__empty-teaser">
+        </div>
+      </y-plain-list>
 
-    <y-list-paging [pagingState]="pagingState" (onPageChanged)="onPageChanged($event)"></y-list-paging>
+      <y-list-paging [pagingState]="pagingState" (onPageChanged)="onPageChanged($event)"></y-list-paging>
+    </div>
   </div>
-</div>
+</section>
