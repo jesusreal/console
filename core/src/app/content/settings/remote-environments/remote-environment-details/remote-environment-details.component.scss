@@ -45,12 +45,32 @@ fd-panel {
   display: block;
 }
 
-fd-table td:last-child,
-fd-table th:last-child {
-  padding-right: 24px;
+fd-table {
+  td:last-child,
+  th:last-child {
+    padding-right: 24px;
+  }
+
+  td:first-child,
+  th:first-child {
+    padding-left: 24px;
+  }
+
+  .sap-icon {
+    
+    &--accept {
+      color: rgba($green, 0.7);
+    }
+  
+    &--decline {
+      color: rgba($grey, 0.7);
+    }
+  }
 }
 
-fd-table td:first-child,
-fd-table th:first-child {
-  padding-left: 24px;
+.fd-table {
+  &__th--min,
+  &__td--min {
+    width: 8.33333%;
+  }
 }

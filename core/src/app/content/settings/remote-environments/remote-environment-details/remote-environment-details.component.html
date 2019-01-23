@@ -114,12 +114,12 @@
         <fd-table *ngIf="boundEnvironments.length > 0">
           <fd-table-header>
             <th>Name</th>
-            <th>Actions</th>
+            <th class="fd-table__th--min">Actions</th>
           </fd-table-header>
           <fd-table-body>
             <tr *ngFor="let environment of boundEnvironments">
-              <td class="sf-table__td--primary">{{ environment }}</td>
-              <td class="sf-table__td--min">
+              <td><span class="fd-has-font-weight-bold">{{ environment }}</span></td>
+              <td>
                 <y-list-actions [entry]="environment" [entryEventHandler]="entryEventHandler"
                                 [actions]="actions"></y-list-actions>
               </td>
@@ -128,34 +128,36 @@
         </fd-table>
       </fd-panel-body>
     </fd-panel>
-    
-    <section class="sf-section container-fluid" *ngIf="remoteEnvironment.services.length > 0">
-      <h2 class="sf-section__headline">Provided Services & Events</h2>
-      <div class="sf-table">
-        <div class="sf-table__head row">
-          <div class="sf-table__th col-10">ServiceClass Name</div>
-          <div class="sf-table__th col-1">API</div>
-          <div class="sf-table__th col-1">Events</div>
-        </div>
-        <div class="sf-table__body row" *ngFor="let service of remoteEnvironment.services">
-          <div class="sf-table__td sf-table__td--primary col-10">{{ service.displayName }}</div>
-          <div class="sf-table__td col-1">
-          <span class="tn-icon"
-                ngClass="{{hasType(service.entries, 'API') ? 'tn-icon--checked' : 'tn-icon--close'}}"
-                role="presentation">
-          </span>
-          </div>
-          <div class="sf-table__td col-1">
-          <span class="tn-icon"
-                ngClass="{{hasType(service.entries, 'Events') ? 'tn-icon--checked' : 'tn-icon--close'}}"
-                role="presentation">
-          </span>
-          </div>
-        </div>
-      </div>
-    </section>
-  
   </section>
+
+  <section class="fd-section" *ngIf="remoteEnvironment.services.length > 0">
+    <h2 class="sf-section__headline">Provided Services & Events</h2>
+    <fd-table>
+      <fd-table-header>
+        <th>ServiceClass Name</th>
+        <th class="fd-table__th--min">API</th>
+        <th class="fd-table__th--min">Events</th>
+      </fd-table-header>
+      <fd-table-body>
+        <tr *ngFor="let service of remoteEnvironment.services">
+          <td><span class="fd-has-font-weight-bold">{{ service.displayName }}</span></td>
+          <td>
+            <span class="sap-icon--l"
+                  ngClass="{{hasType(service.entries, 'API') ? 'sap-icon--accept' : 'sap-icon--decline'}}"
+                  role="presentation">
+            </span>
+          </td>
+          <td>
+            <span class="sap-icon--l"
+                  ngClass="{{hasType(service.entries, 'Events') ? 'sap-icon--accept' : 'sap-icon--decline'}}"
+                  role="presentation">
+            </span>
+          </td>
+        </tr>
+      </fd-table-body>
+    </fd-table>
+  </section>
+
 </ng-container>
 <app-copy2clipboard-modal #fetchModal></app-copy2clipboard-modal>
 <app-edit-bindings-modal #editbindingsmodal></app-edit-bindings-modal>
@@ -165,8 +167,6 @@
     [initialDescription]="remoteEnvironment.description"
     [initialLabels]="transformedLabels">
   </app-edit-remote-environment-modal>
-
-
 
 
 <!-- <div class="container-fluid sf-content">
