@@ -1,4 +1,39 @@
 <div luigiClientCommunication [isActive]="isActive">
+  <fd-modal #editRemoteEnvironmentModal role="dialog" aria-labelledby="confirm" (click)="$event.stopPropagation()">
+    <fd-modal-header>
+      Edit Application
+    </fd-modal-header>
+    <fd-modal-body>
+        <form #editRemoteEnvsForm="ngForm">
+            <div class="tn-form__group">
+              <div class="error-message-placeholder" *ngIf="error">{{ error }}</div>
+              <div class="tn-form__item">
+                <label class="tn-form__label">Description *</label>
+                <input autofocus class="tn-form__control" type="text" name="remoteEnvDescription"
+                    [(ngModel)]="updatedDescription"
+                    placeholder="Specify a description for your Application"
+                >
+              </div>
+              <div class="tn-form__item">
+                <label class="tn-form__label">Labels</label>
+                <app-labels-input [labels]="updatedLabels" (labelsChangeEmitter$)="updateLabelsData($event)"
+                ></app-labels-input>
+              </div>
+            </div>
+        </form>
+    </fd-modal-body>
+    <fd-modal-footer>
+        <button fd-button (click)="close()" [options]="'light'" >Cancel</button>
+        <button fd-button ngClass="{{isReadyToSave() ? '' : 'disabled'}}"
+          [disabled]="!isReadyToSave()" (click)="save()" [fdType]="'main'">
+          Save
+        </button>
+    </fd-modal-footer>
+  </fd-modal>
+</div>
+
+
+<!-- <div luigiClientCommunication [isActive]="isActive">
   <ng-container *ngIf="isActive">
     <div class="sf-modal sf-modal--min" [ngClass]="{'is-active': isActive===true}" role="dialog" aria-labelledby="confirm"
       (click)="$event.stopPropagation()">
@@ -40,4 +75,4 @@
       </div>
     </div>
   </ng-container>
-</div>
+</div> -->
