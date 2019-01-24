@@ -11,10 +11,13 @@
       <button fd-button [options]="'light'" class="open-create-env-modal" (click)="createModal.show()">+ Create Namespace</button>
     </fd-action-bar-actions>
   </fd-action-bar>
+</section>
 
-  <app-environment-create (cancelEvent)="onEnvCreateCancelled()" #createModal></app-environment-create>
-  <app-confirmation-modal #confirmationModal></app-confirmation-modal>
-  <app-information-modal #infoModal></app-information-modal>
+<app-environment-create (cancelEvent)="onEnvCreateCancelled()" #createModal></app-environment-create>
+<app-confirmation-modal #confirmationModal></app-confirmation-modal>
+<app-information-modal #infoModal></app-information-modal>
+
+<section class="fd-section">
   <div class="fd-container fd-container--fluid">
     <div class="fd-col--12">
       <y-list-paging [pagingState]="pagingState" (onPageChanged)="onPageChanged($event)"></y-list-paging>
