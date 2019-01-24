@@ -131,31 +131,39 @@
   </section>
 
   <section class="fd-section" *ngIf="remoteEnvironment.services.length > 0">
-    <h2 class="sf-section__headline">Provided Services & Events</h2>
-    <fd-table>
-      <fd-table-header>
-        <th>ServiceClass Name</th>
-        <th class="fd-table__th--min">API</th>
-        <th class="fd-table__th--min">Events</th>
-      </fd-table-header>
-      <fd-table-body>
-        <tr *ngFor="let service of remoteEnvironment.services">
-          <td><span class="fd-has-font-weight-bold">{{ service.displayName }}</span></td>
-          <td>
-            <span class="sap-icon--l"
-                  ngClass="{{hasType(service.entries, 'API') ? 'sap-icon--accept' : 'sap-icon--decline'}}"
-                  role="presentation">
-            </span>
-          </td>
-          <td>
-            <span class="sap-icon--l"
-                  ngClass="{{hasType(service.entries, 'Events') ? 'sap-icon--accept' : 'sap-icon--decline'}}"
-                  role="presentation">
-            </span>
-          </td>
-        </tr>
-      </fd-table-body>
-    </fd-table>
+    <fd-panel>
+      <fd-panel-header>
+        <fd-panel-head>
+          <fd-panel-title>Provided Services & Events</fd-panel-title>
+        </fd-panel-head>
+      </fd-panel-header>
+      <fd-panel-body [bleed]="true">
+        <fd-table>
+          <fd-table-header>
+            <th>ServiceClass Name</th>
+            <th class="fd-table__th--min">API</th>
+            <th class="fd-table__th--min">Events</th>
+          </fd-table-header>
+          <fd-table-body>
+            <tr *ngFor="let service of remoteEnvironment.services">
+              <td><span class="fd-has-font-weight-bold">{{ service.displayName }}</span></td>
+              <td>
+                <span class="sap-icon--l"
+                      ngClass="{{hasType(service.entries, 'API') ? 'sap-icon--accept' : 'sap-icon--decline'}}"
+                      role="presentation">
+                </span>
+              </td>
+              <td>
+                <span class="sap-icon--l"
+                      ngClass="{{hasType(service.entries, 'Events') ? 'sap-icon--accept' : 'sap-icon--decline'}}"
+                      role="presentation">
+                </span>
+              </td>
+            </tr>
+          </fd-table-body>
+        </fd-table>
+      </fd-panel-body>
+    </fd-panel>
   </section>
 </ng-container>
 
@@ -168,3 +176,4 @@
     [initialLabels]="transformedLabels">
   </app-edit-remote-environment-modal>
 
+    
