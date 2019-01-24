@@ -42,7 +42,7 @@
         <fd-panel-grid [col]="6" [nogap]="true">
           <fd-panel [columnSpan]="1">
             <fd-panel-body>
-              <label class="tn-form__label">Name</label>
+              <label class="fd-has-color-text-4">Name</label>
             </fd-panel-body>
           </fd-panel>
           <fd-panel [columnSpan]="5">
@@ -52,17 +52,17 @@
           </fd-panel>
           <fd-panel [columnSpan]="1">
             <fd-panel-body>
-              <label class="tn-form__label">Status</label>
+              <label class="fd-has-color-text-4">Status</label>
             </fd-panel-body>
           </fd-panel>
           <fd-panel [columnSpan]="5">
             <fd-panel-body>
-              <span class="sf-indicator" [ngClass]="determineClass(remoteEnvironment)"></span> <span>{{ prettyStatus }}</span>
+              <span class="fd-status-label" [ngClass]="determineClass(remoteEnvironment)">{{ prettyStatus }}</span>
             </fd-panel-body>
           </fd-panel>
           <fd-panel [columnSpan]="1">
             <fd-panel-body>
-              <label class="tn-form__label">Description</label>
+              <label class="fd-has-color-text-4">Description</label>
             </fd-panel-body>
           </fd-panel>
           <fd-panel [columnSpan]="5">
@@ -71,13 +71,13 @@
                 {{ remoteEnvironment.description }}
               </ng-container>
               <ng-container *ngIf="!remoteEnvironment.description">
-                <span class="no-content">none</span>
+                <span class="fd-has-font-style-italic fd-has-color-text-4">none</span>
               </ng-container>
             </fd-panel-body>
           </fd-panel>
           <fd-panel [columnSpan]="1">
             <fd-panel-body>
-              <label class="tn-form__label">Labels</label>
+              <label class="fd-has-color-text-4">Labels</label>
             </fd-panel-body>
           </fd-panel>
           <fd-panel [columnSpan]="5" class="sf-list__label-column">
@@ -88,7 +88,7 @@
                 </span>
               </ng-container>
               <ng-container *ngIf='!transformedLabels.length'>
-                <span class="no-content">none</span>
+                <span class="fd-has-font-style-italic fd-has-color-text-4">none</span>
               </ng-container>
             </fd-panel-body>
           </fd-panel>
@@ -157,8 +157,8 @@
       </fd-table-body>
     </fd-table>
   </section>
-
 </ng-container>
+
 <app-copy2clipboard-modal #fetchModal></app-copy2clipboard-modal>
 <app-edit-bindings-modal #editbindingsmodal></app-edit-bindings-modal>
 <app-information-modal #infoModal></app-information-modal>
@@ -168,139 +168,3 @@
     [initialLabels]="transformedLabels">
   </app-edit-remote-environment-modal>
 
-
-<!-- <div class="container-fluid sf-content">
-      <div class="sf-toolbar">
-        <div class="sf-toolbar__item sf-toolbar__item--breadcrumb">
-          <a (click)="navigateToList()">Applications</a> / {{ currentREnvId }}
-        </div>
-        <div class="sf-toolbar__right">
-          <div class="sf-toolbar__item">
-            <button *ngIf="connectorServiceUrl || connectorServiceError"
-              class="tn-button tn-button--small tn-button--text"
-              (click)="fetchUrl()">
-                Connect Application
-            </button>
-          </div>
-        </div>
-      </div>
-      <ng-container *ngIf="remoteEnvironment">
-        <section class="sf-section">
-          <div class="sf-panel">
-            <div class="sf-panel__head">
-              <div class="sf-toolbar">
-                <h2>General Information</h2>
-                <div class="sf-toolbar__right">
-                  <button class="tn-button tn-button--small tn-button--text sf-toolbar__item" (click)="openEditRemoteEnvModal()">
-                    Edit
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="sf-panel__content">
-          <div class="row">
-            <div class="col-sm-2">
-              <label class="tn-form__label">Name</label>
-            </div>
-            <div class="col-sm-10">
-              {{ remoteEnvironment.name }}
-            </div>
-            <div class="col-sm-2">
-              <label class="tn-form__label">Status</label>
-            </div>
-            <div class="col-sm-10">
-              <span class="sf-indicator" [ngClass]="determineClass(remoteEnvironment)"></span> <span>{{ prettyStatus }}</span>
-            </div>
-            <div class="col-sm-2">
-              <label class="tn-form__label">Description</label>
-            </div>
-            <div class="col-sm-10">
-              <ng-container *ngIf="remoteEnvironment.description">
-                {{ remoteEnvironment.description }}
-              </ng-container>
-              <ng-container *ngIf="!remoteEnvironment.description">
-                <span class="no-content">none</span>
-              </ng-container>
-            </div>
-            <div class="col-sm-2">
-              <label class="tn-form__label">Labels</label>
-            </div>
-            <div class="col-sm-10 sf-list__label-column">
-              <ng-container *ngIf='transformedLabels.length'>
-                <span class="tn-badge-labels tn-badge tn-badge--pill sf-list__label" *ngFor="let label of transformedLabels">
-                  {{ label }}
-                </span>
-              </ng-container>
-              <ng-container *ngIf='!transformedLabels.length'>
-                <span class="no-content">none</span>
-              </ng-container>
-            </div>
-          </div>
-          </div>
-        </div>
-        </section>
-        <section class="sf-section">
-          <div class="sf-panel">
-            <div class="sf-panel__head">
-              <div class="sf-toolbar">
-                  <h2>Namespace Bindings</h2>
-                <div class="sf-toolbar__right">
-                  <button class="tn-button tn-button--small tn-button--text sf-toolbar__item" (click)="openEditBindingsModal()">
-                    + Create Binding
-                  </button>
-                </div>
-              </div>
-            </div>
-          <table class="sf-table" *ngIf="boundEnvironments.length > 0">
-            <thead class="sf-table__head">
-            <th class="sf-table__th">Name</th>
-            <th class="sf-table__th">Actions</th>
-            </thead>
-            <tbody class="sf-table__body">
-            <tr *ngFor="let environment of boundEnvironments">
-              <td class="sf-table__td sf-table__td--primary">{{ environment }}</td>
-              <td class="sf-table__td sf-table__td--min">
-                <y-list-actions [entry]="environment" [entryEventHandler]="entryEventHandler"
-                                [actions]="actions"></y-list-actions>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        </section>
-        <section class="sf-section container-fluid" *ngIf="remoteEnvironment.services.length > 0">
-          <h2 class="sf-section__headline">Provided Services & Events</h2>
-          <div class="sf-table">
-            <div class="sf-table__head row">
-              <div class="sf-table__th col-10">ServiceClass Name</div>
-              <div class="sf-table__th col-1">API</div>
-              <div class="sf-table__th col-1">Events</div>
-            </div>
-            <div class="sf-table__body row" *ngFor="let service of remoteEnvironment.services">
-              <div class="sf-table__td sf-table__td--primary col-10">{{ service.displayName }}</div>
-              <div class="sf-table__td col-1">
-              <span class="tn-icon"
-                    ngClass="{{hasType(service.entries, 'API') ? 'tn-icon--checked' : 'tn-icon--close'}}"
-                    role="presentation">
-              </span>
-              </div>
-              <div class="sf-table__td col-1">
-              <span class="tn-icon"
-                    ngClass="{{hasType(service.entries, 'Events') ? 'tn-icon--checked' : 'tn-icon--close'}}"
-                    role="presentation">
-              </span>
-              </div>
-            </div>
-          </div>
-        </section>
-      </ng-container>
-    </div>
-    <app-copy2clipboard-modal #fetchModal></app-copy2clipboard-modal>
-    <app-edit-bindings-modal #editbindingsmodal></app-edit-bindings-modal>
-    <app-information-modal #infoModal></app-information-modal>
-    <app-edit-remote-environment-modal #editRemoteEnvModal *ngIf="remoteEnvironment"
-        [name]="remoteEnvironment.name"
-        [initialDescription]="remoteEnvironment.description"
-        [initialLabels]="transformedLabels">
-      </app-edit-remote-environment-modal>
-     -->
