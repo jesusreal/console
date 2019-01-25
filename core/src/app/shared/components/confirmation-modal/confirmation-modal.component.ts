@@ -1,5 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import  {ViewChild} from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ModalService } from 'fundamental-ngx';
 
 @Component({

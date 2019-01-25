@@ -1,5 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import  {ViewChild} from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
 import { EnvironmentsService } from '../services/environments.service';
 import LuigiClient from '@kyma-project/luigi-client';
 import { ModalService } from 'fundamental-ngx';
