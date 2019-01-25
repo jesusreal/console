@@ -4,23 +4,25 @@
       Edit Application
     </fd-modal-header>
     <fd-modal-body>
-        <form #editRemoteEnvsForm="ngForm">
-            <div class="tn-form__group">
-              <div class="error-message-placeholder" *ngIf="error">{{ error }}</div>
-              <div class="tn-form__item">
-                <label class="tn-form__label">Description *</label>
-                <input autofocus class="tn-form__control" type="text" name="remoteEnvDescription"
-                    [(ngModel)]="updatedDescription"
-                    placeholder="Specify a description for your Application"
-                >
-              </div>
-              <div class="tn-form__item">
-                <label class="tn-form__label">Labels</label>
-                <app-labels-input [labels]="updatedLabels" (labelsChangeEmitter$)="updateLabelsData($event)"
-                ></app-labels-input>
-              </div>
-            </div>
-        </form>
+      <form #editRemoteEnvsForm="ngForm">
+        <fd-alert [dismissible]="false" [type]="'error'" *ngIf="error">
+          <p>{{ error }}</p>
+        </fd-alert>
+        <div fd-form-set>
+          <div fd-form-item>
+            <fd-form-label>Description *</fd-form-label>
+            <input fd-form-control autofocus [type]="'text'" name="remoteEnvDescription"
+                [(ngModel)]="updatedDescription"
+                placeholder="Specify a description for your Application"
+            >
+          </div>
+          <div fd-form-item>
+            <fd-form-label>Labels</fd-form-label>
+            <app-labels-input [labels]="updatedLabels" (labelsChangeEmitter$)="updateLabelsData($event)"
+            ></app-labels-input>
+          </div>
+        </div>
+      </form>
     </fd-modal-body>
     <fd-modal-footer>
         <button fd-button (click)="close()" [options]="'light'" >Cancel</button>
