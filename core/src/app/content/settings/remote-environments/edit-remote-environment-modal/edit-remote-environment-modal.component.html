@@ -5,7 +5,7 @@
     </fd-modal-header>
     <fd-modal-body>
       <form #editRemoteEnvsForm="ngForm">
-        <fd-alert [dismissible]="false" [type]="'error'" *ngIf="error">
+        <fd-alert class="fd-has-margin-bottom-small" [dismissible]="false" [type]="'error'" *ngIf="error">
           <p>{{ error }}</p>
         </fd-alert>
         <div fd-form-set>
