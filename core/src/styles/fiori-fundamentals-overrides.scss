@@ -56,13 +56,13 @@ fd-modal {
 
   &__body {
     &--bleed {
-      
+
       .fd-table {
         td:last-child,
         th:last-child {
           padding-right: 24px;
         }
-      
+
         td:first-child,
         th:first-child {
           padding-left: 24px;

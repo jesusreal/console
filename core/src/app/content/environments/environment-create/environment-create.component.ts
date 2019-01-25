@@ -1,5 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import  {ViewChild} from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
 import { EnvironmentsService } from '../services/environments.service';
 import LuigiClient from '@kyma-project/luigi-client';
 import { ModalService } from 'fundamental-ngx';
@@ -23,7 +22,6 @@ export class EnvironmentCreateComponent {
   constructor(
     private environmentsService: EnvironmentsService,
     private modalService: ModalService
-    
   ) {}
 
   public createEnvironment() {
@@ -48,12 +46,11 @@ export class EnvironmentCreateComponent {
     this.err = undefined;
     this.isActive = true;
 
-    this.modalService.open(this.createEnvironmentModal).result
-        .finally(() => {
-          this.isActive = false;
-          this.wrongName = false;
-          this.cancelEvent.emit();      
-        })
+    this.modalService.open(this.createEnvironmentModal).result.finally(() => {
+      this.isActive = false;
+      this.wrongName = false;
+      this.cancelEvent.emit();
+    });
   }
 
   public navigateToDetails(envName) {
