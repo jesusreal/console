@@ -37,10 +37,6 @@ h2 {
   color: #7f90a4;
 }
 
-fd-breadcrumb {
-  font-size: 23px;
-}
-
 fd-panel {
   display: block;
 }
@@ -65,12 +61,5 @@ fd-table {
     &--decline {
       color: rgba($grey, 0.7);
     }
-  }
-}
-
-.fd-table {
-  &__th--min,
-  &__td--min {
-    width: 8.33333%;
   }
 }
