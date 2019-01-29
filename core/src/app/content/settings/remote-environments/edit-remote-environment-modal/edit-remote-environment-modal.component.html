@@ -25,7 +25,7 @@
       </form>
     </fd-modal-body>
     <fd-modal-footer>
-        <button fd-button (click)="close()" [options]="'light'" >Cancel</button>
+        <button fd-button (click)="close()" [options]="'light'">Cancel</button>
         <button fd-button ngClass="{{isReadyToSave() ? '' : 'disabled'}}"
           [disabled]="!isReadyToSave()" (click)="save()" [fdType]="'main'">
           Save

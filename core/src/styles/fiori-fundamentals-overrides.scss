@@ -37,3 +37,17 @@ fd-modal .fd-modal-background {
 .fd-panel {
   display: block;
 }
+
+
+//for link-button in tables
+span {
+  &.fd-link {
+    cursor: pointer;
+  }
+}
+
+
+//helpers
+.word-wrap {
+  word-wrap: break-word;
+}

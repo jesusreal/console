@@ -1,4 +1,24 @@
 <div luigiClientCommunication [isActive]="isActive">
+  <fd-modal #jsonEditorModal role="dialog" aria-labelledby="confirm" (click)="$event.stopPropagation()">
+    <fd-modal-header>
+      Edit
+    </fd-modal-header>
+    <fd-modal-body>
+      <fd-alert class="fd-has-margin-bottom-small" [dismissible]="false" [type]="'error'" *ngIf="error">
+        <p class="word-wrap">{{ error.message }}</p>
+      </fd-alert>
+      <div class="json-editor" *ngIf="resourceData">
+        <app-json-editor #jsoneditor [resourceData]="resourceData"></app-json-editor>
+      </div>
+    </fd-modal-body>
+    <fd-modal-footer>
+      <button [options]="'light'" fd-button (click)="cancel($event)">Cancel</button>
+      <button fd-button [fdType]="'main'" (click)="update($event)">Update</button>
+    </fd-modal-footer>
+  </fd-modal>
+</div>
+
+<!-- <div luigiClientCommunication [isActive]="isActive">
   <ng-template [ngIf]="isActive">
     <div class="sf-modal sf-modal--mid" [ngClass]="{'is-active': isActive===true}" role="dialog" aria-labelledby="confirm" (click)="$event.stopPropagation()">
       <div class="tn-modal" role="document">
@@ -25,4 +45,4 @@
       </div>
     </div>
   </ng-template>
-</div>
+</div> -->
