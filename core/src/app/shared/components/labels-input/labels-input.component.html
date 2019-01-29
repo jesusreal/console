@@ -3,15 +3,15 @@
     {{ label }}
     <div class="labels__remove" title="Remove label" (click)="removeLabel(label)"></div>
   </span>
-  <input #labelsInput type="text" class="tn-form__control" name="labelsInput"
+  <input #labelsInput type="text" name="labelsInput"
       [(ngModel)]="newLabel" [ngClass]="{'has-labels': labels.length > 0}"
       (keydown.enter)="addLabel()" (keydown.tab)="addLabel()" (keydown.space)="addLabel()" (keyup)="removeWhitespaces()" (blur)="addLabel()"
     placeholder="{{labels.length === 0 ? 'Specify one or more labels for your Application' : ''}}"
     autocomplete="off">
 </div>
-<div *ngIf="wrongLabelMessage" class="alert alert-danger">
+<fd-form-message [type]="'error'" *ngIf="wrongLabelMessage" >
   {{ wrongLabelMessage }}
-</div>
+</fd-form-message>
 
 
 
