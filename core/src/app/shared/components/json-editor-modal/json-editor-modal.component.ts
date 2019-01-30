@@ -1,7 +1,9 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { JsonEditorComponent } from './json-editor/json-editor.component';
-import { ComponentCommunicationService } from '../../services/component-communication.service';
 import { ModalService } from 'fundamental-ngx';
+import * as _ from 'lodash';
+
+import { ComponentCommunicationService } from '../../services/component-communication.service';
+import { JsonEditorComponent } from './json-editor/json-editor.component';
 
 @Component({
   selector: 'app-json-editor-modal',
@@ -15,6 +17,7 @@ export class JsonEditorModalComponent {
 
   public isActive = false;
   public error: any;
+  public modalResourceData: any;
 
   constructor(
     private communicationService: ComponentCommunicationService,
@@ -23,7 +26,8 @@ export class JsonEditorModalComponent {
 
   show() {
     this.isActive = true;
-
+    this.modalResourceData = _.cloneDeep(this.resourceData);
+    
     this.modalService.open(this.jsonEditorModal).result
         .finally(() => {
           this.isActive = false;
@@ -34,6 +38,7 @@ export class JsonEditorModalComponent {
 
   cancel(event: Event) {
     this.modalService.close(this.jsonEditorModal);
+    this.modalResourceData = null;
   }
 
   update(event: Event) {
