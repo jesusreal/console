@@ -1,4 +1,129 @@
-<div class="sf-content container-fluid">
+<section class="fd-section">
+  <fd-breadcrumb>
+    <fd-breadcrumb-item>
+      <a fd-breadcrumb-link (click)="navigateToList()" href="#">
+        Services
+      </a>
+    </fd-breadcrumb-item>
+    <fd-breadcrumb-item>
+      <span fd-breadcrumb-link>
+        {{ serviceName }}
+      </span>
+    </fd-breadcrumb-item>
+  </fd-breadcrumb>
+
+  <fd-action-bar>
+    <fd-action-bar-header>
+      <fd-action-bar-title>
+        {{ serviceName }}
+      </fd-action-bar-title>
+    </fd-action-bar-header>
+    <fd-action-bar-actions [hidden]="serviceDetailsToEditLoading">
+        <app-edit-resource [resourceData]="serviceDetailsToEdit"></app-edit-resource>
+    </fd-action-bar-actions>
+  </fd-action-bar>
+
+  <p *ngIf="serviceDetailsLoading">
+    Loading ...
+  </p>
+  <fd-alert *ngIf="!serviceDetailsLoading && errorMessage" [dismissible]="false" [type]="'error'">
+    <p>{{ errorMessage }}</p>
+  </fd-alert>
+
+  <div *ngIf="serviceDetails">
+    <fd-panel>
+      <fd-panel-header>
+        <fd-panel-head>
+          <fd-panel-title>General informations</fd-panel-title>
+        </fd-panel-head>
+      </fd-panel-header>
+
+      <fd-panel-body [bleed]="true">
+        <fd-panel-grid [col]="6" [nogap]="true">
+          <fd-panel [columnSpan]="1">
+            <fd-panel-body>
+              <label class="fd-has-color-text-4">Name</label>
+            </fd-panel-body>
+          </fd-panel>
+          <fd-panel [columnSpan]="5">
+            <fd-panel-body>{{ serviceDetails.objectMeta.name }}</fd-panel-body>
+          </fd-panel>
+          <fd-panel [columnSpan]="1">
+            <fd-panel-body>
+              <label class="fd-has-color-text-4">Namespace</label>
+            </fd-panel-body>
+          </fd-panel>
+          <fd-panel [columnSpan]="5">
+            <fd-panel-body>{{ serviceDetails.objectMeta.namespace }}</fd-panel-body>
+          </fd-panel>
+          <fd-panel [columnSpan]="1">
+            <fd-panel-body>
+              <label class="fd-has-color-text-4">Cluster IP</label>
+            </fd-panel-body>
+          </fd-panel>
+          <fd-panel [columnSpan]="5">
+            <fd-panel-body>{{ serviceDetails.clusterIP }}</fd-panel-body>
+          </fd-panel>
+          <fd-panel [columnSpan]="1">
+            <fd-panel-body>
+              <label class="fd-has-color-text-4">Creation date</label>
+            </fd-panel-body>
+          </fd-panel>
+          <fd-panel [columnSpan]="5">
+            <fd-panel-body>{{ serviceDetails.objectMeta.creationTimestamp }}</fd-panel-body>
+          </fd-panel>
+          <fd-panel [columnSpan]="1" *ngIf="serviceDetails.objectMeta.labels">
+            <fd-panel-body>
+              <label class="fd-has-color-text-4">Labels</label>
+            </fd-panel-body>
+          </fd-panel>
+          <fd-panel [columnSpan]="5" *ngIf="serviceDetails.objectMeta.labels">
+            <fd-panel-body>
+              <span class="fd-token" *ngFor="let key of objectKeys(serviceDetails.objectMeta.labels)">{{ key }}={{ serviceDetails.objectMeta.labels[key] }} </span>
+            </fd-panel-body>
+          </fd-panel>
+          <fd-panel [columnSpan]="1">
+            <fd-panel-body>
+              <label class="fd-has-color-text-4">Internal endpoints</label>
+            </fd-panel-body>
+          </fd-panel>
+          <fd-panel [columnSpan]="5">
+            <fd-panel-body>
+              <span *ngFor="let port of serviceDetails.internalEndpoint.ports">
+                <span>{{ serviceDetails.internalEndpoint.host }}:{{ port.port }} {{ port.protocol }}</span>
+                <br>
+                <span>{{ serviceDetails.internalEndpoint.host }}:{{ port.nodePort }} {{ port.protocol }}</span>
+                <br>
+              </span>
+            </fd-panel-body>
+          </fd-panel>
+        </fd-panel-grid>
+      </fd-panel-body>
+    </fd-panel>
+  </div>
+</section>
+  
+<section class="fd-section">
+  <fd-panel>
+    <fd-panel-header>
+      <fd-panel-head>
+        <fd-panel-title>Exposed APIs</fd-panel-title>
+      </fd-panel-head>
+      <fd-panel-actions>
+        <button fd-button [options]="'light'" (click)="openExposeApi()">
+          + Expose API
+        </button>
+      </fd-panel-actions>
+    </fd-panel-header>
+    <fd-panel-body [bleed]="true">
+      <app-filtered-apis></app-filtered-apis>
+    </fd-panel-body>
+  </fd-panel>
+</section> 
+    
+
+
+<!-- <div class="sf-content container-fluid">
   <div class="sf-toolbar">
     <div class="sf-toolbar__item sf-toolbar__item--breadcrumb">
       <a (click)="navigateToList()">Services</a> / {{ serviceName }}
@@ -88,4 +213,4 @@
       <app-filtered-apis></app-filtered-apis>
     </div>
   </section>
-</div>
+</div> -->
