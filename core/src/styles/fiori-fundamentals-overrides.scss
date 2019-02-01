@@ -32,10 +32,10 @@ fd-modal .fd-modal-background {
   }
 }
 
-//Breadcrumbs inside of title
-.fd-action-bar__header {
-  .fd-breadcrumb {
-    font-size: 23px;
+//Breadcrumbs
+.fd-breadcrumb {
+  a {
+    cursor: pointer;
   }
 }
 
