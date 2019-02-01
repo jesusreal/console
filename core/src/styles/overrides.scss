@@ -143,22 +143,22 @@ button {
 //   }
 // }
 
-input[type='checkbox'],
-input[type='radio'] {
-  &:checked {
-    border-color: $sf-base-color-blue;
-    background-color: $sf-base-color-blue;
-  }
-}
+// input[type='checkbox'],
+// input[type='radio'] {
+//   &:checked {
+//     border-color: $sf-base-color-blue;
+//     background-color: $sf-base-color-blue;
+//   }
+// }
 
-.tn-form__label,
-.tn-form__legend {
-  margin-bottom: 6px;
-}
+// .tn-form__label,
+// .tn-form__legend {
+//   margin-bottom: 6px;
+// }
 
-input[type='checkbox'] {
-  border-radius: $sf-border-radius;
-}
+// input[type='checkbox'] {
+//   border-radius: $sf-border-radius;
+// }
 
 .actions-icon {
   padding: 0;

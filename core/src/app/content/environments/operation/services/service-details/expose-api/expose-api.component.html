@@ -43,87 +43,85 @@
     </fd-panel-header>
 
     <fd-panel-body>
-      <div class="expose-section">
-        <div class="fd-container">
-          <div class="fd-col--6">
+      <div *ngIf='listOfServices' class="fd-container">
+        <div class="fd-col--6">
+          <div class="fd-form__group">
+            <div class="fd-form__item">
+              <label class="fd-form__label">Service *</label>
+              <div class="fd-dropdown fd-has-display-block" (clickOutside)="closeDropDown()"  clickOutsideEvents="click,mousedown" excludeBeforeClick="true">
+                <div class="fd-popover fd-has-display-block">
+                  <div class="fd-popover__control">
+                    <button class="fd-dropdown__control fd-button fd-has-padding-none" 
+                      aria-controls="nNJnB279"
+                      [attr.aria-expanded]="ariaServiceExpanded"
+                      aria-haspopup="true"
+                      (click)="toggleDropDown()">
+                      <input class="fd-form__control"
+                        type="text"
+                        name="serviceName"
+                        autocomplete="off"
+                        placeholder="Choose service"
+                        [(ngModel)]="serviceName"
+                        (ngModelChange)="filterServices()"
+                        (keydown)="openDropDown($event)"
+                        (click)="openDropDown($event)">
+                    </button>
+                  </div>
+                  <div class="fd-popover__body fd-popover__body--no-arrow" [attr.aria-hidden]="ariaServiceHidden" id="nNJnB279">
+                    <nav class="fd-menu">
+                      <ul class="fd-menu__list">
+                        <li *ngFor="let svc of filteredServices" (click)="toggleDropDown(); selectService(svc); setApiName()">
+                          <span class="fd-menu__item">{{ svc.metadata.name }}</span>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fd-container">
+        <div class="fd-col--6">
+          <div class="fd-form__set">
             <div class="fd-form__group">
               <div class="fd-form__item">
-                <label class="fd-form__label">Service *</label>
-                <div class="fd-dropdown fd-has-display-block" (clickOutside)="closeDropDown()"  clickOutsideEvents="click,mousedown" excludeBeforeClick="true">
-                  <div class="fd-popover fd-has-display-block">
-                    <div class="fd-popover__control">
-                      <button class="fd-dropdown__control fd-button fd-has-padding-none" 
-                        aria-controls="nNJnB279"
-                        [attr.aria-expanded]="ariaServiceExpanded"
-                        aria-haspopup="true"
-                        (click)="toggleDropDown()">
-                        <input class="fd-form__control"
-                          type="text"
-                          name="serviceName"
-                          autocomplete="off"
-                          placeholder="Choose service"
-                          [(ngModel)]="serviceName"
-                          (ngModelChange)="filterServices()"
-                          (keydown)="openDropDown($event)"
-                          (click)="openDropDown($event)">
-                      </button>
-                    </div>
-                    <div class="fd-popover__body fd-popover__body--no-arrow" [attr.aria-hidden]="ariaServiceHidden" id="nNJnB279">
-                      <nav class="fd-menu">
-                        <ul class="fd-menu__list">
-                          <li *ngFor="let svc of filteredServices" (click)="toggleDropDown(); selectService(svc); setApiName()">
-                            <span class="fd-menu__item">{{ svc.metadata.name }}</span>
-                          </li>
-                        </ul>
-                      </nav>
-                    </div>
-                  </div>
+                <label class="fd-form__label" for="input-2">Host *</label>
+                <div class="fd-input-group fd-input-group--after">
+                  <input fd-form-control [type]="'text'" id="input-2" placeholder="Field placeholder text" [(ngModel)]="hostname" (ngModelChange)="setApiName(); validateDetails()" (blur)="validateDetails()" [state]="errorHostname ? 'invalid' : undefind">
+                  <span class="fd-input-group__addon fd-input-group__addon--after">{{ domain }}</span>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="fd-container">
-          <div class="fd-col--6">
-            <div class="fd-form__set">
-              <div class="fd-form__group">
-                <div class="fd-form__item">
-                  <label class="fd-form__label" for="input-2">Host *</label>
-                  <div class="fd-input-group fd-input-group--after">
-                    <input fd-form-control [type]="'text'" id="input-2" placeholder="Field placeholder text" [(ngModel)]="hostname" (ngModelChange)="setApiName(); validateDetails()" (blur)="validateDetails()" [state]="errorHostname ? 'invalid' : undefind">
-                    <span class="fd-input-group__addon fd-input-group__addon--after">{{ domain }}</span>
-                  </div>
-                  <fd-form-message [type]="'error'" *ngIf="errorHostname">
-                    {{ errorHostname }}
-                  </fd-form-message>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="fd-col--4 fd-col--shift-2">
-            <div fd-form-set>
-              <div fd-form-item>
-                <fd-form-label [forValue]="'input-3'">Service Port *</fd-form-label>
-                <input fd-form-control [type]="'text'" id="input-3" [(ngModel)]="servicePort" (ngModelChange)="validateDetails()" (blur)="validateDetails()" [state]="errorPort ? 'invalid' : undefind">
-                <fd-form-message [type]="'error'" *ngIf="errorPort">
-                  {{ errorPort }}
+                <fd-form-message [type]="'error'" *ngIf="errorHostname">
+                  {{ errorHostname }}
                 </fd-form-message>
               </div>
             </div>
           </div>
         </div>
-        
-        <div class="fd-container">
-          <div class="fd-col--6">
-            <div fd-form-set>
-              <div fd-form-item>
-                <fd-form-label [forValue]="input-1">Name *</fd-form-label>
-                <input fd-form-control [type]="'text'" id="input-1" [disabled]="apiDefinition" [(ngModel)]="apiName" (ngModelChange)="validateDetails()" (blur)="validateDetails()" [state]="errorApiName ? 'invalid' : undefind">
-                <fd-form-message [type]="'error'" *ngIf="errorApiName">
-                  {{ errorApiName }}
-                </fd-form-message>
-              </div>
+        <div class="fd-col--4 fd-col--shift-2">
+          <div fd-form-set>
+            <div fd-form-item>
+              <fd-form-label [forValue]="'input-3'">Service Port *</fd-form-label>
+              <input fd-form-control [type]="'text'" id="input-3" [(ngModel)]="servicePort" (ngModelChange)="validateDetails()" (blur)="validateDetails()" [state]="errorPort ? 'invalid' : undefind">
+              <fd-form-message [type]="'error'" *ngIf="errorPort">
+                {{ errorPort }}
+              </fd-form-message>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="fd-container">
+        <div class="fd-col--6">
+          <div fd-form-set>
+            <div fd-form-item>
+              <fd-form-label [forValue]="input-1">Name *</fd-form-label>
+              <input fd-form-control [type]="'text'" id="input-1" [disabled]="apiDefinition" [(ngModel)]="apiName" (ngModelChange)="validateDetails()" (blur)="validateDetails()" [state]="errorApiName ? 'invalid' : undefind">
+              <fd-form-message [type]="'error'" *ngIf="errorApiName">
+                {{ errorApiName }}
+              </fd-form-message>
             </div>
           </div>
         </div>
@@ -132,51 +130,79 @@
   </fd-panel>
 </section>
 
-  <section  *ngIf="canBeSecured" class="sf-section security-section">
-    <div class="sf-panel">
-      <div class="sf-panel__head">
-        <div class="sf-toolbar">
-          <div class="sf-toolbar__header">Security</div>
-          <div class="sf-toolbar__right">
-            <div *ngIf="secure && canBeSecured && apiDefinition && isDefaultProvider()" class="sf-toolbar__item">
-              <button class="tn-button tn-button--small tn-button--link" (click)="fetchToken()">Fetch token</button>
+<section  *ngIf="canBeSecured" class="fd-section security-section">
+  <fd-panel>
+    <fd-panel-header>
+      <fd-panel-head>
+        <fd-panel-title>Security</fd-panel-title>
+      </fd-panel-head>
+      <fd-panel-actions>
+        <button *ngIf="secure && canBeSecured && apiDefinition && isDefaultProvider()" fd-button [options]="'light'" (click)="fetchToken()">Fetch token</button>
+      </fd-panel-actions>
+    </fd-panel-header>
+    <fd-panel-body>
+      <div class="fd-container fd-has-margin-bottom-medium">
+        <div class="fd-col--6">
+          <div class="fd-form__item fd-form__item--check">
+            <label class="fd-form__label" for="Ai4ez611">
+              <input *ngIf="canBeSecured" type="checkbox" (change)="toggleSecure()" [checked]="secure" class="fd-form__control" id="Ai4ez611">
+              Secure API
+            </label>
+          </div>
+        </div>
+      </div>
+
+
+      <div *ngIf="secure" class="fd-container">
+        <div class="fd-col--12">
+          <p class="fd-has-type-1">Identity Provider</p>
+        </div>
+      </div>
+      
+      <div *ngIf="secure" class="fd-container">
+        <div class="fd-col--6">
+          <div fd-form-set>
+            <div fd-form-item>
+              <fd-form-label [forValue]="'input-4'">Issuer *</fd-form-label>
+              <input fd-form-control [type]="'text'" id="input-4" [(ngModel)]="issuer" (ngModelChange)="validateDetails()" (blur)="validateDetails()" [state]="errorIssuer ? 'invalid' : undefind">
+              <fd-form-message [type]="'error'" *ngIf="errorIssuer">
+                {{ errorIssuer }}
+              </fd-form-message>
+            </div>
+          </div>
+        </div>
+        <div class="fd-col--6">
+          <div fd-form-set>
+            <div fd-form-item>
+              <fd-form-label [forValue]="input-5">JWKS URI *</fd-form-label>
+              <input fd-form-control [type]="'text'" id="input-5" [(ngModel)]="jwksUri" (ngModelChange)="validateDetails()" (blur)="validateDetails()" [state]="errorJWKSUri ? 'invalid' : undefind">
+              <fd-form-message [type]="'error'" *ngIf="errorJWKSUri">
+                {{ errorJWKSUri }}
+              </fd-form-message>
             </div>
           </div>
         </div>
       </div>
-      <div class="sf-panel__content">
-        <input *ngIf="canBeSecured" type="checkbox" (change)="toggleSecure()" [checked]="secure" id="secure"> <label for="secure">Secure API</label>
-        <div *ngIf="secure" class="expose-section__secured-paths">
-          <div class="row">
-            <div class="col-sm-12 input-group">
-              <h3>Identity Provider</h3>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6 input-group">
-              <label class="tn-form__label required" for="input-4">Issuer</label>
-              <input type="text" id="input-4" [(ngModel)]="issuer" (ngModelChange)="validateDetails()" (blur)="validateDetails()">
-              <div *ngIf="errorIssuer" class="alert alert-danger">{{ errorIssuer }}</div>
-            </div>
-            <div class="col-sm-6 input-group">
-              <label class="tn-form__label required" for="input-5">JWKS URI</label>
-              <input type="text" id="input-5" [(ngModel)]="jwksUri" (ngModelChange)="validateDetails()" (blur)="validateDetails()">
-              <div *ngIf="errorJWKSUri" class="alert alert-danger">{{ errorJWKSUri }}</div>
-            </div>
-          </div>
+
+      <div *ngIf="canBeSecured && secure" class="fd-container">
+        <div class="fd-col--12">
+          <fd-popover [isDropdown]="true">
+            Load Preset
+            <fd-popover-body>
+              <fd-menu>
+                <fd-menu-list>
+                  <li fd-menu-item *ngFor="let preset of availablePresets" (click)="selectPreset(preset)" id="{{preset.label}}">
+                    {{ preset.label }}
+                  </li>
+                </fd-menu-list>
+              </fd-menu>
+            </fd-popover-body>
+          </fd-popover>
         </div>
       </div>
-      <div *ngIf="canBeSecured && secure" class="tn-dropdown" (clickOutside)="autoCloseDropdown()" clickOutsideEvents="click,mousedown">
-        <button  class="tn-button tn-button--small tn-button--link" (click)="loadPreset()">Load Preset</button>
-        <ul class="tn-dropdown__menu tn-contextual-menu actions-menu text-left"
-            [attr.aria-hidden]="ariaHidden">
-          <li class="tn-dropdown__item" *ngFor="let preset of availablePresets">
-            <div (click)="selectPreset(preset)" id="{{preset.label}}">{{ preset.label }}</div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
+    </fd-panel-body>
+  </fd-panel>
+</section>
 
 <app-copy2clipboard-modal #fetchModal></app-copy2clipboard-modal>
 <app-information-modal #infoModal></app-information-modal>
@@ -184,7 +210,7 @@
 
 
 
-<br><br><br><br><br>
+<!-- <br><br><br><br><br>
 
 <div class="container-fluid sf-content">
   <div class="sf-toolbar">
@@ -308,6 +334,6 @@
       </div>
     </div>
   </section>
-</div>
+</div> -->
 <!-- <app-copy2clipboard-modal #fetchModal></app-copy2clipboard-modal>
 <app-information-modal #infoModal></app-information-modal> -->
