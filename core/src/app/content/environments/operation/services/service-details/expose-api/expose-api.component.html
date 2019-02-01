@@ -43,7 +43,7 @@
     </fd-panel-header>
 
     <fd-panel-body>
-      <div *ngIf='listOfServices' class="fd-container">
+      <div *ngIf='listOfServices' class="fd-container fd-container--fluid">
         <div class="fd-col--6">
           <div class="fd-form__group">
             <div class="fd-form__item">
@@ -83,7 +83,7 @@
         </div>
       </div>
 
-      <div class="fd-container">
+      <div class="fd-container fd-container--fluid">
         <div class="fd-col--6">
           <div class="fd-form__set">
             <div class="fd-form__group">
@@ -113,7 +113,7 @@
         </div>
       </div>
       
-      <div class="fd-container">
+      <div class="fd-container fd-container--fluid">
         <div class="fd-col--6">
           <div fd-form-set>
             <div fd-form-item>
@@ -141,7 +141,7 @@
       </fd-panel-actions>
     </fd-panel-header>
     <fd-panel-body>
-      <div class="fd-container fd-has-margin-bottom-medium">
+      <div class="fd-container fd-container--fluid fd-has-margin-bottom-medium">
         <div class="fd-col--6">
           <div class="fd-form__item fd-form__item--check">
             <label class="fd-form__label" for="Ai4ez611">
@@ -152,7 +152,7 @@
         </div>
       </div>
       
-      <div *ngIf="secure" class="fd-container">
+      <div *ngIf="secure" class="fd-container fd-container--fluid">
         <p class="fd-has-type-1">Identity Provider</p>
         <div class="fd-col--6">
           <div fd-form-set>
@@ -178,7 +178,7 @@
         </div>
       </div>
 
-      <div *ngIf="canBeSecured && secure" class="fd-container">
+      <div *ngIf="canBeSecured && secure" class="fd-container fd-container--fluid">
         <div class="fd-col--12">
           <fd-popover [isDropdown]="true">
             Load Preset
