@@ -18,16 +18,6 @@ fd-modal .fd-modal-background {
   }
 }
 
-.fd-panel__body {
-  .empty-teaser {
-    padding: 16px 24px;
-
-    p {
-      color: fd-color(text, 3);
-    }
-  }
-}
-
 .fd-modal--large {
   .fd-modal {
     max-width: 650px;

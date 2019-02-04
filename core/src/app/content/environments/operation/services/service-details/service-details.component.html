@@ -30,77 +30,75 @@
     <p>{{ errorMessage }}</p>
   </fd-alert>
 
-  <div *ngIf="serviceDetails">
-    <fd-panel>
-      <fd-panel-header>
-        <fd-panel-head>
-          <fd-panel-title>General informations</fd-panel-title>
-        </fd-panel-head>
-      </fd-panel-header>
+  <fd-panel *ngIf="serviceDetails">
+    <fd-panel-header>
+      <fd-panel-head>
+        <fd-panel-title>General informations</fd-panel-title>
+      </fd-panel-head>
+    </fd-panel-header>
 
-      <fd-panel-body [bleed]="true">
-        <fd-panel-grid [col]="6" [nogap]="true">
-          <fd-panel [columnSpan]="1">
-            <fd-panel-body>
-              <label class="fd-has-color-text-4">Name</label>
-            </fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="5">
-            <fd-panel-body>{{ serviceDetails.objectMeta.name }}</fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="1">
-            <fd-panel-body>
-              <label class="fd-has-color-text-4">Namespace</label>
-            </fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="5">
-            <fd-panel-body>{{ serviceDetails.objectMeta.namespace }}</fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="1">
-            <fd-panel-body>
-              <label class="fd-has-color-text-4">Cluster IP</label>
-            </fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="5">
-            <fd-panel-body>{{ serviceDetails.clusterIP }}</fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="1">
-            <fd-panel-body>
-              <label class="fd-has-color-text-4">Creation date</label>
-            </fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="5">
-            <fd-panel-body>{{ serviceDetails.objectMeta.creationTimestamp }}</fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="1" *ngIf="serviceDetails.objectMeta.labels">
-            <fd-panel-body>
-              <label class="fd-has-color-text-4">Labels</label>
-            </fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="5" *ngIf="serviceDetails.objectMeta.labels">
-            <fd-panel-body>
-              <span class="fd-token" *ngFor="let key of objectKeys(serviceDetails.objectMeta.labels)">{{ key }}={{ serviceDetails.objectMeta.labels[key] }} </span>
-            </fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="1">
-            <fd-panel-body>
-              <label class="fd-has-color-text-4">Internal endpoints</label>
-            </fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="5">
-            <fd-panel-body>
-              <span *ngFor="let port of serviceDetails.internalEndpoint.ports">
-                <span>{{ serviceDetails.internalEndpoint.host }}:{{ port.port }} {{ port.protocol }}</span>
-                <br>
-                <span>{{ serviceDetails.internalEndpoint.host }}:{{ port.nodePort }} {{ port.protocol }}</span>
-                <br>
-              </span>
-            </fd-panel-body>
-          </fd-panel>
-        </fd-panel-grid>
-      </fd-panel-body>
-    </fd-panel>
-  </div>
+    <fd-panel-body [bleed]="true">
+      <fd-panel-grid [col]="6" [nogap]="true">
+        <fd-panel [columnSpan]="1">
+          <fd-panel-body>
+            <label class="fd-has-color-text-4">Name</label>
+          </fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="5">
+          <fd-panel-body>{{ serviceDetails.objectMeta.name }}</fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="1">
+          <fd-panel-body>
+            <label class="fd-has-color-text-4">Namespace</label>
+          </fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="5">
+          <fd-panel-body>{{ serviceDetails.objectMeta.namespace }}</fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="1">
+          <fd-panel-body>
+            <label class="fd-has-color-text-4">Cluster IP</label>
+          </fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="5">
+          <fd-panel-body>{{ serviceDetails.clusterIP }}</fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="1">
+          <fd-panel-body>
+            <label class="fd-has-color-text-4">Creation date</label>
+          </fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="5">
+          <fd-panel-body>{{ serviceDetails.objectMeta.creationTimestamp }}</fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="1" *ngIf="serviceDetails.objectMeta.labels">
+          <fd-panel-body>
+            <label class="fd-has-color-text-4">Labels</label>
+          </fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="5" *ngIf="serviceDetails.objectMeta.labels">
+          <fd-panel-body>
+            <span class="fd-token" *ngFor="let key of objectKeys(serviceDetails.objectMeta.labels)">{{ key }}={{ serviceDetails.objectMeta.labels[key] }} </span>
+          </fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="1">
+          <fd-panel-body>
+            <label class="fd-has-color-text-4">Internal endpoints</label>
+          </fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="5">
+          <fd-panel-body>
+            <span *ngFor="let port of serviceDetails.internalEndpoint.ports">
+              <span>{{ serviceDetails.internalEndpoint.host }}:{{ port.port }} {{ port.protocol }}</span>
+              <br>
+              <span>{{ serviceDetails.internalEndpoint.host }}:{{ port.nodePort }} {{ port.protocol }}</span>
+              <br>
+            </span>
+          </fd-panel-body>
+        </fd-panel>
+      </fd-panel-grid>
+    </fd-panel-body>
+  </fd-panel>
 </section>
   
 <section class="fd-section">
@@ -119,98 +117,4 @@
       <app-filtered-apis></app-filtered-apis>
     </fd-panel-body>
   </fd-panel>
-</section> 
-    
-
-
-<!-- <div class="sf-content container-fluid">
-  <div class="sf-toolbar">
-    <div class="sf-toolbar__item sf-toolbar__item--breadcrumb">
-      <a (click)="navigateToList()">Services</a> / {{ serviceName }}
-    </div>
-    <div class="sf-toolbar__right" [hidden]="serviceDetailsToEditLoading">
-      <app-edit-resource [resourceData]="serviceDetailsToEdit" class="sf-toolbar__item"></app-edit-resource>
-    </div>
-  </div>
-  <p *ngIf="serviceDetailsLoading">
-    Loading ...
-  </p>
-  <p *ngIf="!serviceDetailsLoading && errorMessage" class="error-message">
-    {{ errorMessage }}
-  </p>
-  <div *ngIf="serviceDetails">
-    <section class="sf-section">
-      <div class="sf-panel">
-        <div class="sf-panel__head">
-          <div class="sf-toolbar">
-            <div class="sf-toolbar__header">
-              General informations
-            </div>
-          </div>
-        </div>
-        <div class="sf-panel__content">
-          <div class="row">
-            <div class="col-sm-2">
-              <label class="tn-form__label">Name</label>
-            </div>
-            <div class="col-sm-10">
-              <span>{{ serviceDetails.objectMeta.name }}</span>
-            </div>
-            <div class="col-sm-2">
-              <label class="tn-form__label">Namespace</label>
-            </div>
-            <div class="col-sm-10">
-              <span>{{ serviceDetails.objectMeta.namespace }}</span>
-            </div>
-            <div class="col-sm-2">
-              <label class="tn-form__label">Cluster IP</label>
-            </div>
-            <div class="col-sm-10">
-              <span>{{ serviceDetails.clusterIP }}</span>
-            </div>
-            <div class="col-sm-2">
-              <label class="tn-form__label">Creation date</label>
-            </div>
-            <div class="col-sm-10">
-              <span>{{ serviceDetails.objectMeta.creationTimestamp }}</span>
-            </div>
-            <div class="col-sm-2" *ngIf="serviceDetails.objectMeta.labels">
-              <label class="tn-form__label">Labels</label>
-            </div>
-            <div class="col-sm-10" *ngIf="serviceDetails.objectMeta.labels">
-              <span class="tn-badge tn-badge--pill sf-list__label" *ngFor="let key of objectKeys(serviceDetails.objectMeta.labels)">{{ key }}={{ serviceDetails.objectMeta.labels[key] }} </span>
-            </div>
-            <div class="col-sm-2">
-              <label class="tn-form__label">Internal endpoints</label>
-            </div>
-            <div class="col-sm-10">
-              <span *ngFor="let port of serviceDetails.internalEndpoint.ports">
-                <span>{{ serviceDetails.internalEndpoint.host }}:{{ port.port }} {{ port.protocol }}</span>
-                <br>
-                <span>{{ serviceDetails.internalEndpoint.host }}:{{ port.nodePort }} {{ port.protocol }}</span>
-                <br>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-  <section class="sf-section">
-    <div class="sf-panel">
-      <div class="sf-panel__head">
-        <div class="sf-toolbar">
-          <div class="sf-toolbar__header">
-            Exposed APIs
-          </div>
-          <div class="sf-toolbar__right">
-            <button class="tn-button tn-button--small tn-button--text sf-toolbar__item" (click)="openExposeApi()">
-              + Expose API
-            </button>
-          </div>
-        </div>
-      </div>
-      <app-filtered-apis></app-filtered-apis>
-    </div>
-  </section>
-</div> -->
+</section>
