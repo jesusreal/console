@@ -24,6 +24,7 @@ fd-modal .fd-modal-background {
   }
 }
 
+
 //Tables
 .fd-table {
   &__th--min,
@@ -32,6 +33,7 @@ fd-modal .fd-modal-background {
   }
 }
 
+
 //Breadcrumbs
 .fd-breadcrumb {
   a {
@@ -39,9 +41,27 @@ fd-modal .fd-modal-background {
   }
 }
 
+
 //Panel
 .fd-panel {
   display: block;
+
+  &__body {
+    &--bleed {
+      
+      .fd-table {
+        td:last-child,
+        th:last-child {
+          padding-right: 24px;
+        }
+      
+        td:first-child,
+        th:first-child {
+          padding-left: 24px;
+        }
+      }
+    }
+  }
 }
 
 
@@ -51,6 +71,7 @@ span {
     cursor: pointer;
   }
 }
+
 
 //Tocken
 .fd-token {
@@ -62,4 +83,7 @@ span {
 //helpers
 .word-wrap {
   word-wrap: break-word;
+}
+.word-break {
+  word-break: break-all;
 }

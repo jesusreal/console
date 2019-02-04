@@ -26,77 +26,75 @@
     </fd-action-bar-actions>
   </fd-action-bar>
 
-  <ng-container *ngIf="remoteEnvironment">
-    <fd-panel>
-      <fd-panel-header>
-        <fd-panel-head>
-          <fd-panel-title>General Information</fd-panel-title>
-        </fd-panel-head>
-        <fd-panel-actions>
-          <button fd-button [options]="'light'" (click)="openEditRemoteEnvModal()">
-            Edit
-          </button>
-        </fd-panel-actions>
-      </fd-panel-header>
+  <fd-panel *ngIf="remoteEnvironment">
+    <fd-panel-header>
+      <fd-panel-head>
+        <fd-panel-title>General Information</fd-panel-title>
+      </fd-panel-head>
+      <fd-panel-actions>
+        <button fd-button [options]="'light'" (click)="openEditRemoteEnvModal()">
+          Edit
+        </button>
+      </fd-panel-actions>
+    </fd-panel-header>
 
-      <fd-panel-body [bleed]="true">
-        <fd-panel-grid [col]="6" [nogap]="true">
-          <fd-panel [columnSpan]="1">
-            <fd-panel-body>
-              <label class="fd-has-color-text-4">Name</label>
-            </fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="5">
-            <fd-panel-body>
-              {{ remoteEnvironment.name }}
-            </fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="1">
-            <fd-panel-body>
-              <label class="fd-has-color-text-4">Status</label>
-            </fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="5">
-            <fd-panel-body>
-              <span class="fd-status-label" [ngClass]="determineClass(remoteEnvironment)">{{ prettyStatus }}</span>
-            </fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="1">
-            <fd-panel-body>
-              <label class="fd-has-color-text-4">Description</label>
-            </fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="5">
-            <fd-panel-body>
-              <ng-container *ngIf="remoteEnvironment.description">
-                {{ remoteEnvironment.description }}
-              </ng-container>
-              <ng-container *ngIf="!remoteEnvironment.description">
-                <span class="fd-has-font-style-italic fd-has-color-text-4">none</span>
-              </ng-container>
-            </fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="1">
-            <fd-panel-body>
-              <label class="fd-has-color-text-4">Labels</label>
-            </fd-panel-body>
-          </fd-panel>
-          <fd-panel [columnSpan]="5" class="sf-list__label-column">
-            <fd-panel-body>
-              <ng-container *ngIf='transformedLabels.length'>
-                <span class="fd-token" role="button" *ngFor="let label of transformedLabels">
-                  {{ label }}
-                </span>
-              </ng-container>
-              <ng-container *ngIf='!transformedLabels.length'>
-                <span class="fd-has-font-style-italic fd-has-color-text-4">none</span>
-              </ng-container>
-            </fd-panel-body>
-          </fd-panel>
-        </fd-panel-grid>
-      </fd-panel-body>
-    </fd-panel>
-  </ng-container>
+    <fd-panel-body [bleed]="true">
+      <fd-panel-grid [col]="6" [nogap]="true">
+        <fd-panel [columnSpan]="1">
+          <fd-panel-body>
+            <label class="fd-has-color-text-4">Name</label>
+          </fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="5">
+          <fd-panel-body>
+            {{ remoteEnvironment.name }}
+          </fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="1">
+          <fd-panel-body>
+            <label class="fd-has-color-text-4">Status</label>
+          </fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="5">
+          <fd-panel-body>
+            <span class="fd-status-label" [ngClass]="determineClass(remoteEnvironment)">{{ prettyStatus }}</span>
+          </fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="1">
+          <fd-panel-body>
+            <label class="fd-has-color-text-4">Description</label>
+          </fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="5">
+          <fd-panel-body>
+            <ng-container *ngIf="remoteEnvironment.description">
+              {{ remoteEnvironment.description }}
+            </ng-container>
+            <ng-container *ngIf="!remoteEnvironment.description">
+              <span class="fd-has-font-style-italic fd-has-color-text-4">none</span>
+            </ng-container>
+          </fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="1">
+          <fd-panel-body>
+            <label class="fd-has-color-text-4">Labels</label>
+          </fd-panel-body>
+        </fd-panel>
+        <fd-panel [columnSpan]="5" class="word-break">
+          <fd-panel-body>
+            <ng-container *ngIf='transformedLabels.length'>
+              <span class="fd-token" role="button" *ngFor="let label of transformedLabels">
+                {{ label }}
+              </span>
+            </ng-container>
+            <ng-container *ngIf='!transformedLabels.length'>
+              <span class="fd-has-font-style-italic fd-has-color-text-4">none</span>
+            </ng-container>
+          </fd-panel-body>
+        </fd-panel>
+      </fd-panel-grid>
+    </fd-panel-body>
+  </fd-panel>
 </section>
 
 <ng-container *ngIf="remoteEnvironment">
@@ -152,13 +150,13 @@
               <td><span class="fd-has-font-weight-bold">{{ service.displayName }}</span></td>
               <td>
                 <span class="sap-icon--l"
-                      ngClass="{{hasType(service.entries, 'API') ? 'sap-icon--accept' : 'sap-icon--decline'}}"
+                      ngClass="{{hasType(service.entries, 'API') ? 'sap-icon--accept fd-has-color-status-1' : 'sap-icon--decline fd-has-color-status-4'}}"
                       role="presentation">
                 </span>
               </td>
               <td>
                 <span class="sap-icon--l"
-                      ngClass="{{hasType(service.entries, 'Events') ? 'sap-icon--accept' : 'sap-icon--decline'}}"
+                      ngClass="{{hasType(service.entries, 'Events') ? 'sap-icon--accept fd-has-color-status-1' : 'sap-icon--decline fd-has-color-status-4'}}"
                       role="presentation">
                 </span>
               </td>

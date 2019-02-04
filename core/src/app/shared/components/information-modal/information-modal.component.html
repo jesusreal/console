@@ -4,11 +4,7 @@
       {{ title }}
     </fd-modal-header>
     <fd-modal-body>
-      <div fd-form-set>
-        <div fd-form-item>
-          <p>{{ message }}</p>
-        </div>
-      </div>
+      <p>{{ message }}</p>
     </fd-modal-body>
     <fd-modal-footer>
       <button fd-button [fdType]="'main'" (click)="cancel($event); redirect()">OK</button>
