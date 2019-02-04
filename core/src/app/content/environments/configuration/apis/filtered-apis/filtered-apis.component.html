@@ -5,8 +5,7 @@
     [entryRenderer]="entryRenderer"
     [entryEventHandler]="entryEventHandler"
     [footerRenderer]="footerRenderer">
-    <div empty-list-placeholder *ngIf="showEmptyPage" class="sf-section__empty-teaser">
-      <h1>{{ title }}</h1>
+    <div empty-list-placeholder *ngIf="showEmptyPage" class="empty-teaser">
       <p>{{ emptyListText }}</p>
     </div>
   </y-plain-table>
