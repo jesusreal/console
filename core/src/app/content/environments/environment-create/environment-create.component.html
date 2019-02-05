@@ -4,9 +4,9 @@
       Create New Namespace
     </fd-modal-header>
     <fd-modal-body>
-      <fd-alert class="fd-has-margin-bottom-small" [dismissible]="false" [type]="'error'" *ngIf="err">
-          <p>{{ err }}</p>
-      </fd-alert>
+      <div class="fd-alert fd-alert--error fd-has-margin-bottom-small" role="alert" *ngIf="err">
+        {{ err }}
+      </div>
       <div fd-form-set>
         <div fd-form-item>
           <fd-form-label>Namespace Name *</fd-form-label>
