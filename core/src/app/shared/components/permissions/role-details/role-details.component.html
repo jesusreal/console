@@ -24,9 +24,9 @@
     Loading ...
   </p>
 
-  <fd-alert [dismissible]="false" [type]="'error'" *ngIf="!loading && errorMessage">
-    <p>{{ errorMessage }}</p>
-  </fd-alert>
+  <div class="fd-alert fd-alert--error fd-has-margin-bottom-small" role="alert" *ngIf="!loading && errorMessage">
+    {{ errorMessage }}
+  </div>
 
   <fd-panel *ngIf="roleDetails">
     <fd-panel-header>
