@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ListModule } from 'app/generic-list/list.module';
+import { FundamentalNgxModule } from 'fundamental-ngx';
 
+import { ListModule } from 'app/generic-list/list.module';
 import { AppComponent } from './app.component';
 import { LambdasComponent } from './lambdas/list/lambdas.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
@@ -68,6 +69,7 @@ const routes: Routes = [
     AceEditorModule,
     FormsModule,
     ClickOutsideModule,
+    FundamentalNgxModule,
   ],
   providers: [
     HttpClient,

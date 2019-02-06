@@ -1,7 +1,4 @@
 /* tslint:disable:no-submodule-imports */
-
-import { catchError } from 'rxjs/operators';
-import { of as observableOf, Observable, forkJoin } from 'rxjs';
 import {
   Component,
   ViewChild,
@@ -11,6 +8,9 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { of as observableOf, Observable, forkJoin } from 'rxjs';
 import 'brace';
 import 'brace/ext/language_tools';
 import 'brace/snippets/javascript';
@@ -19,13 +19,16 @@ import 'brace/snippets/text';
 import 'brace/mode/javascript';
 import 'brace/mode/json';
 import 'brace/theme/eclipse';
+import { sha256 } from 'js-sha256';
+import { Clipboard } from 'ts-clipboard';
+import * as randomatic from 'randomatic';
+import * as luigiClient from '@kyma-project/luigi-client';
+
 import { Lambda } from '../../shared/datamodel/k8s/function';
 import { LambdaDetailsService } from './lambda-details.service';
 import { IMetaData } from '../../shared/datamodel/k8s/generic/meta-data';
-import { sha256 } from 'js-sha256';
 import { ITrigger } from '../../shared/datamodel/trigger';
 import { AppConfig } from '../../app.config';
-import { Clipboard } from 'ts-clipboard';
 import { HTTPEndpoint } from '../../shared/datamodel/http-endpoint';
 import { Event } from '../../shared/datamodel/event';
 import { ApisService } from '../../apis/apis.service';
@@ -34,16 +37,11 @@ import { FetchTokenModalComponent } from '../../fetch-token-modal/fetch-token-mo
 import { ServiceBindingUsagesService } from '../../service-binding-usages/service-binding-usages.service';
 import { ServiceBindingsService } from '../../service-bindings/service-bindings.service';
 import { InstanceBindingState } from '../../shared/datamodel/instance-binding-state';
-import { HttpErrorResponse } from '@angular/common/http';
 import { EventTrigger } from '../../shared/datamodel/event-trigger';
 import { EventActivationsService } from '../../event-activations/event-activations.service';
 import { EventActivation } from '../../shared/datamodel/k8s/event-activation';
 import { Subscription } from '../../shared/datamodel/k8s/subscription';
 import { SubscriptionsService } from '../../subscriptions/subscriptions.service';
-import * as randomatic from 'randomatic';
-
-import * as luigiClient from '@kyma-project/luigi-client';
-
 import { EventTriggerChooserComponent } from './event-trigger-chooser/event-trigger-chooser.component';
 import { HttpTriggerComponent } from './http-trigger/http-trigger.component';
 
@@ -133,6 +131,8 @@ export class LambdaDetailsComponent
   @ViewChild('dependencyEditor') dependencyEditor;
   @ViewChild('editor') editor;
   @ViewChild('labelsInput') labelsInput;
+  @ViewChild('errorAlert') errorAlert;
+  @ViewChild('isFunctionNameInvalidAlert') isFunctionNameInvalidAlert;
 
   constructor(
     private apisService: ApisService,
@@ -142,7 +142,6 @@ export class LambdaDetailsComponent
     private serviceBindingsService: ServiceBindingsService,
     private subscriptionsService: SubscriptionsService,
     protected route: ActivatedRoute,
-    router: Router,
   ) {
     this.functionSizes = AppConfig.functionSizes.map(s => s['size']).map(s => {
       s.description = `Memory: ${s.memory} CPU: ${s.cpu} minReplicas: ${
@@ -244,6 +243,11 @@ export class LambdaDetailsComponent
     }
   }
 
+  showError(error: string): void {
+    this.error = error;
+    this.errorAlert.show();
+  }
+
   selectType(selectedType) {
     this.aceMode = selectedType.aceMode;
     this.kind = selectedType.kind;
@@ -322,7 +326,7 @@ export class LambdaDetailsComponent
         },
         err => {
           console.log(err);
-          this.error = err.message;
+          this.showError(err.message);
         },
       );
     } else {
@@ -349,7 +353,7 @@ export class LambdaDetailsComponent
                 this.lambda = lambda;
               },
               err => {
-                this.error = err.message;
+                this.showError(err.message);
               },
             );
         } else {
@@ -359,7 +363,7 @@ export class LambdaDetailsComponent
         }
       },
       err => {
-        this.error = err.message;
+        this.showError(err.message);
       },
     );
   }
@@ -511,8 +515,8 @@ export class LambdaDetailsComponent
           forkJoin(deleteRequests).subscribe(responses => {
             responses.forEach(resp => {
               if (resp instanceof HttpErrorResponse) {
-                const res = resp as HttpErrorResponse;
-                this.error = res.message;
+                const err = resp as HttpErrorResponse;
+                this.showError(err.message);
               }
             });
             if (createRequests.length > 0) {
@@ -650,7 +654,7 @@ export class LambdaDetailsComponent
           if (errMessage === undefined) {
             this.navigateToList();
           } else {
-            this.error = errMessage;
+            this.showError(errMessage);
           }
         }
       });
@@ -679,7 +683,7 @@ export class LambdaDetailsComponent
       if (errMessage === undefined) {
         this.navigateToList();
       } else {
-        this.error = errMessage;
+        this.showError(errMessage);
       }
     });
   }
@@ -709,7 +713,7 @@ export class LambdaDetailsComponent
           this.navigateToList();
         }
       } else {
-        this.error = errMessage;
+        this.showError(errMessage);
       }
     });
   }
@@ -744,7 +748,7 @@ export class LambdaDetailsComponent
       },
       err => {
         console.log(err);
-        this.error = err.message;
+        this.showError(err.message);
       },
     );
   }
@@ -878,7 +882,7 @@ export class LambdaDetailsComponent
           this.loaded = observableOf(true);
         },
         err => {
-          this.error = err.message;
+          this.showError(err.message);
         },
       );
   }
@@ -1073,7 +1077,7 @@ export class LambdaDetailsComponent
         this.manageServiceBindings();
       },
       err => {
-        this.error = err.message;
+        this.showError(err.message);
         if (this.mode === 'create') {
           this.lambdaDetailsService
             .deleteLambda(this.lambda.metadata.name, this.namespace, this.token)
@@ -1082,7 +1086,7 @@ export class LambdaDetailsComponent
                 // Deleting function which as part of create-flow as creation of api fails
               },
               errCreate => {
-                this.error = errCreate.message;
+                this.showError(errCreate.message);
               },
             );
         }
@@ -1106,7 +1110,7 @@ export class LambdaDetailsComponent
         this.manageServiceBindings();
       },
       err => {
-        this.error = err.message;
+        this.showError(err.message);
       },
     );
   }
