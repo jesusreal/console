@@ -19,8 +19,7 @@
       </fd-action-bar-title>
     </fd-action-bar-header>
     <fd-action-bar-actions>
-      <button fd-button [options]="'light'" *ngIf="connectorServiceUrl || connectorServiceError"
-        (click)="fetchUrl()">
+      <button fd-button [options]="'light'" (click)="showUrl()">
           Connect Application
       </button>
     </fd-action-bar-actions>
