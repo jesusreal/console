@@ -18,7 +18,7 @@
         {{ serviceName }}
       </fd-action-bar-title>
     </fd-action-bar-header>
-    <fd-action-bar-actions><!-- TODO: check if removal is correct: [hidden]="serviceDetailsLoading" -->
+    <fd-action-bar-actions>
         <app-edit-resource [resourceData]="serviceDetails"></app-edit-resource>
     </fd-action-bar-actions>
   </fd-action-bar>
@@ -46,7 +46,7 @@
           </fd-panel-body>
         </fd-panel>
         <fd-panel [columnSpan]="5">
-          <fd-panel-body>{{ serviceDetails.objectMeta.name }}</fd-panel-body>
+          <fd-panel-body>{{ serviceDetails.metadata.name }}</fd-panel-body>
         </fd-panel>
         <fd-panel [columnSpan]="1">
           <fd-panel-body>
@@ -54,7 +54,7 @@
           </fd-panel-body>
         </fd-panel>
         <fd-panel [columnSpan]="5">
-          <fd-panel-body>{{ serviceDetails.objectMeta.namespace }}</fd-panel-body>
+          <fd-panel-body>{{ serviceDetails.metadata.namespace }}</fd-panel-body>
         </fd-panel>
         <fd-panel [columnSpan]="1">
           <fd-panel-body>
@@ -62,7 +62,7 @@
           </fd-panel-body>
         </fd-panel>
         <fd-panel [columnSpan]="5">
-          <fd-panel-body>{{ serviceDetails.clusterIP }}</fd-panel-body>
+          <fd-panel-body>{{ serviceDetails.spec.clusterIP }}</fd-panel-body>
         </fd-panel>
         <fd-panel [columnSpan]="1">
           <fd-panel-body>
@@ -70,16 +70,16 @@
           </fd-panel-body>
         </fd-panel>
         <fd-panel [columnSpan]="5">
-          <fd-panel-body>{{ serviceDetails.objectMeta.creationTimestamp }}</fd-panel-body>
+          <fd-panel-body>{{ serviceDetails.metadata.creationTimestamp }}</fd-panel-body>
         </fd-panel>
-        <fd-panel [columnSpan]="1" *ngIf="serviceDetails.objectMeta.labels">
+        <fd-panel [columnSpan]="1" *ngIf="serviceDetails.metadata.labels">
           <fd-panel-body>
             <label class="fd-has-color-text-4">Labels</label>
           </fd-panel-body>
         </fd-panel>
-        <fd-panel [columnSpan]="5" *ngIf="serviceDetails.objectMeta.labels">
+        <fd-panel [columnSpan]="5" *ngIf="serviceDetails.metadata.labels">
           <fd-panel-body>
-            <span class="fd-token" *ngFor="let key of objectKeys(serviceDetails.objectMeta.labels)">{{ key }}={{ serviceDetails.objectMeta.labels[key] }} </span>
+            <span class="fd-token" *ngFor="let key of objectKeys(serviceDetails.metadata.labels)">{{ key }}={{ serviceDetails.metadata.labels[key] }} </span>
           </fd-panel-body>
         </fd-panel>
         <fd-panel [columnSpan]="1">
@@ -89,10 +89,10 @@
         </fd-panel>
         <fd-panel [columnSpan]="5">
           <fd-panel-body>
-            <span *ngFor="let port of serviceDetails.internalEndpoint.ports">
-              <span>{{ serviceDetails.internalEndpoint.host }}:{{ port.port }} {{ port.protocol }}</span>
+            <span *ngFor="let port of serviceDetails.spec.ports">
+              <span>{{ serviceDetails.metadata.name }}.{{ serviceDetails.metadata.namespace }}:{{ port.port }} {{ port.protocol }}</span>
               <br>
-              <span>{{ serviceDetails.internalEndpoint.host }}:{{ port.nodePort }} {{ port.protocol }}</span>
+              <span>{{ serviceDetails.metadata.name }}.{{ serviceDetails.metadata.namespace }}:{{ port.nodePort || 0 }} {{ port.protocol }}</span>
               <br>
             </span>
           </fd-panel-body>
