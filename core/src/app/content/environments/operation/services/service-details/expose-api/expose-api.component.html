@@ -70,7 +70,7 @@
                   <div class="fd-popover__body fd-popover__body--no-arrow" [attr.aria-hidden]="ariaServiceHidden" id="nNJnB279">
                     <nav class="fd-menu">
                       <ul class="fd-menu__list">
-                        <li *ngFor="let svc of filteredServices" (click)="toggleDropDown(); selectService(svc); setApiName()">
+                        <li *ngFor="let svc of filteredServices" (click)="toggleDropDown(); selectService(svc); checkIfServiceCanBeSecured(svc); setApiName()">
                           <span class="fd-menu__item">{{ svc.metadata.name }}</span>
                         </li>
                       </ul>
