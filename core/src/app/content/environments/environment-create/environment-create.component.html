@@ -1,5 +1,5 @@
 <div luigiClientCommunication [isActive]="isActive">
-  <fd-modal #createEnvironmentModal role="dialog" aria-labelledby="createEnv">
+  <fd-modal #createEnvironmentModal role="dialog" aria-labelledby="createEnv" data-e2e-id="create-environment-modal">
     <fd-modal-header>
       Create New Namespace
     </fd-modal-header>
@@ -33,7 +33,8 @@
         class="env-create-btn" 
         [fdType]="'main'" 
         (click)="createEnvironment()" 
-        [disabled]="(!environmentName) || wrongName">
+        [disabled]="(!environmentName) || wrongName"
+        data-e2e-id="create-environment-button">
         Create
       </button>
     </fd-modal-footer>

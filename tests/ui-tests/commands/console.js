@@ -170,11 +170,11 @@ async function createRemoteEnvironment(page, name) {
   const frame = await getFrame(page);
   // consts
   const createEnvBtn = '.open-create-env-modal';
-  const createEnvModal = '.sf-modal.sf-modal--min';
+  const createEnvModal = '[data-e2e-id=create-environment-modal]';
   const nameInput = 'input[name=remoteEnvName]';
   const descriptionInput = 'input[name=remoteEnvDescription]';
   const labelsInput = 'input[name=labelsInput]';
-  const createButton = '.tn-modal__button-primary';
+  const createButton = '[data-e2e-id=create-environment-button]';
 
   await frame.click(createEnvBtn);
   await frame.waitFor(createEnvModal);
@@ -211,7 +211,7 @@ async function deleteRemoteEnvironment(page, name) {
   );
   await frame.waitForSelector(modalSelector);
   await frame.evaluate(() => {
-    const deleteButton = `.tn-modal__button-primary.sf-button--primary.tn-button--small`;
+    const deleteButton = `[data-e2e-id=confirmation-modal-button-ok]`;
     document.querySelector(deleteButton).click();
   });
   console.log(`Application ${name} deleted!`);
