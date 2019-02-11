@@ -1,5 +1,5 @@
 <div luigiClientCommunication [isActive]="isActive">
-  <fd-modal #confirmationModal role="dialog" aria-labelledby="confirm" (click)="$event.stopPropagation()">
+  <fd-modal #confirmationModal role="dialog" aria-labelledby="confirm" (click)="$event.stopPropagation()" data-e2e-id="confirmation-modal">
     <fd-modal-header>
       {{ title }}
     </fd-modal-header>
