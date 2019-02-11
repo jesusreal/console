@@ -126,6 +126,7 @@ export class WorkspaceOverviewComponent extends GenericListComponent
                     );
                   },
                   () => {
+                    this.confirmationModal.cancel();
                     this.refreshContextSwitcher();
                   }
                 );
