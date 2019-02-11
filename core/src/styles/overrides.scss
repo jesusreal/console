@@ -183,3 +183,17 @@ input[type='checkbox'] {
   position: relative !important;
   margin-right: 0;
 }
+
+.y-fd-badge {
+  text-transform: none;
+}
+
+//change that class!
+
+.row {
+  margin: auto;
+  td {
+    word-break: break-word;
+  }
+}
+//remove pointer
