@@ -140,9 +140,9 @@ async function getTextContentOnFrameBySelector(frame, selector) {
 
 async function createEnvironment(page, name) {
   const frame = await getFrame(page);
-  const createEnvModal = '.sf-modal.sf-modal--min';
+  const createEnvModal = '[data-e2e-id=create-environment-modal]';
   const createBtn = '.env-create-btn';
-  const envNameInput = 'input[name=environmentName].tn-form__control';
+  const envNameInput = 'input[name=environmentName]';
   const createButtonSelector = '.open-create-env-modal';
 
   await frame.waitForSelector(createButtonSelector);
@@ -160,7 +160,7 @@ async function deleteEnvironment(page, envName) {
     '.tn-modal__button-primary.sf-button--primary.tn-button--small';
   const dropDownCard = `button[aria-controls=${envName}]`;
   await frame.click(dropDownCard);
-  await frame.click(`#${envName} > li > a[name=Delete]`);
+  await frame.click(`#${envName} li > a[name=Delete]`);
   await frame.waitFor(deleteConfirmButton);
   await frame.click(deleteConfirmButton);
   return frame.waitForSelector(deleteConfirmButton, { hidden: true });
@@ -195,12 +195,13 @@ async function deleteRemoteEnvironment(page, name) {
   const frame = await getFrame(page);
   const remoteEnvironmentsSelector = '.row.sf-list__body';
   const modalSelector = '.sf-modal';
+
   await frame.waitForSelector(remoteEnvironmentsSelector);
   await frame.$$eval(
     remoteEnvironmentsSelector,
     (item, name) => {
-      const actionsSelector = '.tn-icon';
-      const deleteActionSelector = `.tn-dropdown__item[name=Delete]`;
+      const actionsSelector = `button[aria-controls=${name}]`;
+      const deleteActionSelector = `#${name} li > a[name=Delete]`;
       const testRemoteEnvironment = item.find(row =>
         row.textContent.includes(name)
       );
@@ -211,7 +212,7 @@ async function deleteRemoteEnvironment(page, name) {
   );
   await frame.waitForSelector(modalSelector);
   await frame.evaluate(() => {
-    const deleteButton = `.tn-modal__button-primary.sf-button--primary.tn-button--small`;
+    const deleteButton = `[data-e2e-id=confirmation-modal-button-ok]`;
     document.querySelector(deleteButton).click();
   });
   console.log(`Application ${name} deleted!`);
