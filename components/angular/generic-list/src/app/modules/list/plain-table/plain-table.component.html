@@ -1,8 +1,14 @@
-<div [hidden]="loading || errorMessage || !data || data.length === 0">
-  <ng-template #header></ng-template>
-  <ng-template class="container" #entries></ng-template>
-  <ng-template #footer></ng-template>
-</div>
+<table class="fd-table" [hidden]="loading || errorMessage || !data || data.length === 0">
+  <thead>
+    <ng-template #header></ng-template>
+  </thead>
+  <tbody>
+    <ng-template #entries></ng-template>
+  </tbody>
+  <tfoot>
+    <ng-template #footer></ng-template>
+  </tfoot>
+</table>
 
 <fd-loading-spinner [loading]="loading"></fd-loading-spinner>
 

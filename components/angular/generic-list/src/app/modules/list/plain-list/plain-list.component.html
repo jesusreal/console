@@ -1,4 +1,7 @@
-<div [hidden]="loading || errorMessage || !data || data.length === 0" class="row">
+<div
+  class="fd-panel-grid"
+  [hidden]="loading || errorMessage || !data || data.length === 0"
+>
   <ng-template #entries></ng-template>
 </div>
 
