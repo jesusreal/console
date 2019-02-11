@@ -140,9 +140,9 @@ async function getTextContentOnFrameBySelector(frame, selector) {
 
 async function createEnvironment(page, name) {
   const frame = await getFrame(page);
-  const createEnvModal = '.sf-modal.sf-modal--min';
+  const createEnvModal = '[data-e2e-id=create-environment-modal]';
   const createBtn = '.env-create-btn';
-  const envNameInput = 'input[name=environmentName].tn-form__control';
+  const envNameInput = 'input[name=environmentName]';
   const createButtonSelector = '.open-create-env-modal';
 
   await frame.waitForSelector(createButtonSelector);
@@ -170,11 +170,11 @@ async function createRemoteEnvironment(page, name) {
   const frame = await getFrame(page);
   // consts
   const createEnvBtn = '.open-create-env-modal';
-  const createEnvModal = '[data-e2e-id=create-environment-modal]';
+  const createEnvModal = '.sf-modal.sf-modal--min';
   const nameInput = 'input[name=remoteEnvName]';
   const descriptionInput = 'input[name=remoteEnvDescription]';
   const labelsInput = 'input[name=labelsInput]';
-  const createButton = '[data-e2e-id=create-environment-button]';
+  const createButton = '.tn-modal__button-primary';
 
   await frame.click(createEnvBtn);
   await frame.waitFor(createEnvModal);
