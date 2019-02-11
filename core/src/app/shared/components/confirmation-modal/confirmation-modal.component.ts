@@ -40,13 +40,18 @@ export class ConfirmationModalComponent implements OnInit {
     });
   }
 
-  cancel(event: Event) {
+  closeModal() {
     this.modalService.close(this.confirmationModal);
+  }
+
+  cancel(event?: Event) {
+    this.closeModal();
   }
 
   ok(event: Event) {
     this.okPromise(true);
     this.isActive = false;
     event.stopPropagation();
+    this.closeModal();
   }
 }
