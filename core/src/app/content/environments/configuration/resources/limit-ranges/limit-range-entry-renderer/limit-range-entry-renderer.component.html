@@ -1,14 +1,18 @@
-<div class="row sf-list__body" [ngClass]="{'sf-list__disabled': disabled === true}">
-  <div class="col-3 col-lg-4">{{ entry.name }}</div>
-  <div class="col-3" *ngIf="entry.limits.length > 0">
+<div class="fd-tree__row">
+  <div class="fd-tree__col">{{ entry.name }}</div>
+  <div class="fd-tree__col" *ngIf="entry.limits.length > 0">
     {{ listMaxMemoryLimits() }}
   </div>
-  <div class="col-3" *ngIf="entry.limits.length === 0">-</div>
-  <div class="col-2" *ngIf="containerLimits">{{ containerLimits.default.memory }}</div>
-  <div class="col-2" *ngIf="!containerLimits">-</div>
-  <div class="col-2" *ngIf="containerLimits">{{ containerLimits.defaultRequest.memory }}</div>
-  <div class="col-2" *ngIf="!containerLimits">-</div>
-  <div class="col-2 col-lg-1 actions-icon">
+  <div class="fd-tree__col" *ngIf="entry.limits.length === 0">-</div>
+  <div class="fd-tree__col" *ngIf="containerLimits">
+    {{ containerLimits.default.memory }}
+  </div>
+  <div class="fd-tree__col" *ngIf="!containerLimits">-</div>
+  <div class="fd-tree__col" *ngIf="containerLimits">
+    {{ containerLimits.defaultRequest.memory }}
+  </div>
+  <div class="fd-tree__col" *ngIf="!containerLimits">-</div>
+  <div class="fd-tree__col">
     <y-list-actions [entry]="entry" [entryEventHandler]="entryEventHandler" [actions]="actions"></y-list-actions>
   </div>
 </div>
