@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
 export class PlainTableComponent extends PlainListComponent {
   @Input() headerRenderer: Type<any>;
   @Input() footerRenderer: Type<any>;
-  @Input() entryTagName = 'tr';
+  @Input() entryTagName = 'tbody';
 
   @ViewChild('header', { read: ViewContainerRef })
   headerViewContainer: ViewContainerRef;
@@ -37,7 +37,7 @@ export class PlainTableComponent extends PlainListComponent {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
         this.headerRenderer,
       );
-      const hostTag = document.createElement('tr');
+      const hostTag = document.createElement('thead');
       const component = componentFactory.create(injector, [], hostTag);
       this.headerViewContainer.clear();
       this.headerViewContainer.insert(component.hostView);
@@ -51,7 +51,7 @@ export class PlainTableComponent extends PlainListComponent {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
         this.footerRenderer,
       );
-      const hostTag = document.createElement('tr');
+      const hostTag = document.createElement('tfoot');
       const component = componentFactory.create(injector, [], hostTag);
       this.footerViewContainer.clear();
       this.footerViewContainer.insert(component.hostView);

@@ -9,4 +9,7 @@
       </p>
     </div>
   </div>
+  <div *ngIf="entry.error" class="fd-panel__footer">
+    <div class="fd-alert fd-alert--error">{{ entry.error }}</div>
+  </div>
 </div>
