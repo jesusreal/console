@@ -156,8 +156,7 @@ async function createEnvironment(page, name) {
 
 async function deleteEnvironment(page, envName) {
   const frame = await getFrame(page);
-  const deleteConfirmButton =
-    '.tn-modal__button-primary.sf-button--primary.tn-button--small';
+  const deleteConfirmButton = `[data-e2e-id=confirmation-modal-button-ok]`;
   const dropDownCard = `button[aria-controls=${envName}]`;
   await frame.click(dropDownCard);
   await frame.click(`#${envName} li > a[name=Delete]`);
@@ -194,7 +193,7 @@ async function createRemoteEnvironment(page, name) {
 async function deleteRemoteEnvironment(page, name) {
   const frame = await getFrame(page);
   const remoteEnvironmentsSelector = '.row.sf-list__body';
-  const modalSelector = '.sf-modal';
+  const modalSelector = '[data-e2e-id=confirmation-modal]';
 
   await frame.waitForSelector(remoteEnvironmentsSelector);
   await frame.$$eval(
