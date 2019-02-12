@@ -47,7 +47,7 @@ export class LambdasComponent extends GenericTableComponent
   public lambdasEventHandler;
   token: string;
   environment: string;
-  error: string;
+  error: string = 'Something bad happened. Dummy text.';
   listenerId: string;
 
   filterState = { filters: [new Filter('metadata.name', '', false)] };
