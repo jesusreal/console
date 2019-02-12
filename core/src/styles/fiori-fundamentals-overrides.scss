@@ -74,9 +74,17 @@ span {
 
 
 //Token
-.fd-token {
+.y-fd-token {
   margin-right: 5px;
   margin-bottom: 5px;
+
+  &--is-not-active {
+    cursor: default;
+
+    &:after {
+      display: none;
+    }
+  }
 }
 
 

@@ -79,7 +79,7 @@
         </fd-panel>
         <fd-panel [columnSpan]="5" *ngIf="serviceDetails.metadata.labels">
           <fd-panel-body>
-            <span class="fd-token" *ngFor="let key of objectKeys(serviceDetails.metadata.labels)">{{ key }}={{ serviceDetails.metadata.labels[key] }} </span>
+            <span class="fd-token y-fd-token y-fd-token--is-not-active" *ngFor="let key of objectKeys(serviceDetails.metadata.labels)">{{ key }}={{ serviceDetails.metadata.labels[key] }} </span>
           </fd-panel-body>
         </fd-panel>
         <fd-panel [columnSpan]="1">
