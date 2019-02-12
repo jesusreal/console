@@ -23,7 +23,7 @@ export class AppComponent {
     {
       id: '2',
       name: 'two (with an error)',
-      error: `'Some days are like this error. Stupid and useless in context of your lifeline' ~ dr Mask Opatol`,
+      error: `'Some days are like this error. Stupid and useless in context of your lifeline' ~ dr Masuko Opatoluchi`,
     },
     { id: '3', name: 'threeee' },
     { id: '4', name: 'four' },
