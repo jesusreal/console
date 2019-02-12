@@ -5,7 +5,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Routes } from '@angular/router';
 import { LuigiClientCommunicationDirective } from '../../directives/luigi-client-communication/luigi-client-communication.directive';
-import { FundamentalNgxModule, ModalService } from 'fundamental-ngx';
+import { ModalService } from 'fundamental-ngx';
 
 describe('InformationModalComponent', () => {
   let component: InformationModalComponent;
