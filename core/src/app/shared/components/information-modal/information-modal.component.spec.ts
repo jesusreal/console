@@ -20,7 +20,6 @@ describe('InformationModalComponent', () => {
         LuigiClientCommunicationDirective
       ],
       providers: [
-        FundamentalNgxModule,
         { 
           provide: APP_BASE_HREF, 
           useValue: '/my/app' 
