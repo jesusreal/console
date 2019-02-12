@@ -15,7 +15,7 @@ export class EditRemoteEnvironmentModalComponent {
   @Input() public name: string;
 
   @ViewChild('editRemoteEnvsForm') editRemoteEnvsForm: NgForm;
-  @ViewChild('editRemoteEnvironmentModal') editRemoteEnvironmentModal: any;
+  @ViewChild('editRemoteEnvironmentModal') editRemoteEnvironmentModal: NgForm;
 
   public isActive = false;
   public wrongLabels: boolean;
