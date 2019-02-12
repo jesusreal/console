@@ -1,10 +1,10 @@
-<tr class="row">
-  <td class="col-4 fd-has-font-weight-bold">
+<tr>
+  <td class="fd-has-font-weight-bold">
     <div>{{ entry.name }}</div>
   </td>
-  <td class="col-3">{{ entry.issuer }}</td>
-  <td class="col-4">{{ entry.jwksUri }}</td>
-  <td class="col-1 actions-icon">
+  <td>{{ entry.issuer }}</td>
+  <td>{{ entry.jwksUri }}</td>
+  <td class="actions-icon">
     <y-list-actions [entry]="entry" [entryEventHandler]="entryEventHandler" [actions]="actions"></y-list-actions>
   </td>
 </tr>

@@ -8,8 +8,7 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-permissions',
   templateUrl: './permissions.component.html',
-  styleUrls: ['./permissions.component.scss'],
-  host: { class: 'sf-content' }
+  styleUrls: ['./permissions.component.scss']
 })
 export class PermissionsComponent implements OnInit {
   @ViewChild('confirmationModal') confirmationModal: ConfirmationModalComponent;

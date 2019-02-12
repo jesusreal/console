@@ -16,8 +16,7 @@ import LuigiClient from '@kyma-project/luigi-client';
 @Component({
   selector: 'app-remote-environments',
   templateUrl: './remote-environments.component.html',
-  styleUrls: ['./remote-environments.component.scss'],
-  host: { class: 'sf-content' }
+  styleUrls: ['./remote-environments.component.scss']
 })
 export class RemoteEnvironmentsComponent extends AbstractKubernetesElementListComponent {
   title = 'Applications';

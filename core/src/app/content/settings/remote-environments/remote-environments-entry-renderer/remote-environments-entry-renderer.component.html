@@ -1,20 +1,20 @@
-<tr class="row" [ngClass]="{'sf-list__disabled': disabled === true}">
-  <td class="col-3 fd-has-font-weight-bold remoteenv-name" (click)="navigateToDetails(entry.name)">{{ entry.name }}</td>
-  <td class="col-3">
+<tr [ngClass]="{'sf-list__disabled': disabled === true}">
+  <td class="fd-has-font-weight-bold remoteenv-name" (click)="navigateToDetails(entry.name)">{{ entry.name }}</td>
+  <td>
     <div *ngIf='getLabels(entry.labels).length'>
       <span class="fd-badge fd-badge--pill y-fd-badge" *ngFor="let label of getLabels(entry.labels)">
         {{ label }}
       </span>
     </div>
   </td>
-  <td class="col-3">{{ listConnectedEnvs(entry)? listConnectedEnvs(entry) : '' }}</td>
-  <td class="col-2">
+  <td>{{ listConnectedEnvs(entry)? listConnectedEnvs(entry) : '' }}</td>
+  <td>
     <app-status-label 
       [statusType]="getStatusType(entry)">
       {{ getStatus(entry) }}
     </app-status-label>
   </td>
-  <td class="col-1 actions-icon">
+  <td class="actions-icon">
     <y-list-actions [entry]="entry" [entryEventHandler]="entryEventHandler" [actions]="actions"></y-list-actions>
   </td>
 </tr>
