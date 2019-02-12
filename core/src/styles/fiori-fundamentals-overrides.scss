@@ -1,0 +1,10 @@
+.fd-action-bar__actions {
+  flex-shrink: 0;
+}
+
+.fd-table {
+  .disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
