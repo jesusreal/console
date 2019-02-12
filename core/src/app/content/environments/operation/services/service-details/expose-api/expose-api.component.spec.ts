@@ -84,7 +84,7 @@ describe('ExposeApiComponent', () => {
         { provide: IdpPresetsService, useValue: IdpPresetsMockService },
         {
           provide: ModalService,
-          useValue: { updateModalService: () => {} }
+          useValue: {}
         }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
