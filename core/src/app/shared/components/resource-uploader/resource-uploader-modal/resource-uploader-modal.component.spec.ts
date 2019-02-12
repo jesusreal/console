@@ -25,7 +25,7 @@ describe('ResourceUploaderModalComponent', () => {
         ComponentCommunicationService,
         {
           provide: ModalService,
-          useValue: { updateModalService: () => {} }
+          useValue: {}
         }
       ],
       imports: [RouterTestingModule.withRoutes(routes)]
