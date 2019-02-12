@@ -26,7 +26,7 @@ describe('InformationModalComponent', () => {
         },
         {
           provide: ModalService,
-          useValue: { updateModalService: () => {} }
+          useValue: {}
         }
       ]
     })
