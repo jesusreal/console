@@ -21,7 +21,7 @@ describe('Copy2ClipboardModalComponent', () => {
       providers: [
         {
           provide: ModalService,
-          useValue: { updateModalService: () => {} }
+          useValue: {}
         }
       ],
       imports: [ClipboardModule]
