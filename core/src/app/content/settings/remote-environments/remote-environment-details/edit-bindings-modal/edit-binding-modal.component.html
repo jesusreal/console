@@ -32,7 +32,6 @@
     </fd-modal-body>
     <fd-modal-footer>
       <button fd-button [fdType]="'main'"
-          ngClass="{{checkIfEnvironmentExists() ? '' : 'disabled'}}"
           [disabled]="!checkIfEnvironmentExists()"
           (click)="save()">OK</button>
     </fd-modal-footer>
