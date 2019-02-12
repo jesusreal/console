@@ -5,6 +5,7 @@ import {
   Type,
   ViewChild,
   ViewContainerRef,
+  ViewEncapsulation,
 } from '@angular/core';
 import { PlainListComponent } from '../plain-list/plain-list.component';
 import { Observable } from 'rxjs';
@@ -13,11 +14,12 @@ import { Observable } from 'rxjs';
   selector: 'y-plain-table',
   templateUrl: './plain-table.component.html',
   styleUrls: ['./plain-table.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class PlainTableComponent extends PlainListComponent {
   @Input() headerRenderer: Type<any>;
   @Input() footerRenderer: Type<any>;
-  @Input() entryTagName = 'div';
+  @Input() entryTagName = 'tbody';
 
   @ViewChild('header', { read: ViewContainerRef })
   headerViewContainer: ViewContainerRef;
@@ -35,9 +37,7 @@ export class PlainTableComponent extends PlainListComponent {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
         this.headerRenderer,
       );
-      const hostTag = document.createElement('div');
-      // sf-list__head class not properly applied on dynamically injected element
-      hostTag.setAttribute('style', 'text-align:left');
+      const hostTag = document.createElement('thead');
       const component = componentFactory.create(injector, [], hostTag);
       this.headerViewContainer.clear();
       this.headerViewContainer.insert(component.hostView);
@@ -51,8 +51,7 @@ export class PlainTableComponent extends PlainListComponent {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
         this.footerRenderer,
       );
-      const hostTag = document.createElement('div');
-      hostTag.setAttribute('class', 'sf-list__foot');
+      const hostTag = document.createElement('tfoot');
       const component = componentFactory.create(injector, [], hostTag);
       this.footerViewContainer.clear();
       this.footerViewContainer.insert(component.hostView);
