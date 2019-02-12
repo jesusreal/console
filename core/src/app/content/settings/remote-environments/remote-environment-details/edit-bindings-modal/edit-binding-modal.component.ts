@@ -4,7 +4,7 @@ import { EnvironmentsService } from '../../../../environments/services/environme
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RemoteEnvironmentsService } from './../../services/remote-environments.service';
-import { ModalService } from 'fundamental-ngx';
+import { ModalService, ModalComponent } from 'fundamental-ngx';
 
 import * as _ from 'lodash';
 import { forkJoin } from 'rxjs';
@@ -15,8 +15,7 @@ import { forkJoin } from 'rxjs';
   styleUrls: ['./edit-binding-modal.component.scss']
 })
 export class EditBindingsModalComponent {
-
-  @ViewChild('editBindingModal') editBindingModal: any;
+  @ViewChild('editBindingModal') editBindingModal: ModalComponent;
 
   public environments = [];
   private environmentsService: EnvironmentsService;
@@ -69,13 +68,12 @@ export class EditBindingsModalComponent {
         }
       );
       this.isActive = true;
-      this.modalService.open(this.editBindingModal).result
-        .finally(() => {
-          this.isActive = false;
-          this.environmentName = null;
-          this.filteredEnvs = [];
-          this.filteredEnvsNames = [];
-        })
+      this.modalService.open(this.editBindingModal).result.finally(() => {
+        this.isActive = false;
+        this.environmentName = null;
+        this.filteredEnvs = [];
+        this.filteredEnvsNames = [];
+      });
     });
   }
 

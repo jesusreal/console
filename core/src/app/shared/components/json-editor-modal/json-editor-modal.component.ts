@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { ModalService } from 'fundamental-ngx';
+import { ModalService, ModalComponent } from 'fundamental-ngx';
 import { cloneDeep } from 'lodash';
 
 import { ComponentCommunicationService } from '../../services/component-communication.service';
@@ -13,7 +13,7 @@ import { JsonEditorComponent } from './json-editor/json-editor.component';
 export class JsonEditorModalComponent {
   @Input() resourceData: any;
   @ViewChild('jsoneditor') jsonEditor: JsonEditorComponent;
-  @ViewChild('jsonEditorModal') jsonEditorModal: any;
+  @ViewChild('jsonEditorModal') jsonEditorModal: ModalComponent;
 
   public isActive = false;
   public error: any;

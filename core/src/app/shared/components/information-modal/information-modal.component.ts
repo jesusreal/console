@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalService } from 'fundamental-ngx';
+import { ModalService, ModalComponent } from 'fundamental-ngx';
 
 @Component({
   selector: 'app-information-modal',
@@ -11,7 +11,7 @@ export class InformationModalComponent {
   @Input() private message: string;
   @Input() private title: string;
 
-  @ViewChild('informationModal') informationModal: any;
+  @ViewChild('informationModal') informationModal: ModalComponent;
 
   public isActive = false;
   public redirectUrl: string;
@@ -33,11 +33,10 @@ export class InformationModalComponent {
     }
     this.isActive = true;
 
-    this.modalService.open(this.informationModal).result
-      .finally(() => {
-        this.isActive = false;
-        event.stopPropagation(); 
-      })
+    this.modalService.open(this.informationModal).result.finally(() => {
+      this.isActive = false;
+      event.stopPropagation();
+    });
   }
 
   public cancel(event: Event) {
