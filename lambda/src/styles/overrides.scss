@@ -173,3 +173,22 @@ input[type='checkbox'] {
   position: relative !important;
   margin-right: 0;
 }
+
+.fd-action-bar__actions .fd-popover {
+  top: 0 !important;
+}
+
+.fd-action-bar__actions {
+  flex-shrink: 0 !important;
+}
+
+.y-fd-token {
+  margin-bottom: fd-space('tiny');
+  margin-right: fd-space('tiny');
+  &.y-fd-token--no-button {
+    cursor: default;
+    &:after {
+      all: unset;
+    }
+  }
+}
