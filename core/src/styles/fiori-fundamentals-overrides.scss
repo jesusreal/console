@@ -1,0 +1,19 @@
+.y-fd-panel__title {
+  padding: 0 16px;
+}
+
+.y-fd-table__tr--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.y-fd-token {
+  margin-bottom: fd-space('tiny');
+  margin-right: fd-space('tiny');
+  &.y-fd-token--no-button {
+    cursor: default;
+    &:after {
+      all: unset;
+    }
+  }
+}

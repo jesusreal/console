@@ -2,7 +2,7 @@
   <td class="fd-has-font-weight-bold remoteenv-name" (click)="navigateToDetails(entry.name)">{{ entry.name }}</td>
   <td>
     <div *ngIf='getLabels(entry.labels).length'>
-      <span class="fd-badge fd-badge--pill y-fd-badge" *ngFor="let label of getLabels(entry.labels)">
+      <span class="fd-token y-fd-token y-fd-token--no-button" *ngFor="let label of getLabels(entry.labels)">
         {{ label }}
       </span>
     </div>
