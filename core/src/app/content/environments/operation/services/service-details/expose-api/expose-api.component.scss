@@ -1,8 +1,6 @@
-.fd-dropdown {
-  .fd-form__control[type='text'] {
+.y-fd-dropdown {
+  .y-fd-form__control[type='text'] {
     border: 0;
-    box-shadow: none;
-    width: 100%;
     padding-right: 40px;
   
     &:focus {
@@ -11,7 +9,7 @@
   }
 }
 
-.fd-dropdown__control {
+.y-fd-dropdown__control {
   height: auto;
   max-height: none;
 
@@ -24,12 +22,11 @@
   }
 }
 
-.fd-popover__body {
+.y-fd-popover__body {
   width: 100%;
   overflow: auto;
   max-height: 300px;
 }
-
 
 //Workaroud before techne is not removed
 input[type=checkbox] {

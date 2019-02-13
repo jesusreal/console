@@ -48,15 +48,15 @@
           <div class="fd-form__group">
             <div class="fd-form__item">
               <label class="fd-form__label">Service *</label>
-              <div class="fd-dropdown fd-has-display-block" (clickOutside)="closeDropDown()" clickOutsideEvents="click,mousedown" excludeBeforeClick="true">
+              <div class="fd-dropdown y-fd-dropdown fd-has-display-block" (clickOutside)="closeDropDown()" clickOutsideEvents="click,mousedown" excludeBeforeClick="true">
                 <div class="fd-popover fd-has-display-block">
                   <div class="fd-popover__control">
-                    <button class="fd-dropdown__control fd-button fd-has-padding-none" 
+                    <button class="fd-dropdown__control y-fd-dropdown__control fd-button fd-has-padding-none" 
                       aria-controls="nNJnB279"
                       [attr.aria-expanded]="ariaServiceExpanded"
                       aria-haspopup="true"
                       (click)="toggleDropDown()">
-                      <input class="fd-form__control"
+                      <input class="fd-form__control y-fd-form__control"
                         type="text"
                         name="serviceName"
                         autocomplete="off"
@@ -67,7 +67,7 @@
                         (click)="openDropDown($event)">
                     </button>
                   </div>
-                  <div class="fd-popover__body fd-popover__body--no-arrow" [attr.aria-hidden]="ariaServiceHidden" id="nNJnB279">
+                  <div class="fd-popover__body fd-popover__body--no-arrow y-fd-popover__body" [attr.aria-hidden]="ariaServiceHidden" id="nNJnB279">
                     <nav class="fd-menu">
                       <ul class="fd-menu__list">
                         <li *ngFor="let svc of filteredServices" (click)="toggleDropDown(); selectService(svc); checkIfServiceCanBeSecured(svc); setApiName()">
