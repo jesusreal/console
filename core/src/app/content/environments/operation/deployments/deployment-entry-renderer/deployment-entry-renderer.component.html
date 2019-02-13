@@ -1,17 +1,30 @@
-<tr [ngClass]="{'disabled': disabled === true}">
+<tr [ngClass]="{ disabled: disabled === true }">
   <td>{{ entry.name }}</td>
-  <td>{{ entry.status.readyReplicas ? entry.status.readyReplicas : 0 }}/{{ entry.status.replicas }}</td>
+  <td>
+    <fd-badge [modifier]="'filled'"
+      [status]="(entry.status.readyReplicas || 0)===entry.status.replicas? 'success' : 'error'">
+      {{ entry.status.readyReplicas || '0' }}/{{ entry.status.replicas }}
+    </fd-badge>
+  </td>
   <td>{{ entry.creationTimestamp * 1000 | timeAgo }}</td>
   <td>
-    <fd-badge *ngFor="let image of entry.containers" style="word-break: break-all;">{{ image.image }}</fd-badge>
+    <fd-badge *ngFor="let image of entry.containers" class="break-word">
+      {{ image.image }}
+    </fd-badge>
   </td>
   <ng-container *ngIf="showBoundServices">
-    <td *ngIf="entry.boundServiceInstanceNames && entry.boundServiceInstanceNames.length > 0">
+    <td *ngIf="
+        entry.boundServiceInstanceNames &&
+        entry.boundServiceInstanceNames.length > 0
+      ">
       <a *ngFor="let instance of entry.boundServiceInstanceNames" (click)="goToServiceInstanceDetails(instance)">
         {{ instance }}
       </a>
     </td>
-    <td *ngIf="(!entry.boundServiceInstanceNames || entry.boundServiceInstanceNames.length === 0)">
+    <td *ngIf="
+        !entry.boundServiceInstanceNames ||
+        entry.boundServiceInstanceNames.length === 0
+      ">
       <span></span>
     </td>
   </ng-container>
