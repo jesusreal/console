@@ -5,9 +5,9 @@
         {{ title }}
       </a>
     </fd-breadcrumb-item>
-    <fd-breadcrumb-item>
+    <fd-breadcrumb-item *ngIf="lambda?.metadata?.name">
       <span fd-breadcrumb-link>
-        {{ serviceName }}
+        {{ lambda?.metadata?.name }}
       </span>
     </fd-breadcrumb-item>
   </fd-breadcrumb>
@@ -15,7 +15,7 @@
   <fd-action-bar>
     <fd-action-bar-header>
       <fd-action-bar-title>
-        {{ serviceName }}
+        {{ lambda?.metadata?.name }}
       </fd-action-bar-title>
     </fd-action-bar-header>
     <fd-action-bar-actions [hidden]="serviceDetailsToEditLoading">
@@ -74,6 +74,143 @@
     </fd-panel>
   </div>
 </section>
+
+<section class="fd-section">
+  <fd-panel>
+    <fd-panel-header>
+      <fd-panel-head>
+        <fd-panel-title>General informations</fd-panel-title>
+      </fd-panel-head>
+      <fd-panel-actions>
+        <fd-popover [isDropdown]="false" [compact]="true">
+          Select Function Trigger
+          <fd-popover-body>
+            <fd-menu>
+              <fd-menu-list>
+                <li fd-menu-item *ngFor="let option of menu1">
+                  <a [attr.href]="option.url">{{option.text}}</a>
+                </li>
+                <li fd-menu-item>
+                  <a [class.disabled]="lambda.metadata.name.length <=0 || isFunctionNameInvalid" (click)="showEventTrigger()">
+                    Event Trigger</a>
+                </li>
+                <li fd-menu-item>
+                  <a [class.disabled]="lambda.metadata.name.length <= 0 || isFunctionNameInvalid || isHTTPTriggerAdded"
+                    (click)="showHTTPTrigger()">Expose via HTTPS</a>
+                </li>
+              </fd-menu-list>
+            </fd-menu>
+          </fd-popover-body>
+      </fd-popover>
+
+            <div class="sf-toolbar__item sf-trigger-list-elements">
+              <div [ngClass]="selectedTriggers.length > 0 ? 'lambda-editor-header-list' : 'lambda-editor-header-list-first-elem'">
+                <button class="tn-button tn-button--small tn-button--text" (click)="toggleTriggerTypeDropdown($event)"
+                        dropdown="triggerType" [disabled]="!lambda.metadata.name || isFunctionNameInvalid">Select Function
+                  Trigger</button>
+                <div (mouseleave)="closeTriggerTypeDropDown()">
+                  <div class="tn-dropdown__menu trigger-menu" [attr.aria-hidden]="!toggleTriggerType">
+                    <ul class="tn-dropdown__menu trigger-menu">
+                      <li>
+                        <a [class.disabled]="lambda.metadata.name.length <=0 || isFunctionNameInvalid" (click)="showEventTrigger()"
+                           class="tn-dropdown__item">Event Trigger</a>
+                      </li>
+
+                      <li>
+                        <a [class.disabled]="lambda.metadata.name.length <= 0 || isFunctionNameInvalid || isHTTPTriggerAdded"
+                           (click)="showHTTPTrigger()" class="tn-dropdown__item">Expose via HTTPS</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <ng-container *ngIf="selectedTriggers.length > 0">
+                <div class="trigger-event" *ngFor="let trigger of selectedTriggers">
+
+                  <div (mouseover)="onMouseOver(trigger) " (click)="onMouseOver(trigger) " class="selected-trigger__item tn-badge tn-badge--pill tn-badge-trigger labels">
+
+                    <span class="tn-icon tn-icon--remove labels__remove" (click)="unselectEvent(trigger);$event.stopPropagation();">
+                    </span>
+
+                    <span *ngIf="trigger.eventType === 'http' && isHTTPTriggerAuthenticated" class="securedHTTPTrigger"></span>
+
+                    <strong>{{ trigger.eventType }}</strong>
+                    <ng-container *ngIf="trigger.eventType!=='http'">- {{ trigger.version }} </ng-container>
+
+                    <div clickOutsideEvents="click" (clickOutside)="hideHTTPURL()" [exclude]="'.tn-badge--pill'"
+                         excludeBeforeClick="true" class="tn-dropdown__menu trigger-menu" *ngIf="showHTTPURL == trigger">
+                      <div class="trigger-body">
+                        https://{{ httpURL }}/
+                      </div>
+                      <div class="trigger-footer">
+                        <button *ngIf="isHTTPTriggerAuthenticated" class="tn-button tn-button--small tn-button--text"
+                                (click)=showFetchTokenModal()>
+                          Fetch Token
+                        </button>
+                        <button class="tn-button tn-button--small tn-button--text" (click)=copyHTTPURLEndpoint($event)>
+                          Copy to clipboard
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+
+
+
+
+
+
+
+
+
+        <label class="fd-label">Size: </label>
+        <fd-popover [isDropdown]="true" [compact]="true">
+          Size Dropdown
+          <fd-popover-body *ngIf="menu1 && menu1.length">
+              <fd-menu>
+                  <fd-menu-list>
+                      <li fd-menu-item *ngFor="let option of menu1">
+                          <a [attr.href]="option.url">{{option.text}}</a>
+                      </li>
+                  </fd-menu-list>
+              </fd-menu>
+          </fd-popover-body>
+      </fd-popover>
+
+        Type: 
+      </fd-panel-actions>
+    </fd-panel-header>
+
+    <fd-panel-body [bleed]="true">
+      <fd-panel-grid [col]="6" [nogap]="true">
+        <fd-panel [columnSpan]="2">
+          <fd-panel-body>
+            <div class="fd-form__group">
+              <div class="fd-form__item">
+                <label class="fd-form__label" for="">Function Name * </label>
+              </div>
+            </div>
+          </fd-panel-body>
+        </fd-panel>
+      </fd-panel-grid>
+    </fd-panel-body>
+  </fd-panel>
+</section>
+
+<app-lambda-instance-bindings *ngIf="loaded | async" [lambdaName]="lambda.metadata.name" [isLambdaNameInvalid]="isFunctionNameInvalid"
+                                (bindingStateEmitter)="handleBindingStateEmitter($event)"></app-lambda-instance-bindings>
+
+<app-lambda-env-table *ngIf="loaced | async" [envs]="lambda.spec.deployment.spec.template.spec.containers[0].env" [lambdaName]="lambda.metadata.name"
+                        [isLambdaNameInvalid]="isFunctionNameInvalid" (envEmitter)="handleEnvEmitter($event)"></app-lambda-env-table>
+
+
+<app-fetch-token-modal #fetchTokenModal></app-fetch-token-modal>
+<app-event-trigger-chooser #eventTriggerChooserModal (eventEmitter)="handleEventEmitter($event)"></app-event-trigger-chooser>
+<app-http-trigger #httpTriggerModal (httpEmitter)="handleHttpEmitter($event)"></app-http-trigger>
+
 
 --------------
 
@@ -273,6 +410,3 @@
                         [isLambdaNameInvalid]="isFunctionNameInvalid" (envEmitter)="handleEnvEmitter($event)"></app-lambda-env-table>
 
 </section>
-<app-fetch-token-modal #fetchTokenModal></app-fetch-token-modal>
-<app-event-trigger-chooser #eventTriggerChooserModal (eventEmitter)="handleEventEmitter($event)"></app-event-trigger-chooser>
-<app-http-trigger #httpTriggerModal (httpEmitter)="handleHttpEmitter($event)"></app-http-trigger>

@@ -11,8 +11,13 @@
   </fd-action-bar>
 
   <div class="fd-alert fd-alert--error fd-has-margin-bottom-small" role="alert" *ngIf="error">
+    <button class="fd-alert__close" aria-label="Close" (click)="error=null"></button>
     {{ error }}
   </div>
+
+  <!-- <fd-alert #errorAlert *ngIf="error" [dismissible]="true" [type]="'error'">
+    <p>{{ error }}</p>
+  </fd-alert> -->
 
   <div class="fd-panel">
     <y-list-paging [pagingState]="pagingState" (onPageChanged)="onPageChanged($event)"></y-list-paging>
