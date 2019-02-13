@@ -10,43 +10,46 @@
       </fd-panel-actions>
     </fd-panel-header>
   </fd-panel>
+
   <fd-panel>
-    <table class="fd-table" *ngIf="instanceBindingInfoList.length > 0">
-      <thead>
-        <tr>
-          <td class="y-fd-table__th--col-3">Instance</td>
-          <td class="y-fd-table__th--col-8">Environment Variable Name</td>
-          <td class="y-fd-table__th--col-1"></td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let instanceBinding of instanceBindingInfoList; let i = index; last as isLast">
-          <td class="y-fd-table__th--col-3">
-            {{ instanceBinding.instanceName }}
-          </td>
-          <td class="y-fd-table__th--col-8">
-            <table>
-              <tr *ngFor="let envVar of instanceBinding.envVarNames ; index as j" [attr.data-index]="j">
-                <td class="y-fd-table__th--col-12 env-var-position" *ngIf="instanceBinding.instanceBindingPrefix!='undefined-', else onlyEnvVar">
-                  {{ instanceBinding.instanceBindingPrefix + envVar }}
-                </td>
-                <ng-template #onlyEnvVar>
-                  <td class="y-fd-table__th--col-12 env-var-position">
-                    {{ envVar }}
+    <fd-panel-body>
+      <table class="fd-table" *ngIf="instanceBindingInfoList.length > 0">
+        <thead>
+          <tr>
+            <td class="y-fd-table__th--col-3">Instance</td>
+            <td class="y-fd-table__th--col-8">Environment Variable Name</td>
+            <td class="y-fd-table__th--col-1"></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let instanceBinding of instanceBindingInfoList; let i = index; last as isLast">
+            <td class="y-fd-table__th--col-3">
+              {{ instanceBinding.instanceName }}
+            </td>
+            <td class="y-fd-table__th--col-8">
+              <table>
+                <tr *ngFor="let envVar of instanceBinding.envVarNames ; index as j" [attr.data-index]="j">
+                  <td class="y-fd-table__th--col-12 env-var-position" *ngIf="instanceBinding.instanceBindingPrefix!='undefined-', else onlyEnvVar">
+                    {{ instanceBinding.instanceBindingPrefix + envVar }}
                   </td>
-                </ng-template>
-              </tr>
-            </table>
-          </td>
-          <td class="y-fd-table__th--col-1">
-            <button class="tn-icon tn-icon--delete tn-button tn-button--small tn-button--icon tn-button--text" (click)="remove(i)" [disabled]="!lambdaName || isLambdaNameInvalid"></button>
-          </td>
-          <td class="y-fd-table__th--col-12" *ngIf="!isLast">
-            <hr>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+                  <ng-template #onlyEnvVar>
+                    <td class="y-fd-table__th--col-12 env-var-position">
+                      {{ envVar }}
+                    </td>
+                  </ng-template>
+                </tr>
+              </table>
+            </td>
+            <td class="y-fd-table__th--col-1">
+              <button class="tn-icon tn-icon--delete tn-button tn-button--small tn-button--icon tn-button--text" (click)="remove(i)" [disabled]="!lambdaName || isLambdaNameInvalid"></button>
+            </td>
+            <td class="y-fd-table__th--col-12" *ngIf="!isLast">
+              <hr>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </fd-panel-body>
   </fd-panel>
 </section>
 <app-lambda-instance-binding-creator [alreadyAddedInstances]="instanceBindingInfoList" #bindingCreatorModal (selectedServiceBindingEmitter)="addServiceBinding($event)"></app-lambda-instance-binding-creator>
