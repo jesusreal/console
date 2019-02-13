@@ -40,17 +40,15 @@ describe('EditBindingsModalComponent', () => {
   let RemoteEnvironmentBindingServiceMockStub: RemoteEnvironmentBindingService;
   let ComponentCommunicationServiceMockStub: ComponentCommunicationService;
   let mockModalService: ModalService;
-  let modalService = { 
-    open: () => {
-      return {
-        result: { finally : () => {}}
-      }
-    },
+  let modalService = {
+    open: () => ({
+      result: { finally: () => {} }
+    }),
     close: () => {}
   };
   let ComponentCommunicationServiceMock = {
     sendEvent: () => {}
-  }
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -80,8 +78,8 @@ describe('EditBindingsModalComponent', () => {
         LuigiClientCommunicationDirective
       ]
     })
-    .overrideTemplate(EditBindingsModalComponent, '')
-    .compileComponents();
+      .overrideTemplate(EditBindingsModalComponent, '')
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -229,10 +227,7 @@ describe('EditBindingsModalComponent', () => {
       'bind'
     ).and.returnValue(of({ data: 'created' }));
 
-    spyOn( 
-      ComponentCommunicationServiceMockStub,
-      'sendEvent'
-    );
+    spyOn(ComponentCommunicationServiceMockStub, 'sendEvent');
 
     // when
     component.selectedEnv({ label: 'env3' });
@@ -247,7 +242,12 @@ describe('EditBindingsModalComponent', () => {
         RemoteEnvironmentBindingServiceMockStub.bind
       ).toHaveBeenCalledTimes(1);
 
-      expect(ComponentCommunicationServiceMockStub.sendEvent).toHaveBeenCalledWith({type: 'updateResource', data: { data: 'created'}});
+      expect(
+        ComponentCommunicationServiceMockStub.sendEvent
+      ).toHaveBeenCalledWith({
+        type: 'updateResource',
+        data: { data: 'created' }
+      });
       done();
     });
   });
