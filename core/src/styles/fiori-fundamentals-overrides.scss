@@ -1,9 +1,10 @@
 //Overwrite bg color for modals overlay
-fd-modal .fd-modal-background {
-  background-color: rgba(74,80,92,.3) !important;
-  opacity: 1 !important;
+fd-modal {
+  .fd-modal-background {
+    background-color: rgba(74,80,92,.3) !important;
+    opacity: 1 !important;
+  }
 }
-
 
 
 
