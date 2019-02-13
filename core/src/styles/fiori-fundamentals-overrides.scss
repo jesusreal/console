@@ -1,0 +1,22 @@
+fd-modal {
+  .fd-modal-background {
+    background-color: rgba(74,80,92,.3) !important;
+    opacity: 1 !important;
+  }
+}
+
+.fd-modal__footer {
+  .fd-button {
+    margin-left: 5px;
+
+     &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+
+ .fd-modal--large {
+  .fd-modal {
+    max-width: 650px;
+  }
+}
