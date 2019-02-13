@@ -1,5 +1,4 @@
 import { Component, Injector, OnInit, OnDestroy } from '@angular/core';
-import * as tippy from 'tippy.js';
 import { AbstractKubernetesEntryRendererComponent } from '../../../environments/operation/abstract-kubernetes-entry-renderer.component';
 import { RemoteEnvironmentsService } from '../services/remote-environments.service';
 import { ComponentCommunicationService } from '../../../../shared/services/component-communication.service';
@@ -59,15 +58,6 @@ export class RemoteEnvironmentsEntryRendererComponent
 
   public determineClass(entry) {
     return this.remoteEnvironmentsService.determineClass(entry);
-  }
-
-  public prettyPrintStatus(entryStatus) {
-    if (entryStatus) {
-      tippy('.sf-indicator');
-      return this.remoteEnvironmentsService.printPrettyConnectionStatus(
-        entryStatus
-      );
-    }
   }
 
   public navigateToDetails(renvName) {
