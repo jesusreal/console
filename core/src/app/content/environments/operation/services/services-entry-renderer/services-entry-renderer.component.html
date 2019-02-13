@@ -1,23 +1,24 @@
 <tr [ngClass]="{ disabled: disabled === true }">
-  <td>
-    <a (click)="navigateToDetails(entry.metadata.name)">{{
-      entry.metadata.name
-    }}</a>
+  <td class="fd-has-font-weight-bold">
+    <a (click)="navigateToDetails(entry.metadata.name)">
+      {{ entry.metadata.name }}
+    </a>
   </td>
   <td>{{ entry.spec.clusterIP }}</td>
   <td>
     <ng-container *ngIf="entry.spec.ports">
       <ng-container *ngFor="let port of entry.spec.ports" class="break-word">
-        <fd-badge class="fd-has-margin-bottom-tiny">{{ entry.metadata.name }}.{{ entry.metadata.namespace }}:{{
-            port.port
-          }}
-          {{ port.protocol }}</fd-badge>
+        <fd-badge class="fd-has-margin-bottom-tiny">
+          {{ entry.metadata.name }}.{{ entry.metadata.namespace }}:
+          {{ port.port }}
+          {{ port.protocol }}
+        </fd-badge>
 
-        <fd-badge class="fd-has-margin-bottom-tiny">{{ entry.metadata.name }}.{{ entry.metadata.namespace }}:{{
-            port.nodePort || 0
-          }}
-          {{ port.protocol }}</fd-badge>
-
+        <fd-badge class="fd-has-margin-bottom-tiny">
+          {{ entry.metadata.name }}.{{ entry.metadata.namespace }}:
+          {{ port.nodePort || 0 }}
+          {{ port.protocol }}
+        </fd-badge>
       </ng-container>
     </ng-container>
     <span *ngIf="!entry.spec.ports">-</span>

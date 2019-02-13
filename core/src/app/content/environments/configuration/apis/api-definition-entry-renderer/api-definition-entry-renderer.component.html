@@ -1,10 +1,14 @@
 <tr [ngClass]="{ disabled: disabled === true }">
-  <td>
-    <a (click)="navigateToDetails(entry.metadata.name)">{{
-      entry.metadata.name
-    }}</a>
+  <td class="fd-has-font-weight-bold">
+    <a (click)="navigateToDetails(entry.metadata.name)">
+      {{ entry.metadata.name }}
+    </a>
   </td>
-  <td>{{ entry.spec.hostname }}</td>
+  <td>
+    <fd-badge class="break-word">
+      {{ entry.spec.hostname }}
+    </fd-badge>
+  </td>
   <td>{{ entry.spec.service.name }}</td>
   <td>{{ entry.spec.service.port }}</td>
   <td>
@@ -12,6 +16,10 @@
   </td>
   <td>{{ entry.metadata.creationTimestamp | timeAgo }}</td>
   <td class="fd-has-text-align-center">
-    <y-list-actions [entry]="entry" [entryEventHandler]="entryEventHandler" [actions]="actions"></y-list-actions>
+    <y-list-actions
+      [entry]="entry"
+      [entryEventHandler]="entryEventHandler"
+      [actions]="actions"
+    ></y-list-actions>
   </td>
 </tr>

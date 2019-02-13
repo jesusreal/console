@@ -1,21 +1,21 @@
-<fd-action-bar>
-    <fd-action-bar-header>
-        <fd-action-bar-title>{{ title }}</fd-action-bar-title>
-    </fd-action-bar-header>
-    <fd-action-bar-actions>
-        <button (click)="navigateToCreate()" fd-button [fdType]="'main'" [glyph]="'add'">
-            Create API
-        </button>
-        <y-list-search [hidden]="!initialized || showEmptyPage" [filterState]="filterState"
-            (onFilterChanged)="onFilterChanged($event)">
-        </y-list-search>
-        <y-list-filter [hidden]="!initialized || showEmptyPage || hideFilter" [filterState]="filterState"
-            (onFilterChanged)="onFilterChanged($event)">
-        </y-list-filter>
-    </fd-action-bar-actions>
-</fd-action-bar>
+<section class="fd-section">
+    <fd-action-bar>
+        <fd-action-bar-header>
+            <fd-action-bar-title>{{ title }}</fd-action-bar-title>
+        </fd-action-bar-header>
+        <fd-action-bar-actions>
+            <button (click)="navigateToCreate()" fd-button [fdType]="'main'" [glyph]="'add'">
+                Create API
+            </button>
+            <y-list-search [hidden]="!initialized || showEmptyPage" [filterState]="filterState"
+                (onFilterChanged)="onFilterChanged($event)">
+            </y-list-search>
+            <y-list-filter [hidden]="!initialized || showEmptyPage || hideFilter" [filterState]="filterState"
+                (onFilterChanged)="onFilterChanged($event)">
+            </y-list-filter>
+        </fd-action-bar-actions>
+    </fd-action-bar>
 
-<section class="fd-panel">
     <y-list-paging [pagingState]="pagingState" (onPageChanged)="onPageChanged($event)"></y-list-paging>
 
     <y-plain-table [source]="data" [headerRenderer]="headerRenderer" [entryRenderer]="entryRenderer"

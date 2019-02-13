@@ -1,8 +1,11 @@
 <tr [ngClass]="{ disabled: disabled === true }">
-  <td>{{ entry.name }}</td>
+  <td class="fd-has-font-weight-bold">{{ entry.name }}</td>
   <td>
-    <fd-badge [modifier]="'filled'"
-      [status]="(entry.status.readyReplicas || 0)===entry.status.replicas? 'success' : 'error'">
+    <fd-badge [modifier]="'filled'" [status]="
+        (entry.status.readyReplicas || 0) === entry.status.replicas
+          ? 'success'
+          : 'error'
+      ">
       {{ entry.status.readyReplicas || '0' }}/{{ entry.status.replicas }}
     </fd-badge>
   </td>
