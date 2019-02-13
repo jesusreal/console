@@ -1,4 +1,4 @@
-<tr [ngClass]="{'sf-list__disabled': disabled === true}">
+<tr [ngClass]="{'y-fd-table__tr--disabled': disabled === true}">
   <td class="fd-has-font-weight-bold">{{ groupName }}</td>
   <td><span class="fd-badge fd-badge--pill y-fd-badge">{{ entry.roleRef.kind === 'ClusterRole' ? 'CR' : 'R' }}</span>{{ entry.roleRef.name }}</td>
   <td class="actions-icon">

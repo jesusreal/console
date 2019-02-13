@@ -196,3 +196,8 @@ input[type='checkbox'] {
 td {
   word-break: break-word;
 }
+
+.y-fd-table__tr--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
