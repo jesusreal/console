@@ -72,6 +72,16 @@ fd-modal {
   }
 }
 
+.y-fd-panel {
+  &--button {
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 0 5px 0 rgba(fd-color("text",3), 0.4);
+    }
+  }
+}
+
 
 //for link-button in tables
 span {

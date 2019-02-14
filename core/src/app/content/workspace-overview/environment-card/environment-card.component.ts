@@ -7,13 +7,13 @@ import LuigiClient from '@kyma-project/luigi-client';
 @Component({
   selector: 'environment-card',
   templateUrl: './environment-card.component.html',
-  styleUrls: ['./../workspace-overview/workspace-overview.component.scss'],
-  host: { '[class]': 'hostClasses' }
+  styleUrls: ['./../workspace-overview/workspace-overview.component.scss']
+  //host: { '[class]': 'hostClasses' }
 })
 export class EnvironmentCardComponent implements OnInit, OnDestroy {
   @Input() entry: Environment;
 
-  hostClasses = 'col-md-6 col-lg-4';
+  //hostClasses = 'col-md-6 col-lg-4';
 
   entryEventHandler;
 
