@@ -13,12 +13,10 @@ describe('EditRemoteEnvironmentModalComponent', () => {
   let mockRemoteEnvironmentsService: RemoteEnvironmentsService;
   let mockComponentCommunicationService: ComponentCommunicationService;
   let mockModalService: ModalService;
-  let modalService = { 
-    open: () => {
-      return {
-        result: { finally : () => {}}
-      }
-    },
+  let modalService = {
+    open: () => ({
+      result: { finally: () => {} }
+    }),
     close: () => {}
   };
 
@@ -78,13 +76,16 @@ describe('EditRemoteEnvironmentModalComponent', () => {
 
     it('deactivates the form', () => {
       spyOn(mockModalService, 'open').and.returnValue({
-        result: { finally : (fn) => { fn() }}
+        result: {
+          finally: fn => {
+            fn();
+          }
+        }
       });
       component.isActive = true;
       component.show();
       expect(component.isActive).toBe(false);
     });
-
   });
 
   describe('close()', () => {
