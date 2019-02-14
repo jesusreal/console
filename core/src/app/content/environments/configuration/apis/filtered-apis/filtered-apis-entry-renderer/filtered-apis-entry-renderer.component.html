@@ -4,15 +4,22 @@
       entry.name
     }}</a>
   </td>
-  <td>{{ entry.hostname }}</td>
+  <td>
+    <fd-badge class="break-word">{{ entry.hostname }}</fd-badge>
+  </td>
   <td>{{ entry.service.port }}</td>
-  <td *ngIf="isSecured(entry)">
-    <fd-badge [status]="'success'" [modifier]="'filled'">Yes</fd-badge>
-  </td>
-  <td *ngIf="!isSecured(entry)">
-    <fd-badge [status]="'warning'" [modifier]="'filled'">No</fd-badge>
-  </td>
-  <td>{{ isSecured(entry) ? getIDP(entry) : '-' }}</td>
+  <ng-container *ngIf="isSecured(entry)">
+    <td>
+      <fd-badge [status]="'success'" [modifier]="'filled'">Yes</fd-badge>
+    </td>
+    <td>{{ getIDP(entry) }}</td>
+  </ng-container>
+  <ng-container *ngIf="!isSecured(entry)">
+    <td>
+      <fd-badge [status]="'warning'" [modifier]="'filled'">No</fd-badge>
+    </td>
+    <td>-</td>
+  </ng-container>
   <td class="fd-has-text-align-center">
     <y-list-actions [entry]="entry" [entryEventHandler]="entryEventHandler" [actions]="actions"></y-list-actions>
   </td>
