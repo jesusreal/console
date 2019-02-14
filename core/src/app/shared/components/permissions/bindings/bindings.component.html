@@ -1,22 +1,20 @@
 <div class="fd-panel">
-  <div class="fd-panel__title y-fd-panel__title">
-    <div class="fd-action-bar">
-      <div class="fd-action-bar__header">   
-        <p class="fd-has-type-1">
-          {{ title }}
-        </p>
-      </div>
-      <div class="fd-action-bar__actions">
-        <y-list-search [hidden]="!initialized || showEmptyPage"
-          [filterState]="filterState"
-          (onFilterChanged)="onFilterChanged($event)">
-        </y-list-search>
-        <button class="fd-button fd-button--light" (click)="openModal()">
-          + Create Binding
-        </button>
-      </div>
-    </div>
-  </div>
+  <fd-action-bar>
+    <fd-action-bar-header>
+      <fd-action-bar-description class="y-fd-panel__description">
+        {{ title }}
+      </fd-action-bar-description>
+    </fd-action-bar-header>
+    <fd-action-bar-actions>
+      <y-list-search [hidden]="!initialized || showEmptyPage"
+        [filterState]="filterState"
+        (onFilterChanged)="onFilterChanged($event)">
+      </y-list-search>
+      <button class="fd-button fd-button--light" (click)="openModal()">
+        + Create Binding
+      </button>
+    </fd-action-bar-actions>
+  </fd-action-bar>
 
   <y-list-paging [pagingState]="pagingState" (onPageChanged)="onPageChanged($event)"></y-list-paging>
 

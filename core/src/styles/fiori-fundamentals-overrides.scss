@@ -1,4 +1,4 @@
-.y-fd-panel__title {
+.y-fd-panel__description {
   padding: 0 16px;
 }
 
@@ -16,4 +16,8 @@
       all: unset;
     }
   }
+}
+
+.fd-action-bar__actions {
+  flex-shrink: 0;
 }

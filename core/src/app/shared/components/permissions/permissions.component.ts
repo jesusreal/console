@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 })
 export class PermissionsComponent implements OnInit {
   @ViewChild('confirmationModal') confirmationModal: ConfirmationModalComponent;
-
+  public title = 'Permissions';
   public bindingsTabTitle: string;
 
   public bindingsTabExpanded: boolean;
