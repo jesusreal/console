@@ -91,7 +91,7 @@ describe('EditRemoteEnvironmentModalComponent', () => {
   describe('close()', () => {
     it('deactivates the form', () => {
       spyOn(mockModalService, 'close');
-      component.editRemoteEnvironmentModal = 'mock-value';
+      (component.editRemoteEnvironmentModal as any) = 'mock-value';
       component.close();
       expect(mockModalService.close).toHaveBeenCalledWith('mock-value');
     });
