@@ -1,5 +1,5 @@
 <tr [ngClass]="{ disabled: disabled === true }">
-  <td>
+  <td class='fd-has-font-weight-bold'>
     <a (click)="navigateToDetails(entry.service.name, entry.name)">{{
       entry.name
     }}</a>
@@ -7,17 +7,13 @@
   <td>{{ entry.hostname }}</td>
   <td>{{ entry.service.port }}</td>
   <td *ngIf="isSecured(entry)">
-    <span class="tn-badge tn-badge--pill sf-list__label">Secured</span>
+    <fd-badge [status]="'success'" [modifier]="'filled'">Yes</fd-badge>
   </td>
   <td *ngIf="!isSecured(entry)">
-    <p>-</p>
+    <fd-badge [status]="'warning'" [modifier]="'filled'">No</fd-badge>
   </td>
   <td>{{ isSecured(entry) ? getIDP(entry) : '-' }}</td>
   <td class="fd-has-text-align-center">
-    <y-list-actions
-      [entry]="entry"
-      [entryEventHandler]="entryEventHandler"
-      [actions]="actions"
-    ></y-list-actions>
+    <y-list-actions [entry]="entry" [entryEventHandler]="entryEventHandler" [actions]="actions"></y-list-actions>
   </td>
 </tr>
