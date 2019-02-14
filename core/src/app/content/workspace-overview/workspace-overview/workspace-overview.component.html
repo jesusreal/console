@@ -16,16 +16,12 @@
   <app-confirmation-modal #confirmationModal></app-confirmation-modal>
   <app-information-modal #infoModal></app-information-modal>
 
-  <div class="fd-container fd-container--fluid">
-    <div class="fd-col--12">
-      <y-list-paging [pagingState]="pagingState" (onPageChanged)="onPageChanged($event)"></y-list-paging>
+  <y-list-paging [pagingState]="pagingState" (onPageChanged)="onPageChanged($event)"></y-list-paging>
 
-      <y-plain-list [source]="data" [entryRenderer]="entryRenderer" [entryEventHandler]="entryEventHandler">
-        <div empty-list-placeholder *ngIf="showEmptyPage" class="sf-section__empty-teaser">
-        </div>
-      </y-plain-list>
-
-      <y-list-paging [pagingState]="pagingState" (onPageChanged)="onPageChanged($event)"></y-list-paging>
+  <y-plain-list [source]="data" [entryRenderer]="entryRenderer" [entryEventHandler]="entryEventHandler">
+    <div empty-list-placeholder *ngIf="showEmptyPage" class="sf-section__empty-teaser">
     </div>
-  </div>
+  </y-plain-list>
+
+  <y-list-paging [pagingState]="pagingState" (onPageChanged)="onPageChanged($event)"></y-list-paging>
 </section>
