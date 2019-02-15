@@ -84,7 +84,7 @@
       </fd-panel-head>
       <fd-panel-actions>
         <label class="fd-label">Size:</label>
-        <fd-popover [compact]="true">
+        <fd-popover [compact]="true" [alignment]="'right'">
           <fd-popover-control>
             <button fd-button [options]="'light'" [glyph]="'slim-arrow-down'" [disabled]="lambda.metadata.name.length <=0 || isFunctionNameInvalid">{{selectedFunctionSizeName}}</button>
           </fd-popover-control>
@@ -101,7 +101,7 @@
         </fd-popover>
 
         <label class="fd-label">Type:</label>
-        <fd-popover  [compact]="true">
+        <fd-popover [compact]="true" [alignment]="'right'">
           <fd-popover-control>
             <button fd-button [options]="'light'" [glyph]="'slim-arrow-down'" [disabled]="lambda.metadata.name.length <=0 || isFunctionNameInvalid">{{kind}}</button>
           </fd-popover-control>
@@ -120,7 +120,27 @@
     </fd-panel-header>
 
     <fd-panel-filters>
-      <fd-popover [compact]="true">
+      <div class="fd-popover">
+        <div class="fd-popover__control" (click)="$event.stopPropagation()">
+          <button fd-button [options]="'light'" [glyph]="'add'" 
+            (click)="toggleDropdownState('functionTriggerPopover')"
+            [disabled]="lambda.metadata.name.length <=0 || isFunctionNameInvalid">Select Function Trigger</button>
+        </div>
+        <div class="fd-popover__body" *ngIf="dropDownStates?.functionTriggerPopover">
+          <nav class="fd-menu">
+            <ul class="fd-menu__list">
+              <li fd-menu-item>
+                <a class="fd-menu__item" (click)="showEventTrigger(); toggleDropdownState('functionTriggerPopover')">Event Trigger</a>
+              </li>
+              <li fd-menu-item>
+                <a class="fd-menu__item" [class.disabled]="isHTTPTriggerAdded" (click)="showHTTPTrigger(); toggleDropdownState('functionTriggerPopover')">Expose via HTTPS</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <!-- <fd-popover [compact]="true">
         <fd-popover-control>
           <button fd-button [options]="'light'" [disabled]="lambda.metadata.name.length <=0 || isFunctionNameInvalid">+ Select Function Trigger</button>
         </fd-popover-control>
@@ -136,7 +156,8 @@
             </fd-menu-list>
           </fd-menu>
         </fd-popover-body>
-      </fd-popover>
+      </fd-popover> -->
+
     </fd-panel-filters>
     <fd-panel-body>
       <ace-editor #editor [(text)]="code" [mode]="aceMode" [theme]="theme" (textChanged)="onCodeChange($event)"></ace-editor>
@@ -144,6 +165,33 @@
   
   </fd-panel>
 </section>
+
+<section class="fd-section" [hidden]="(loaded | async)  === false">
+  <fd-panel>
+    <fd-panel-header>
+      <fd-panel-head>
+        <fd-panel-title>
+        Dependencies
+        </fd-panel-title>
+      </fd-panel-head>
+      <fd-panel-actions>
+        <button fd-button [options]="'light'" [glyph]="'add'" [compact]="true"
+          *ngIf="(hasDependencies | async) === false" (click)="addDependencies()" [disabled]="!lambda.metadata.name || isFunctionNameInvalid">
+          Add
+        </button>
+        <button fd-button [options]="'light'" [glyph]="'less'"
+          *ngIf="(hasDependencies | async)" class="tn-button sf-button--danger tn-button--small tn-button--text"
+                (click)="removeDependencies()">
+          Remove
+        </button>
+      </fd-panel-actions>
+    </fd-panel-header>
+    <fd-panel-body [hidden]="(hasDependencies | async) === false">
+      <ace-editor #dependencyEditor [(text)]="dependency" [mode]="aceDependencyMode" [theme]="theme" (textChanged)="onDependencyChange($event)"></ace-editor>
+    </fd-panel-body>
+  </fd-panel>
+</section>
+
 
 <app-lambda-instance-bindings *ngIf="loaded | async" [lambdaName]="lambda.metadata.name" [isLambdaNameInvalid]="isFunctionNameInvalid"
                                 (bindingStateEmitter)="handleBindingStateEmitter($event)"></app-lambda-instance-bindings>

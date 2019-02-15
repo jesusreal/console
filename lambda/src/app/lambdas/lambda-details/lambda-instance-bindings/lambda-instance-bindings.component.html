@@ -11,9 +11,9 @@
     </fd-panel-header>
   </fd-panel>
 
-  <fd-panel>
+  <fd-panel *ngIf="instanceBindingInfoList.length > 0">
     <fd-panel-body>
-      <table class="fd-table" *ngIf="instanceBindingInfoList.length > 0">
+      <table class="fd-table">
         <thead>
           <tr>
             <td class="y-fd-table__th--col-3">Instance</td>

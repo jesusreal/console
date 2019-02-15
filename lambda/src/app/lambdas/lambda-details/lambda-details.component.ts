@@ -129,6 +129,7 @@ export class LambdaDetailsComponent
   bindingState: Map<string, InstanceBindingState>;
   listenerId: string;
   functionSizes = [];
+  dropDownStates = {};
 
   public issuer: string;
   public jwksUri: string;
@@ -255,6 +256,11 @@ export class LambdaDetailsComponent
   showError(error: string): void {
     this.error = error;
     this.errorAlert.show();
+  }
+
+  toggleDropdownState(id: string): void {
+    const isOpened = this.dropDownStates[id] || false;
+    this.dropDownStates[id] = !isOpened;
   }
 
   selectType(selectedType) {
