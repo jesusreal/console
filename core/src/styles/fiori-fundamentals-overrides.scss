@@ -2,16 +2,13 @@
   flex-shrink: 0;
 }
 
-
 //Overwrite bg color for modals overlay
 fd-modal {
   .fd-modal-background {
-    background-color: rgba(74,80,92,.3) !important;
+    background-color: rgba(74, 80, 92, 0.3) !important;
     opacity: 1 !important;
   }
 }
-
-
 
 //Common styles for modals
 .fd-modal__footer {
@@ -30,7 +27,6 @@ fd-modal {
   }
 }
 
-
 //Tables
 .fd-table {
   &__th--min,
@@ -44,7 +40,6 @@ fd-modal {
   }
 }
 
-
 //Breadcrumbs
 .fd-breadcrumb {
   a {
@@ -52,20 +47,18 @@ fd-modal {
   }
 }
 
-
 //Panel
 .fd-panel {
   display: block;
 
   &__body {
     &--bleed {
-      
       .fd-table {
         td:last-child,
         th:last-child {
           padding-right: 24px;
         }
-      
+
         td:first-child,
         th:first-child {
           padding-left: 24px;
@@ -75,14 +68,12 @@ fd-modal {
   }
 }
 
-
 //for link-button in tables
 span {
   &.fd-link {
     cursor: pointer;
   }
 }
-
 
 //Token
 .y-fd-token {
@@ -98,6 +89,7 @@ span {
 
 .fd-action-bar__actions .fd-popover {
   top: 0;
+}
 
 //helpers
 .y-word-wrap {
