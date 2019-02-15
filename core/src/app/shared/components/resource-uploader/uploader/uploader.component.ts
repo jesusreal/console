@@ -24,9 +24,13 @@ export class UploaderComponent {
     return this.ready;
   }
 
+  private showFile() {
+    console.log(this.fileToUpload);
+  }
   public selectFile(files: any) {
-    if (!_.isUndefined(files.target.files[0])) {
-      this.fileToUpload = files.target.files[0];
+    console.log(files);
+    if (!_.isUndefined(files[0])) {
+      this.fileToUpload = files[0];
       this.fileName = this.fileToUpload.name;
 
       this.resourceUploadService.getFileContent(this.fileToUpload).subscribe(
