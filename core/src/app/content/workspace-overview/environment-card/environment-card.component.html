@@ -1,13 +1,13 @@
 <div class="fd-panel y-fd-panel y-fd-panel--button" (click)="navigateToDetails(entry.getId())" [ngClass]="{'sf-list__disabled': disabled === true}">
-  <div class="fd-panel__body">
-    <div class="fd-container fd-container--fluid">
-      <div class="fd-col--6">
-        <h2 class="fd-has-type-1 fd-has-font-weight-bold fd-has-color-action-1">{{ entry.getLabel() }}</h2>
-      </div>
-      <div class="fd-col--6 fd-has-text-align-right">
-        <y-list-actions [entry]="entry" [entryEventHandler]="entryEventHandler" [actions]="actions"></y-list-actions>
-      </div>
+  <div class="fd-panel__header">
+    <div class="fd-panel__head">
+      <h2 class="fd-panel__title">{{ entry.getLabel() }}</h2>
     </div>
+    <div class="fd-panel__actions">
+      <y-list-actions [entry]="entry" [entryEventHandler]="entryEventHandler" [actions]="actions"></y-list-actions>
+    </div>
+  </div>
+  <div class="fd-panel__body">
     <div class="fd-container fd-container--fluid">
       <div class="fd-col--6">
         <div class="fd-has-type-4 fd-has-font-weight-bold">{{ entry.services && (entry.services | async) !== null ? (entry.services | async) : 0 }}</div>
