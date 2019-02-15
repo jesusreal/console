@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { ModalService } from 'fundamental-ngx';
+import { ModalService, ModalComponent } from 'fundamental-ngx';
 
 @Component({
   selector: 'app-confirmation-modal',
@@ -10,7 +10,7 @@ export class ConfirmationModalComponent implements OnInit {
   @Input() message: string;
   @Input() title: string;
 
-  @ViewChild('confirmationModal') confirmationModal: any;
+  @ViewChild('confirmationModal') confirmationModal: ModalComponent;
 
   isActive = false;
   private okPromise: any;

@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
 import { EnvironmentsService } from '../services/environments.service';
 import LuigiClient from '@kyma-project/luigi-client';
-import { ModalService } from 'fundamental-ngx';
+import { ModalService, ModalComponent } from 'fundamental-ngx';
 
 @Component({
   selector: 'app-environment-create',
@@ -11,7 +11,7 @@ import { ModalService } from 'fundamental-ngx';
 export class EnvironmentCreateComponent {
   @Output() cancelEvent: EventEmitter<any> = new EventEmitter();
 
-  @ViewChild('createEnvironmentModal') createEnvironmentModal: any;
+  @ViewChild('createEnvironmentModal') createEnvironmentModal: ModalComponent;
 
   public environments = [];
   public environmentName: string;
