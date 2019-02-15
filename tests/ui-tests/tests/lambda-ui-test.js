@@ -58,7 +58,7 @@ describeIf(dex.isStaticUser(), 'Lambda UI tests', () => {
 
     // given (go to create lambda)
     const frame = await kymaConsole.getFrame(page);
-    const lambdasEmptyPage = '.sf-section__empty-teaser';
+    const lambdasEmptyPage = '[data-testid="empty-list-placeholder"]';
     await frame.waitForSelector(lambdasEmptyPage);
     const currentLambdas = await lambdas.getLambdas(frame);
     const addLambdaButton = '.tn-button.tn-button--small.tn-button--text';
@@ -107,7 +107,7 @@ describeIf(dex.isStaticUser(), 'Lambda UI tests', () => {
       await page.reload({ waitUntil: 'networkidle0' });
 
       const frame2 = await kymaConsole.getFrame(page);
-      const lambdasEmptyPage = '.sf-section__empty-teaser';
+      const lambdasEmptyPage = '[data-testid="empty-list-placeholder"]';
       await frame2.waitForSelector(lambdasEmptyPage);
       const expectedLambdas = await lambdas.getLambdas(frame2);
 
