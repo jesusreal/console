@@ -2,12 +2,6 @@
   flex-shrink: 0;
 }
 
-.fd-table {
-  .disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-}
 
 //Overwrite bg color for modals overlay
 fd-modal {
@@ -42,6 +36,11 @@ fd-modal {
   &__th--min,
   &__td--min {
     width: 8.33333%;
+  }
+
+  .disabled {
+    opacity: 0.5;
+    pointer-events: none;
   }
 }
 
