@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { UploaderComponent } from '../uploader/uploader.component';
 import { InformationModalComponent } from '../../information-modal/information-modal.component';
 import { ComponentCommunicationService } from '../../../services/component-communication.service';
+import { ModalComponent, ModalService } from 'fundamental-ngx';
+
 @Component({
   selector: 'app-resource-uploader-modal',
   templateUrl: './resource-uploader-modal.component.html',
@@ -13,11 +15,18 @@ export class ResourceUploaderModalComponent {
 
   @ViewChild('uploader') uploader: UploaderComponent;
   @ViewChild('infoModal') infoModal: InformationModalComponent;
+  @ViewChild('resourceUploader') resourceUploader: ModalComponent;
 
-  constructor(private communicationService: ComponentCommunicationService) {}
+  constructor(
+    private communicationService: ComponentCommunicationService,
+    private modalService: ModalService
+  ) {}
 
   show(): Promise<boolean> {
     this.isActive = true;
+    this.modalService.open(this.resourceUploader).result.finally(() => {
+      this.isActive = false;
+    });
     return new Promise((resolve, reject) => {
       this.okPromise = resolve;
     });
