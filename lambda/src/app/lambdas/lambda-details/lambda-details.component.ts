@@ -18,7 +18,13 @@ import 'brace/snippets/json';
 import 'brace/snippets/text';
 import 'brace/mode/javascript';
 import 'brace/mode/json';
-import 'brace/theme/eclipse';
+import 'brace/theme/chrome';
+import 'brace/theme/dreamweaver';
+import 'brace/theme/katzenmilch';
+import 'brace/theme/sqlserver';
+import 'brace/theme/textmate';
+import 'brace/theme/tomorrow';
+
 import { sha256 } from 'js-sha256';
 import { Clipboard } from 'ts-clipboard';
 import * as randomatic from 'randomatic';
@@ -153,7 +159,10 @@ export class LambdaDetailsComponent
     this.selectedFunctionSize = this.functionSizes[0];
     this.selectedFunctionSizeName = this.selectedFunctionSize['name'];
 
-    this.theme = 'eclipse';
+    // this.theme = 'chrome'; // blue, violet, orange
+    // this.theme = 'sqlserver'; // mint, orange
+    // this.theme = 'textmate'; // white blueish
+    this.theme = 'tomorrow'; // blue, violet orange, lighter
     this.aceMode = 'javascript';
     this.aceDependencyMode = 'json';
     this.kind = 'nodejs8';

@@ -277,7 +277,6 @@ $hover: #008ac6;
     width: calc(100vw - 60px);
   }
 }
-
 .ace-editor {
   .tn-form__label {
     line-height: 40px;
@@ -517,3 +516,20 @@ a.disabled {
 }
 
 div[hidden] { display: none; }
+
+// fiorification additions
+.ace_editor {
+  border-radius: 4px;
+  border: 1px solid $grey;
+}
+.ace_gutter {
+  z-index: 1 !important;
+}
+.fd-panel__filters {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.fd-popover__body {
+  background: red;
+  z-index: 10 !important;
+}
