@@ -51,16 +51,24 @@ span {
   }
 }
 
-//Tocken
-.fd-token {
-  margin-right: 5px;
-  margin-bottom: 5px;
-}
 
 
 //helpers
 .word-wrap {
   word-wrap: break-word;
+}
+
+
+//Token
+.y-fd-token {
+  margin-bottom: fd-space('tiny');
+  margin-right: fd-space('tiny');
+  &.y-fd-token--no-button {
+    cursor: default;
+    &:after {
+      all: unset;
+    }
+  }
 }
 
 

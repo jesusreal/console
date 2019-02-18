@@ -50,6 +50,7 @@ import { Subscription } from '../../shared/datamodel/k8s/subscription';
 import { SubscriptionsService } from '../../subscriptions/subscriptions.service';
 import { EventTriggerChooserComponent } from './event-trigger-chooser/event-trigger-chooser.component';
 import { HttpTriggerComponent } from './http-trigger/http-trigger.component';
+import { NgForm } from '@angular/forms';
 
 const DEFAULT_CODE = `module.exports = { main: function (event, context) {
 
@@ -322,7 +323,7 @@ export class LambdaDetailsComponent
 
   updateFunction(): void {
     this.warnUnsavedChanges(false);
-    this.lambda.metadata.labels = this.changeLabels();
+    this.lambda.metadata.labels = this.getUpdatedLabels();
     this.lambda.spec.runtime = this.kind;
     this.lambda.spec.topic =
       this.selectedTriggers.length > 0
@@ -824,6 +825,7 @@ export class LambdaDetailsComponent
         lambda => {
           this.lambda = lambda;
           this.labels = this.getLabels(lambda);
+          this.initialLabels = this.updatedLabels = this.getLabels(lambda);
           this.annotations = this.getAnnotations(lambda);
           this.code = lambda.spec.function;
           this.kind = lambda.spec.runtime;
@@ -1015,6 +1017,28 @@ export class LambdaDetailsComponent
   removeLabel(label) {
     const index = this.labels.indexOf(label);
     this.labels.splice(index, 1);
+  }
+
+  @ViewChild('editLabelsForm') editLabelsForm: NgForm;
+  public initialLabels: string[];
+  public updatedLabels: string[];
+  public updateLabelsData({
+    labels,
+    wrongLabels,
+  }: {
+    labels?: string[];
+    wrongLabels?: boolean;
+  }): void {
+    this.updatedLabels = labels !== undefined ? labels : this.updatedLabels;
+    this.wrongLabel = wrongLabels !== undefined ? wrongLabels : this.wrongLabel;
+    // mark form as dirty when deleting an existing label
+    this.editLabelsForm.form.markAsDirty();
+  }
+
+  getUpdatedLabels() {
+    return (this.updatedLabels || []).reduce((acc, label) => {
+      return { ...acc, [label.split('=')[0]]: label.split('=')[1] };
+    }, {});
   }
 
   addDependencies() {
