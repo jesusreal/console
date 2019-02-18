@@ -48,6 +48,10 @@ export class ResourceUploaderModalComponent {
   }
 
   upload(event: Event) {
+    if (!this.uploader.upload()) {
+      //nothing is selected = nothing can be uploaded
+      return;
+    }
     this.uploader.upload().subscribe(
       () => {
         this.communicationService.sendEvent({ type: 'createResource' });

@@ -12,12 +12,13 @@ export class UploaderComponent {
   public fileName = '';
   public fileContents: string[] = [];
   public ready = false;
+
   @ViewChild('fileInput') fileInput: any;
 
   constructor(private resourceUploadService: ResourceUploadService) {}
 
   public upload() {
-    return this.resourceUploadService.uploadWorkaround(this.fileContents);
+    return this.ready? this.resourceUploadService.uploadWorkaround(this.fileContents):null;
   }
 
   private isFileReadyToUpload() {
@@ -25,14 +26,14 @@ export class UploaderComponent {
   }
 
   public reset() {
-    if (this.fileInput) {
-      this.fileInput.clear();
-    }
+    this.fileToUpload = null;
+    this.ready = false;
     this.fileName = '';
   }
 
   public selectFile(files: Array<File>) {
-    if (files[0] && files[0]) {
+  
+    if (files && files[0]) {
       this.fileToUpload = files[0];
       this.fileName = this.fileToUpload.name;
 
