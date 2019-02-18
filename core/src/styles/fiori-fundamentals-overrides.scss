@@ -86,6 +86,11 @@ fd-modal {
       box-shadow: 0 0 5px 0 rgba(fd-color("text",3), 0.4);
     }
   }
+
+  &--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
 
 
