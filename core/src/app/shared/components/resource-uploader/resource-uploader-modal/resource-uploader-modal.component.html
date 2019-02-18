@@ -4,15 +4,18 @@
       Upload resource
     </fd-modal-header>
 
-    <div class="error-message-placeholder" *ngIf="uploader.err">{{ uploader.err }}</div>
+    <div class="error-message-placeholder" *ngIf="uploader.err">
+      {{ uploader.err }}
+    </div>
     <fd-modal-body>
       <app-uploader #uploader></app-uploader>
     </fd-modal-body>
     <fd-modal-footer>
-      <button fd-button (click)="resourceUploader.close('No')">Cancel</button>
+      <button fd-button (click)="resourceUploader.dismiss('Cancel')">Cancel</button>
       <button fd-button (click)="upload($event)" [state]="uploader.isFileReadyToUpload() ? '' : 'disabled'"
-        [options]="'light'" [fdType]="'main'">Upload</button>
-
+        [options]="'light'" [fdType]="'main'">
+        Upload
+      </button>
     </fd-modal-footer>
   </fd-modal>
 </div>

@@ -24,14 +24,24 @@ export class ResourceUploaderModalComponent {
 
   show(): Promise<boolean> {
     this.isActive = true;
-    this.modalService.open(this.resourceUploader).result.finally(() => {
-      this.isActive = false;
-    });
+    this.modalService.open(this.resourceUploader).result.then(
+      () => {},
+      reason => {
+        this.handleModalClose(reason);
+      },
+      () => {
+        this.handleModalClose('success');
+      }
+    );
     return new Promise((resolve, reject) => {
       this.okPromise = resolve;
     });
   }
 
+  private handleModalClose(reason?: string) {
+    this.isActive = false;
+    this.uploader.reset();
+  }
   cancel(event: Event) {
     this.isActive = false;
     event.stopPropagation();
@@ -40,14 +50,15 @@ export class ResourceUploaderModalComponent {
   upload(event: Event) {
     this.uploader.upload().subscribe(
       () => {
-        this.okPromise(true);
-        this.isActive = false;
         this.communicationService.sendEvent({ type: 'createResource' });
-        event.stopPropagation();
+        this.handleModalClose('OK');
+        this.modalService.close(this.resourceUploader);
         this.infoModal.show(
           'Created',
           'New element has been created successfully'
         );
+        event.stopPropagation();
+        this.okPromise(true);
         setTimeout(() => {
           this.infoModal.hide();
         }, 3000);
@@ -60,10 +71,11 @@ export class ResourceUploaderModalComponent {
         if (error.error.message) {
           er = error.error.message;
         }
+        this.handleModalClose('error');
+        this.modalService.close(this.resourceUploader);
         this.infoModal.show('Error', `Cannot create a k8s resource due: ${er}`);
         this.okPromise(true);
-        this.isActive = false;
-        console.log(error);
+        console.error(error);
       }
     );
   }

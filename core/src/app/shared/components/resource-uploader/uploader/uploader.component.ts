@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ResourceUploadService } from '../services/resource-upload.service';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'app-uploader',
@@ -13,6 +12,7 @@ export class UploaderComponent {
   public fileName = '';
   public fileContents: string[] = [];
   public ready = false;
+  @ViewChild('fileInput') fileInput: any;
 
   constructor(private resourceUploadService: ResourceUploadService) {}
 
@@ -24,12 +24,15 @@ export class UploaderComponent {
     return this.ready;
   }
 
-  private showFile() {
-    console.log(this.fileToUpload);
+  public reset() {
+    if (this.fileInput) {
+      this.fileInput.clear();
+    }
+    this.fileName = '';
   }
-  public selectFile(files: any) {
-    console.log(files);
-    if (!_.isUndefined(files[0])) {
+
+  public selectFile(files: Array<File>) {
+    if (files[0] && files[0]) {
       this.fileToUpload = files[0];
       this.fileName = this.fileToUpload.name;
 
