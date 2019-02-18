@@ -29,7 +29,6 @@ export class ConfirmationModalComponent implements OnInit {
     this.isActive = true;
 
     this.modalService.open(this.confirmationModal).result.finally(() => {
-      console.log('finally');
       this.cancelPromise(false);
       this.isActive = false;
       event.stopPropagation();
