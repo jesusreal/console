@@ -44,7 +44,7 @@
       </div>
     </fd-modal-body>
     <fd-modal-footer>
-      <button fd-button (click)="close()">Cancel</button>
+      <button fd-button [options]="'light'" (click)="close()">Cancel</button>
       <button fd-button 
         [options]="'main'"
         [state]="!isReadyToCreate() ? 'disabled' : ''"
