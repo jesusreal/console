@@ -7,7 +7,6 @@ import LuigiClient from '@kyma-project/luigi-client';
 
 @Component({
   selector: 'app-pods-entry-renderer',
-  styleUrls: ['./remote-environments-entry-renderer.component.scss'],
   templateUrl: './remote-environments-entry-renderer.component.html'
 })
 export class RemoteEnvironmentsEntryRendererComponent
