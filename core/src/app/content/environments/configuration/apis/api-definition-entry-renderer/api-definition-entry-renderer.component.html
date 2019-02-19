@@ -4,11 +4,7 @@
       {{ entry.metadata.name }}
     </a>
   </td>
-  <td>
-    <fd-badge class="break-word">
-      {{ entry.spec.hostname }}
-    </fd-badge>
-  </td>
+  <td class="break-word"> {{ entry.spec.hostname }} </td>
   <td>{{ entry.spec.service.name }}</td>
   <td>{{ entry.spec.service.port }}</td>
   <td>

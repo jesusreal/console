@@ -8,17 +8,17 @@
   <td>
     <ng-container *ngIf="entry.spec.ports">
       <ng-container *ngFor="let port of entry.spec.ports" class="break-word">
-        <fd-badge class="fd-has-margin-bottom-tiny">
+        <span class="break-word" >
           {{ entry.metadata.name }}.{{ entry.metadata.namespace }}:
           {{ port.port }}
           {{ port.protocol }}
-        </fd-badge>
+        </span>
 
-        <fd-badge class="fd-has-margin-bottom-tiny">
+        <span class="break-word">
           {{ entry.metadata.name }}.{{ entry.metadata.namespace }}:
           {{ port.nodePort || 0 }}
           {{ port.protocol }}
-        </fd-badge>
+        </span>
       </ng-container>
     </ng-container>
     <span *ngIf="!entry.spec.ports">-</span>

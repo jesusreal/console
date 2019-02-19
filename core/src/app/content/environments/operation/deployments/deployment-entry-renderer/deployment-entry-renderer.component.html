@@ -11,9 +11,9 @@
   </td>
   <td>{{ entry.creationTimestamp * 1000 | timeAgo }}</td>
   <td>
-    <fd-badge *ngFor="let image of entry.containers" class="break-word">
+    <span *ngFor="let image of entry.containers" class="break-word">
       {{ image.image }}
-    </fd-badge>
+    </span>
   </td>
   <ng-container *ngIf="showBoundServices">
     <td *ngIf="
