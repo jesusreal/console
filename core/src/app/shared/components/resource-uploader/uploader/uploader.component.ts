@@ -18,7 +18,9 @@ export class UploaderComponent {
   constructor(private resourceUploadService: ResourceUploadService) {}
 
   public upload() {
-    return this.ready? this.resourceUploadService.uploadWorkaround(this.fileContents):null;
+    return this.ready
+      ? this.resourceUploadService.uploadWorkaround(this.fileContents)
+      : null;
   }
 
   private isFileReadyToUpload() {
