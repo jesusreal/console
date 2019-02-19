@@ -26,18 +26,19 @@ export class ResourceUploaderModalComponent {
     this.modalService.open(this.resourceUploader).result.then(
       () => {},
       reason => {
-        this.handleModalClose(reason);
+        this.handleModalClose();
       },
       () => {
-        this.handleModalClose('success');
+        this.handleModalClose();
       }
     );
+    document.querySelector('#browse-file').focus();
     return new Promise((resolve, reject) => {
       this.okPromise = resolve;
     });
   }
 
-  private handleModalClose(reason?: string) {
+  private handleModalClose() {
     this.isActive = false;
     this.uploader.reset();
   }
@@ -54,7 +55,7 @@ export class ResourceUploaderModalComponent {
     this.uploader.upload().subscribe(
       () => {
         this.communicationService.sendEvent({ type: 'createResource' });
-        this.handleModalClose('OK');
+        this.handleModalClose();
         this.modalService.close(this.resourceUploader);
         this.infoModal.show(
           'Created',
@@ -74,7 +75,7 @@ export class ResourceUploaderModalComponent {
         if (error.error.message) {
           er = error.error.message;
         }
-        this.handleModalClose('error');
+        this.handleModalClose();
         this.modalService.close(this.resourceUploader);
         this.infoModal.show('Error', `Cannot create a k8s resource due: ${er}`);
         this.okPromise(true);
