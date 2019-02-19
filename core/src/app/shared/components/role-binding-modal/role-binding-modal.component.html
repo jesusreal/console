@@ -19,7 +19,7 @@
               </div>
               <div fd-form-item *ngIf="!isGlobalPermissionsView">
                 <fd-form-label>Kind *</fd-form-label>
-                <div (clickOutside)="closeDropDown('Kind')" clickOutsideEvents="click,mousedown" excludeBeforeClick="true">
+                <div class="fd-dropdown y-fd-dropdown fd-has-display-block" (clickOutside)="closeDropDown('Kind')" clickOutsideEvents="click,mousedown" excludeBeforeClick="true">
                   <button class="fd-dropdown__control y-fd-dropdown__control fd-button fd-has-padding-none"
                     ngClass="{{!selectedKind ? 'fd-dropdown__control--placeholder' : ''}}"
                     [attr.aria-expanded]="ariaExpandedKind"
@@ -50,7 +50,7 @@
 
               <div fd-form-item>
                 <fd-form-label>Role *</fd-form-label>
-                <div (clickOutside)="closeDropDown('Role')" clickOutsideEvents="click,mousedown" excludeBeforeClick="true">
+                <div class="fd-dropdown y-fd-dropdown fd-has-display-block" (clickOutside)="closeDropDown('Role')" clickOutsideEvents="click,mousedown" excludeBeforeClick="true">
                   <button class="fd-dropdown__control y-fd-dropdown__control fd-button fd-has-padding-none"
                     ngClass="{{!selectedRole ? 'fd-dropdown__control--placeholder' : ''}}"
                     [disabled]="!selectedKind"

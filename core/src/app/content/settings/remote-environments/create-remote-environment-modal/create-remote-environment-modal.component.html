@@ -17,7 +17,7 @@
                   (ngModelChange)=validateRemoteEnvNameRegex()
                   placeholder="Specify a name for your Application"
                   autocomplete="off">
-                <fd-form-message [type]="'error'">
+                <fd-form-message [type]="'error'" *ngIf="wrongRemoteEnvName">
                   The Application name has the wrong format. The name must consist
                   of lower case alphanumeric characters, dashes or dots, must start and end with an alphanumeric
                   character and cannot be longer that 253 characters(e.g. 'my-name1.com').
