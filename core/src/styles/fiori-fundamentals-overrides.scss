@@ -1,5 +1,14 @@
+
 .fd-action-bar__actions {
   flex-shrink: 0;
+
+.y-fd-panel__description {
+  padding: 0 16px;
+}
+
+.y-fd-table__tr--disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 //Overwrite bg color for modals overlay
@@ -87,8 +96,11 @@ span {
   }
 }
 
-.fd-action-bar__actions .fd-popover {
-  top: 0;
+
+.fd-action-bar__actions {
+  .fd-popover{
+     flex-shrink: 0;
+  }
 }
 
 //helpers
