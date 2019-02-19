@@ -1,5 +1,3 @@
-import builder from './builder';
-
 export const tokenize = str => {
   if (!str) return '';
 
@@ -7,8 +5,4 @@ export const tokenize = str => {
     .trim()
     .replace(/ /g, '-')
     .toLowerCase();
-};
-
-export const backendModuleExists = name => {
-  return builder.getBackendModules().includes(name);
 };

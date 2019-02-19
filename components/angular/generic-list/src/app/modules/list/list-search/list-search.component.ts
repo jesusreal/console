@@ -1,5 +1,14 @@
-import { Component, OnChanges, SimpleChange } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  OnDestroy,
+  SimpleChange,
+  ViewChild,
+} from '@angular/core';
+
 import { ListFilterComponent } from '../list-filter/list-filter.component';
+import { fromEvent, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'y-list-search',
@@ -7,9 +16,18 @@ import { ListFilterComponent } from '../list-filter/list-filter.component';
   styleUrls: ['./list-search.component.scss'],
 })
 export class ListSearchComponent extends ListFilterComponent
-  implements OnChanges {
+  implements OnChanges, OnDestroy {
   searching = false;
-  searchText = '';
+  searchText: string;
+  keyUpSubs: Subscription;
+
+  @ViewChild('searchInput') searchInputElement;
+
+  ngOnDestroy() {
+    if (this.keyUpSubs) {
+      this.keyUpSubs.unsubscribe();
+    }
+  }
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     super.ngOnChanges(changes);
@@ -23,12 +41,30 @@ export class ListSearchComponent extends ListFilterComponent
             }
           });
         }
+        if (this.searchText) {
+          this.searching = true;
+        }
       }
     }
   }
 
-  searchTextChange(text) {
-    this.searchText = text;
+  registerKeyupSearch(): void {
+    if (!this.searchInputElement || this.keyUpSubs) {
+      return;
+    }
+    this.keyUpSubs = fromEvent(this.searchInputElement.nativeElement, 'keyup')
+      .pipe(
+        map((e: any) => e.target.value),
+        debounceTime(150), // Only run after specified ms without input
+        distinctUntilChanged(), // Only if the value has changed
+      )
+      .subscribe((value: string) => {
+        this.searchText = value;
+        this.searchTextChange();
+      });
+  }
+
+  searchTextChange() {
     if (this.hasSearch()) {
       this.filterState.filters.forEach(filter => {
         filter.value = this.searchText;
@@ -45,13 +81,17 @@ export class ListSearchComponent extends ListFilterComponent
     event.stopPropagation();
     this.searching = true;
     setTimeout(() => {
-      const searchInput = document.querySelector(
-        '.search input[type="search"]',
-      ) as HTMLElement;
-      if (searchInput && typeof searchInput.focus === 'function') {
-        searchInput.focus();
-      }
+      this.registerKeyupSearch();
+      this.searchInputElement.nativeElement.focus();
     });
+  }
+
+  closeSearch(event) {
+    event.stopPropagation();
+    this.searching = false;
+    this.searchText = '';
+    this.searchInputElement.nativeElement.value = '';
+    this.searchTextChange();
   }
 
   closeIfEmpty() {

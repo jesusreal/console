@@ -1,4 +1,3 @@
-import builder from './builder';
 import { adjectives, nouns } from './random-names-data';
 
 export const sortDocumentsByType = documents => {
@@ -139,7 +138,3 @@ export function randomNameGenerator() {
 export function isStringValueEqualToTrue(value) {
   return value ? 'true' === value.toLowerCase() : false;
 }
-
-export const backendModuleExists = name => {
-  return builder.getBackendModules().includes(name);
-};

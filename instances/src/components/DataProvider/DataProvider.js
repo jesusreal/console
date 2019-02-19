@@ -13,14 +13,9 @@ import {
   handleServiceBindingUsageEvent,
 } from '../../store/ServiceInstances/events';
 import builder from '../../commons/builder';
-import { backendModuleExists } from '../../commons/helpers';
 
 const DataProvider = ({ serviceInstances, children }) => {
   const subscribeToEvents = () => {
-    const serviceCatalogAddonsBackendModuleExists = backendModuleExists(
-      'servicecatalogaddons',
-    );
-
     if (!serviceInstances) {
       return;
     }
@@ -61,10 +56,6 @@ const DataProvider = ({ serviceInstances, children }) => {
       },
     });
 
-    if (!serviceCatalogAddonsBackendModuleExists) {
-      return;
-    }
-
     serviceInstances.subscribeToMore({
       document: SERVICE_BINDING_USAGE_EVENT_SUBSCRIPTION,
       variables: { namespace: builder.getCurrentEnvironmentId() },
@@ -100,7 +91,6 @@ export default compose(
     name: 'serviceInstances',
     options: () => ({
       fetchPolicy: 'network-only',
-      errorPolicy: 'all',
       variables: {
         namespace: builder.getCurrentEnvironmentId(),
       },

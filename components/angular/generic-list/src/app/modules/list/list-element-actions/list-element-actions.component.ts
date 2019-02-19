@@ -1,10 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  ViewRef,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, Input, ViewRef } from '@angular/core';
 
 @Component({
   selector: 'y-list-actions',
@@ -15,27 +9,31 @@ export class ListElementActionsComponent {
   @Input() entry: any;
   @Input() entryEventHandler: any;
   @Input() actions: any[];
-  @ViewChild('popover') private popover: any;
+
+  isExpanded = false;
+  ariaHidden = true;
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 
-  handlePopoverClick(event: Event): void {
-    const wasPopoverOpened = this.popover && this.popover.isOpen;
+  toggleActionsBtn(event) {
     event.stopPropagation();
-    this.fireClick(document);
-    if (this.popover && typeof this.popover.onClickHandler === 'function') {
-      if (!wasPopoverOpened) {
-        this.popover.onClickHandler(event);
-      }
-    } else {
-      console.warn(`Could not fire Popover's built-in click event`);
+    this.isExpanded = !this.isExpanded;
+    this.ariaHidden = !this.ariaHidden;
+    if (!(this.changeDetector as ViewRef).destroyed) {
+      this.changeDetector.detectChanges();
+    }
+  }
+
+  closeActionsBtn(event) {
+    event.stopPropagation();
+    this.isExpanded = false;
+    this.ariaHidden = true;
+    if (!(this.changeDetector as ViewRef).destroyed) {
+      this.changeDetector.detectChanges();
     }
   }
 
   executeAction(action: string, event) {
-    if (this.popover) {
-      this.popover.close();
-    }
     event.stopPropagation();
     const functionName = action['function'];
     if (
@@ -50,25 +48,10 @@ export class ListElementActionsComponent {
     }
   }
 
-  entryAsString = (entry: any): string => {
-    if (entry instanceof Object) {
-      return entry.name
-        ? entry.name
-        : entry.metadata.name
-          ? entry.metadata.name
-          : entry.toString();
+  entryAsString() {
+    if (this.entry instanceof Object) {
+      return this.entry.toString();
     }
-
-    return entry;
-  };
-
-  private fireClick(node: Document): void {
-    if (document.createEvent) {
-      const evt = document.createEvent('MouseEvents');
-      evt.initEvent('click', true, false);
-      node.dispatchEvent(evt);
-    } else if (typeof node.onclick === 'function') {
-      node.onclick(new MouseEvent('click'));
-    }
+    return this.entry;
   }
 }

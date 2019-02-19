@@ -51,11 +51,12 @@ export default compose(
     name: 'content',
     options: props => {
       return {
-        fetchPolicy: 'cache-and-network',
-        errorPolicy: 'all',
         variables: {
           contentType: props.contentMetadata.type,
           id: props.contentMetadata.id,
+        },
+        options: {
+          fetchPolicy: 'cache-and-network',
         },
       };
     },

@@ -685,8 +685,7 @@ Promise.all([getBackendModules(), getSelfSubjectRulesReview()])
             label: 'Docs',
             hideSideNav: true,
             context: {
-              idToken: token,
-              backendModules
+              idToken: token
             },
             icon: 'sys-help'
           }

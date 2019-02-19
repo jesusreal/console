@@ -1,5 +1,3 @@
-import builder from './builder';
-
 export const sortDocumentsByType = documents => {
   if (!documents) return null;
 
@@ -126,8 +124,4 @@ export const validateContent = content => {
     }
   });
   return numberOfSources > 0;
-};
-
-export const backendModuleExists = name => {
-  return builder.getBackendModules().includes(name);
 };

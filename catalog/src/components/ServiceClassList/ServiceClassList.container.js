@@ -22,9 +22,11 @@ export default compose(
     name: 'classList',
     options: () => {
       return {
-        fetchPolicy: 'cache-and-network',
         variables: {
           namespace: builder.getCurrentEnvironmentId(),
+        },
+        options: {
+          fetchPolicy: 'cache-and-network',
         },
       };
     },

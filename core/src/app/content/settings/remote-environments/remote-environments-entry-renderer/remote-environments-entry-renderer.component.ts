@@ -49,8 +49,8 @@ export class RemoteEnvironmentsEntryRendererComponent
 
   public listConnectedEnvs(entry) {
     let result = '';
-    if (entry.enabledInNamespaces) {
-      result = entry.enabledInNamespaces.join(', ');
+    if (entry.enabledInEnvironments) {
+      result = entry.enabledInEnvironments.join(', ');
     }
     return result;
   }

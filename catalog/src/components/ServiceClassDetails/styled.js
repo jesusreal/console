@@ -46,5 +46,5 @@ export const EmptyList = styled.div`
   text-align: center;
   font-size: 20px;
   color: #32363a;
-  padding: 30px;
+  margin: 50px 0;
 `;

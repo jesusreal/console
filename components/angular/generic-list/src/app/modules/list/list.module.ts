@@ -11,15 +11,9 @@ import { PlainTableComponent } from './plain-table/plain-table.component';
 import { ListElementActionsComponent } from './list-element-actions/list-element-actions.component';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { AbstractTableEntryRendererComponent } from './abstract-table-entry-renderer/abstract-table-entry-renderer.component';
-import { FundamentalNgxModule } from 'fundamental-ngx';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ClickOutsideModule,
-    FundamentalNgxModule,
-  ],
+  imports: [CommonModule, FormsModule, ClickOutsideModule],
   declarations: [
     GenericListComponent,
     GenericTableComponent,

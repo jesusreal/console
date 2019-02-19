@@ -11,11 +11,13 @@ export default compose(
   graphql(GET_SERVICE_CLASS, {
     options: props => {
       return {
-        fetchPolicy: 'cache-and-network',
-        errorPolicy: 'all',
         variables: {
           name: props.match.params.name,
           namespace: builder.getCurrentEnvironmentId(),
+        },
+        options: {
+          fetchPolicy: 'cache-and-network',
+          errorPolicy: 'all',
         },
       };
     },

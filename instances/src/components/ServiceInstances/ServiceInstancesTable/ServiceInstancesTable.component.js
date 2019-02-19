@@ -12,32 +12,20 @@ import {
   TextOverflowWrapper,
 } from './styled';
 
-import {
-  getResourceDisplayName,
-  statusColor,
-  backendModuleExists,
-} from '../../../commons/helpers';
+import { getResourceDisplayName, statusColor } from '../../../commons/helpers';
 
 const deleteButton = <Button compact option="light" glyph="delete" />;
 
 export class ServiceInstancesTable extends Component {
   displayBindingsUsages = (bindings = []) => {
-    if (!bindings) return null;
-
     switch (bindings.length) {
       case 0:
         return '-';
       case 1:
-        return `${bindings[0].usedBy.name} (${this.capitalize(
-          bindings[0].usedBy.kind,
-        )})`;
+        return bindings[0].name;
       default:
         return `Multiple (${bindings.length})`;
     }
-  };
-
-  capitalize = str => {
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   };
 
   goToServiceCatalog = () => {
@@ -63,10 +51,6 @@ export class ServiceInstancesTable extends Component {
     const handleDelete = async element => {
       await deleteServiceInstance(element.name);
     };
-
-    const serviceCatalogAddonsBackendModuleExists = backendModuleExists(
-      'servicecatalogaddons',
-    );
 
     const createTableData = () => {
       return data.map(instance => {
@@ -123,14 +107,12 @@ export class ServiceInstancesTable extends Component {
                     <Modal
                       title="Instance's Parameters"
                       modalOpeningComponent={
-                        <ServicePlanButton data-e2e-id="service-plan">
-                          {planDisplayName}
-                        </ServicePlanButton>
+                        <ServicePlanButton>{planDisplayName}</ServicePlanButton>
                       }
                       onShow={() => LuigiClient.uxManager().addBackdrop()}
                       onHide={() => LuigiClient.uxManager().removeBackdrop()}
                     >
-                      <JSONCode data-e2e-id="service-plan-content">
+                      <JSONCode>
                         {JSON.stringify(instance.planSpec, null, 2)}
                       </JSONCode>
                     </Modal>
@@ -147,7 +129,6 @@ export class ServiceInstancesTable extends Component {
               const bindingUsages = this.displayBindingsUsages(
                 instance.serviceBindingUsages,
               );
-
               return (
                 <TextOverflowWrapper>
                   <span>{bindingUsages}</span>
@@ -206,22 +187,13 @@ export class ServiceInstancesTable extends Component {
         };
       });
     };
-
     const addServiceInstanceRedirectButton = (
-      <Button
-        compact
-        option="light"
-        onClick={this.goToServiceCatalog}
-        data-e2e-id="add-instance"
-      >
+      <Button compact option="light" onClick={this.goToServiceCatalog}>
         + Add Instance
       </Button>
     );
-
     const title = 'Manage Service Instances';
-    const tableData = createTableData();
-
-    let headers = [
+    const headers = [
       'Name',
       'Service Class',
       'Plan',
@@ -229,14 +201,7 @@ export class ServiceInstancesTable extends Component {
       'Status',
       '',
     ];
-
-    if (!serviceCatalogAddonsBackendModuleExists) {
-      headers.splice(3, 1);
-      tableData.map(row => {
-        row.rowData.splice(3, 1);
-        return row;
-      });
-    }
+    const tableData = createTableData();
 
     return (
       <Table

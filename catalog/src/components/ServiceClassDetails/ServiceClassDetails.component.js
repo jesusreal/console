@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  Button,
-  Spinner,
-  Panel,
-  PanelBody,
-} from '@kyma-project/react-components';
+import { Button, Spinner } from '@kyma-project/react-components';
 
 import ServiceClassToolbar from './ServiceClassToolbar/ServiceClassToolbar.component';
 import ServiceClassInfo from './ServiceClassInfo/ServiceClassInfo.component';
@@ -21,11 +16,7 @@ import {
   EmptyList,
 } from './styled';
 
-import {
-  getResourceDisplayName,
-  getDescription,
-  backendModuleExists,
-} from '../../commons/helpers';
+import { getResourceDisplayName, getDescription } from '../../commons/helpers';
 
 class ServiceClassDetails extends React.Component {
   static propTypes = {
@@ -59,11 +50,7 @@ class ServiceClassDetails extends React.Component {
     }
     if (!this.props.serviceClass.loading && !serviceClass) {
       return (
-        <EmptyList>
-          <Panel>
-            <PanelBody>Service Class doesn't exist in this namespace</PanelBody>
-          </Panel>
-        </EmptyList>
+        <EmptyList>Service Class doesn't exist in this namespace</EmptyList>
       );
     }
 
@@ -103,12 +90,10 @@ class ServiceClassDetails extends React.Component {
                     description={serviceClassDescription}
                   />
                 )}
-                {backendModuleExists('content') ? (
-                  <ServiceClassTabs
-                    serviceClass={serviceClass}
-                    serviceClassLoading={this.props.serviceClass.loading}
-                  />
-                ) : null}
+                <ServiceClassTabs
+                  serviceClass={serviceClass}
+                  serviceClassLoading={this.props.serviceClass.loading}
+                />
               </CenterSideWrapper>
             </ServiceClassDetailsWrapper>
           </div>

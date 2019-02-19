@@ -48,9 +48,6 @@ class DeleteBindingModal extends React.Component {
       bindingUsageChecked: !this.state.bindingUsageChecked,
     });
   };
-  capitalize = str => {
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  };
 
   render() {
     const {
@@ -69,7 +66,7 @@ class DeleteBindingModal extends React.Component {
           {bindingUsageName && (
             <TextWrapper>
               <Text>
-                Are you sure you want to delete <Bold>{bindingUsageName}</Bold>?
+                Are you sure you want to delete <Bold>{bindingUsageName}</Bold>.
               </Text>
 
               <Text warning>
@@ -96,12 +93,10 @@ class DeleteBindingModal extends React.Component {
                     <Separator margin="20px -16px" />
                     {relatedBindingUsage.map((binding, index) => (
                       <TextWrapper flex key={`relatedBindingUsage${index}`}>
-                        <Text bold width={'200px'} margin={'0 20px 0 0'}>
-                          {index === 0 && 'Related Applications'}
+                        <Text bold width={'200px'} margin={'0 20px 20px 0'}>
+                          {index === 0 && 'Related Binding Usages'}
                         </Text>
-                        <Text>{`${binding.usedBy.name} (${this.capitalize(
-                          binding.usedBy.kind,
-                        )})`}</Text>
+                        <Text>{binding.name}</Text>
                       </TextWrapper>
                     ))}
                   </Fragment>
@@ -118,14 +113,7 @@ class DeleteBindingModal extends React.Component {
         title="Warning"
         confirmText="Delete"
         onConfirm={this.handleConfirmation}
-        modalOpeningComponent={
-          <Button
-            data-e2e-id="delete-button"
-            compact
-            option="light"
-            glyph="delete"
-          />
-        }
+        modalOpeningComponent={<Button compact option="light" glyph="delete" />}
         type="negative"
         disabled={!submitEnabled}
         onShow={() => LuigiClient.uxManager().addBackdrop()}

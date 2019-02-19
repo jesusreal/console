@@ -1,8 +1,8 @@
 import React from 'react';
 import { LabelWrapper, Label } from './styled';
 
-export default ({ children, cursorType, ...props }) => (
+export default ({ children, cursorType }) => (
   <LabelWrapper cursorType={cursorType}>
-    <Label {...props}>{children}</Label>
+    <Label>{children}</Label>
   </LabelWrapper>
 );

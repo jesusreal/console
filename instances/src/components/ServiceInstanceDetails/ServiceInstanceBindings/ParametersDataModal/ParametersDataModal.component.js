@@ -9,20 +9,11 @@ const ParametersDataModal = ({ title, data }) => {
   return (
     <Modal
       title={title}
-      modalOpeningComponent={
-        <Button
-          data-e2e-id="parameters-button"
-          compact
-          option="light"
-          glyph="syntax"
-        />
-      }
+      modalOpeningComponent={<Button compact option="light" glyph="syntax" />}
       onShow={() => LuigiClient.uxManager().addBackdrop()}
       onHide={() => LuigiClient.uxManager().removeBackdrop()}
     >
-      <JSONCode data-e2e-id="parameters-content">
-        {JSON.stringify(data, undefined, 2)}
-      </JSONCode>
+      <JSONCode>{JSON.stringify(data, undefined, 2)}</JSONCode>
     </Modal>
   );
 };

@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import { statusColor } from '../../../../commons/helpers';
 import { StatusesList, StatusWrapper, Status } from './styled';
 
-const StatusIndicator = ({ data, testId }) => {
+const StatusIndicator = ({ data }) => {
   if (!data) return;
 
   let statusesStats = {
@@ -29,21 +29,19 @@ const StatusIndicator = ({ data, testId }) => {
         <StatusesList>
           {statusesLength > 0 && (
             <StatusWrapper backgroundColor={'#0a6ed1'}>
-              <Status data-e2e-id={testId}>{statusesLength}</Status>
+              <Status>{statusesLength}</Status>
             </StatusWrapper>
           )}
           {statusesStats &&
             (statusesStats.PENDING > 0 || statusesStats.UNKNOWN > 0) && (
               <StatusWrapper backgroundColor={statusColor('PENDING')}>
-                <Status data-e2e-id={testId}>
-                  {statusesStats.PENDING + statusesStats.UNKNOWN}
-                </Status>
+                <Status>{statusesStats.PENDING + statusesStats.UNKNOWN}</Status>
               </StatusWrapper>
             )}
           {statusesStats &&
             statusesStats.FAILED > 0 && (
               <StatusWrapper backgroundColor={statusColor('FAILED')}>
-                <Status data-e2e-id={testId}>{statusesStats.FAILED}</Status>
+                <Status>{statusesStats.FAILED}</Status>
               </StatusWrapper>
             )}
         </StatusesList>

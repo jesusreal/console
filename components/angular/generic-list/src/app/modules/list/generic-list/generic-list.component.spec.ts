@@ -1,7 +1,8 @@
 import { PlainListComponent } from './../plain-list/plain-list.component';
 import { ListFilterComponent } from './../list-filter/list-filter.component';
+import { ListModule } from './../list.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 import { GenericListComponent } from './generic-list.component';
 import { ListSearchComponent } from '../list-search/list-search.component';
 import { PagingComponent } from '../paging/paging.component';
@@ -19,7 +20,6 @@ describe('GenericListComponent', () => {
         PagingComponent,
         PlainListComponent,
       ],
-      schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 

@@ -77,8 +77,8 @@ export class EditBindingsModalComponent {
     });
   }
 
-  private getFilteredEnvironments(enabledInNamespaces, env) {
-    const exists = _.includes(enabledInNamespaces, env.label);
+  private getFilteredEnvironments(enabledInEnvironments, env) {
+    const exists = _.includes(enabledInEnvironments, env.label);
 
     if (!exists) {
       this.filteredEnvs.push(env);

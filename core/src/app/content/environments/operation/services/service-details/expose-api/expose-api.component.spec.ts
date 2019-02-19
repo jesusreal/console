@@ -45,22 +45,6 @@ describe('ExposeApiComponent', () => {
           authentication: {}
         }
       });
-    },
-    getPodsByLabelSelector: () => {
-      return of({
-        items: [
-          {
-            kind: 'Pod',
-            spec: {
-              containers: [
-                {
-                  name: 'istio-proxy'
-                }
-              ]
-            }
-          }
-        ]
-      });
     }
   };
 
@@ -277,33 +261,18 @@ describe('ExposeApiComponent', () => {
     });
   });
 
-  describe('Secure API', () => {
-    it('should not request securing API if service can be secured', () => {
-      component.secure = true;
-      component.canBeSecured = true;
-      const dataToSend = component.dataToSend();
-      expect(dataToSend.authentication).toBeDefined();
-      expect(dataToSend.authentication.length === 1).toBeTruthy();
-    });
+  it('should not request securing API if service can be secured', () => {
+    component.secure = true;
+    component.canBeSecured = true;
+    const dataToSend = component.dataToSend();
+    expect(dataToSend.authentication).toBeDefined();
+    expect(dataToSend.authentication.length === 1).toBeTruthy();
+  });
 
-    it('should not request securing API if service cannot be secured', () => {
-      component.secure = true;
-      expect(component.canBeSecured).toEqual(false);
-      const dataToSend = component.dataToSend();
-      expect(dataToSend.authentication).toBeNull();
-    });
-
-    it('should let the user create secure api, if matching pods contain istio-proxy container', () => {
-      component.checkIfServiceCanBeSecured({
-        kind: 'Service',
-        spec: {
-          selector: {
-            app: 'publish'
-          }
-        }
-      });
-
-      expect(component.canBeSecured).toBeTruthy();
-    });
+  it('should not request securing API if service cannot be secured', () => {
+    component.secure = true;
+    expect(component.canBeSecured).toEqual(false);
+    const dataToSend = component.dataToSend();
+    expect(dataToSend.authentication).toBeNull();
   });
 });

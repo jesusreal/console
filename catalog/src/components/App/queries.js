@@ -7,7 +7,6 @@ export const GET_NOTIFICATION = gql`
       color
       icon
       visible
-      type
       instanceName
     }
   }
