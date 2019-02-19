@@ -28,13 +28,16 @@ export class UploaderComponent {
   }
 
   public reset() {
+    if (this.fileInput) {
+      this.fileInput.clear();
+    }
     this.fileToUpload = null;
     this.ready = false;
     this.fileName = '';
+    this.fileContents = [];
   }
 
   public selectFile(files: Array<File>) {
-  
     if (files && files[0]) {
       this.fileToUpload = files[0];
       this.fileName = this.fileToUpload.name;
