@@ -32,7 +32,6 @@ export class ResourceUploaderModalComponent {
         this.handleModalClose();
       }
     );
-    (document.querySelector('#browse-file') as HTMLElement).focus();
     return new Promise((resolve, reject) => {
       this.okPromise = resolve;
     });
