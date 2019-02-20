@@ -34,7 +34,7 @@
               </div>
               <div fd-form-item>
                 <fd-form-label>Labels</fd-form-label>
-                <app-labels-input (labelsChangeEmitter$)="updateLabelsData($event)"></app-labels-input>
+                <app-labels-input [labels]="labels" (labelsChangeEmitter$)="updateLabelsData($event)"></app-labels-input>
               </div>
             </div>
           </div>
