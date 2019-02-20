@@ -43,9 +43,10 @@
       <fd-modal-footer>
         <button fd-button [options]="'light'" (click)="close()">Cancel</button>
         <button fd-button
-        [options]="'main'"
+          [options]="'main'"
           [state]="!isReadyToCreate()? 'disabled' : ''" 
-          (click)="save()">
+          (click)="save()"
+          class="create-button">
           Create
         </button>
     </fd-modal-footer>
