@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+} from '@angular/core';
 import { ServiceInstance } from '../../../../shared/datamodel/k8s/service-instance';
 import { ServiceInstancesService } from '../../../../service-instances/service-instances.service';
 import { ServiceBindingsService } from '../../../../service-bindings/service-bindings.service';
@@ -6,6 +12,7 @@ import { ServiceBinding } from '../../../../shared/datamodel/k8s/service-binding
 import { InstanceBindingInfo } from '../../../../shared/datamodel/instance-binding-info';
 import * as luigiClient from '@kyma-project/luigi-client';
 import { ServiceBindingList } from '../../../../shared/datamodel/k8s/service-binding-list';
+import { ModalService, ModalComponent } from 'fundamental-ngx';
 
 const RUNNING = 'RUNNING';
 
@@ -15,6 +22,9 @@ const RUNNING = 'RUNNING';
   styleUrls: ['../../lambda-details.component.scss'],
 })
 export class LambdaInstanceBindingCreatorComponent {
+  @ViewChild('instanceBindingCreatorModal')
+  instanceBindingCreatorModal: ModalComponent;
+
   public isActive = false;
   public isValid = false;
   public isSelectedInstanceBindingPrefixInvalid = false;
@@ -34,6 +44,7 @@ export class LambdaInstanceBindingCreatorComponent {
   constructor(
     private serviceInstancesService: ServiceInstancesService,
     private serviceBindingsService: ServiceBindingsService,
+    private modalService: ModalService,
   ) {}
 
   @Input() alreadyAddedInstances: InstanceBindingInfo[];
@@ -79,6 +90,15 @@ export class LambdaInstanceBindingCreatorComponent {
           err => {},
         );
     });
+
+    this.modalService
+      .open(this.instanceBindingCreatorModal)
+      .result.finally(() => {
+        this.isActive = false;
+        luigiClient.uxManager().removeBackdrop();
+        this.reset();
+        event.stopPropagation();
+      });
   }
 
   public validatesPrefix() {
@@ -95,10 +115,7 @@ export class LambdaInstanceBindingCreatorComponent {
   }
 
   public cancel(event: Event) {
-    this.isActive = false;
-    luigiClient.uxManager().removeBackdrop();
-    this.reset();
-    event.stopPropagation();
+    this.modalService.close(this.instanceBindingCreatorModal);
   }
 
   public submit(event: Event) {

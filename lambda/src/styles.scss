@@ -106,40 +106,6 @@ h2.sf-section__headline {
   margin-top: 32px;
 }
 
-.fd-input-group {
-  input[type='search']:not(:disabled):focus,
-  input[type='search']:not(:disabled):hover {
-    // overwrite for global rules
-    padding-left: 48px !important;
-    padding-right: 60px !important;
-    border-color: var(--fd-color-action-hover) !important;
-    border-width: 1px !important;
-  }
-}
-
-input[type='date']:not(:disabled):focus,
-input[type='date']:not(:disabled):hover,
-input[type='email']:not(:disabled):focus,
-input[type='email']:not(:disabled):hover,
-input[type='number']:not(:disabled):focus,
-input[type='number']:not(:disabled):hover,
-input[type='password']:not(:disabled):focus,
-input[type='password']:not(:disabled):hover,
-input[type='search']:not(:disabled):focus,
-input[type='search']:not(:disabled):hover,
-input[type='tel']:not(:disabled):focus,
-input[type='tel']:not(:disabled):hover,
-input[type='text']:not(:disabled):focus,
-input[type='text']:not(:disabled):hover,
-input[type='url']:not(:disabled):focus,
-input[type='url']:not(:disabled):hover,
-textarea:not(:disabled):focus,
-textarea:not(:disabled):hover {
-  border-color: #73b9ff;
-  border-width: 2px;
-  padding: 0 7px;
-}
-
 .is-disabled.tn-modal__button-primary,
 .is-disabled.tn-modal__button-secondary,
 .tn-button.is-disabled,
