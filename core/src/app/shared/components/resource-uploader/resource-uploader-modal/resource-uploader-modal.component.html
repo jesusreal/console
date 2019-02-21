@@ -6,7 +6,7 @@
     </fd-modal-header>
 
     <fd-modal-body>
-      <fd-alert [inline]="true" [type]="'error'" *ngIf="uploader.err">
+      <fd-alert class="fd-has-margin-bottom-small" [inline]="true" [type]="'error'" *ngIf="uploader.err">
         {{ uploader.err }}
       </fd-alert>
       <app-uploader #uploader></app-uploader>
