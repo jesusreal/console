@@ -1,10 +1,10 @@
 <tr [ngClass]="{ disabled: disabled === true }">
-  <td class="fd-has-font-weight-bold">
-    <a (click)="navigateToDetails(entry.metadata.name)">
+  <td>
+    <a class="fd-link" (click)="navigateToDetails(entry.metadata.name)">
       {{ entry.metadata.name }}
     </a>
   </td>
-  <td > {{ entry.spec.hostname }} </td>
+  <td>{{ entry.spec.hostname }}</td>
   <td>{{ entry.spec.service.name }}</td>
   <td>{{ entry.spec.service.port }}</td>
   <td>
