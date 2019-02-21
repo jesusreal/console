@@ -46,7 +46,7 @@
           [options]="'main'"
           [state]="!isReadyToCreate()? 'disabled' : ''" 
           (click)="save()"
-          class="create-button">
+          [attr.data-e2e-id]="'create-button'">
           Create
         </button>
     </fd-modal-footer>
