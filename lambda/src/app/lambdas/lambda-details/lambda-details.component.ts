@@ -7,10 +7,12 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { of as observableOf, Observable, forkJoin } from 'rxjs';
+
 import 'brace';
 import 'brace/ext/language_tools';
 import 'brace/snippets/javascript';
@@ -18,13 +20,10 @@ import 'brace/snippets/json';
 import 'brace/snippets/text';
 import 'brace/mode/javascript';
 import 'brace/mode/json';
-import 'brace/theme/chrome';
-import 'brace/theme/dreamweaver';
-import 'brace/theme/katzenmilch';
-import 'brace/theme/sqlserver';
-import 'brace/theme/textmate';
+// import 'brace/theme/chrome';
+// import 'brace/theme/sqlserver';
+// import 'brace/theme/textmate';
 import 'brace/theme/tomorrow';
-
 import { sha256 } from 'js-sha256';
 import { Clipboard } from 'ts-clipboard';
 import * as randomatic from 'randomatic';
@@ -50,7 +49,6 @@ import { Subscription } from '../../shared/datamodel/k8s/subscription';
 import { SubscriptionsService } from '../../subscriptions/subscriptions.service';
 import { EventTriggerChooserComponent } from './event-trigger-chooser/event-trigger-chooser.component';
 import { HttpTriggerComponent } from './http-trigger/http-trigger.component';
-import { NgForm } from '@angular/forms';
 
 const DEFAULT_CODE = `module.exports = { main: function (event, context) {
 
@@ -193,6 +191,7 @@ export class LambdaDetailsComponent
                   );
                   this.selectedTriggers.push(httpEndPoint);
                   this.isHTTPTriggerAdded = true;
+                  console.log('http trigger added', this.isHTTPTriggerAdded);
                   this.isHTTPTriggerAuthenticated = httpEndPoint.isAuthEnabled;
                 },
                 err => {
@@ -925,9 +924,12 @@ export class LambdaDetailsComponent
       ...this.selectedTriggers,
     ]);
   }
-
+  log(str) {
+    console.log('log', str);
+  }
   unselectEvent(event: ITrigger) {
     const index = this.selectedTriggers.indexOf(event);
+    console.log('TCL: unselectEvent -> event', event, index);
     if (index > -1) {
       this.selectedTriggers.splice(index, 1);
     }
@@ -1219,6 +1221,7 @@ export class LambdaDetailsComponent
         }`.toLowerCase();
 
         this.isHTTPTriggerAdded = true;
+        console.log('http trigger added 2', this.isHTTPTriggerAdded);
         this.isHTTPTriggerAuthenticated = (trigger as HTTPEndpoint).isAuthEnabled;
         this.warnUnsavedChanges(true);
 
