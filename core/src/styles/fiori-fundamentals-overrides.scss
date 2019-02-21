@@ -1,11 +1,5 @@
-
 .y-fd-panel__description {
   padding: 0 16px;
-}
-
-.y-fd-table__tr--disabled {
-  opacity: 0.5;
-  pointer-events: none;
 }
 
 //Overwrite bg color for modals overlay
@@ -43,6 +37,10 @@ fd-modal {
   .disabled {
     opacity: 0.5;
     pointer-events: none;
+  }
+
+  td {
+    vertical-align: top;
   }
 }
 
@@ -96,7 +94,7 @@ span {
 .fd-action-bar {
   &__actions {
     flex-shrink: 0; //another bug when search input is expanded
-    .fd-popover{
+    .fd-popover {
       top: 0; /*  There is a bug from Fiori Fundamentals.
                   When action bar includes popover with `fd-button--primary` class,
                   then it's not aligned with other buttons in row anymore,

@@ -188,9 +188,27 @@ input[type='checkbox'] {
   }
 }
 
+//Tables
+.fd-table {
+  &__th--min,
+  &__td--min {
+    width: 8.33333%;
+  }
+
+  .disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  td {
+    vertical-align: top;
+  }
+}
+
 .y-fd-token {
-  margin-bottom: fd-space('tiny');
-  margin-right: fd-space('tiny');
+  // replaced with constants because variables were somehow not accessible
+  margin-bottom: 8px;
+  margin-right: 8px;
   &.y-fd-token--no-button {
     cursor: default;
     &:after {
