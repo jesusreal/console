@@ -1,4 +1,4 @@
-<tr>
+<tr [ngClass]="{'disabled': disabled === true}">
   <td class="fd-has-font-weight-bold">{{ entry.name }}</td>
   <td *ngIf="entry.limits.length > 0">
     {{ listMaxMemoryLimits() }}
