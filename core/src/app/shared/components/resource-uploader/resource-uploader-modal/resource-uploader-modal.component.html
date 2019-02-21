@@ -1,22 +1,25 @@
 <div luigiClientCommunication [isActive]="isActive">
   <fd-modal #resourceUploader role="dialog" aria-labelledby="confirm" (click)="$event.stopPropagation()">
+
     <fd-modal-header>
       Upload resource
     </fd-modal-header>
 
-    <div class="error-message-placeholder" *ngIf="uploader.err">
-      {{ uploader.err }}
-    </div>
     <fd-modal-body>
+      <fd-alert [inline]="true" [type]="'error'" *ngIf="uploader.err">
+        {{ uploader.err }}
+      </fd-alert>
       <app-uploader #uploader></app-uploader>
     </fd-modal-body>
+
     <fd-modal-footer>
-      <button fd-button (click)="resourceUploader.dismiss('Cancel')">Cancel</button>
+      <button fd-button [options]="'light'" (click)="resourceUploader.dismiss('Cancel')">Cancel</button>
       <button fd-button (click)="upload($event)" [state]="uploader.isFileReadyToUpload() ? '' : 'disabled'"
-        [options]="'light'" [fdType]="'main'">
+        [fdType]="'main'">
         Upload
       </button>
     </fd-modal-footer>
+
   </fd-modal>
 </div>
 
