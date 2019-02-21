@@ -3,10 +3,9 @@
     <a (click)="goToDetails(entry.metadata.name)">{{ entry.metadata.name }}</a>
   </td>
   <td>
-    <span class="fd-status-label" [ngClass]="
-        status ? 'fd-status-label--available' : 'fd-status-label--busy'
-      "></span>
-    <span class="fd-label" [ngClass]="status ? 'fd-label--success' : 'fd-label--error'">{{ statusText }}</span>
+    <span class="fd-status-label" [ngClass]="status ? 'fd-status-label--available' : 'fd-status-label--busy'">
+      {{ statusText }}
+    </span>
   </td>
   <td>
     <ng-container *ngIf="entry.getLabels()">
