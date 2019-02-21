@@ -7,14 +7,14 @@
   <td>{{ entry.spec.clusterIP }}</td>
   <td>
     <ng-container *ngIf="entry.spec.ports">
-      <ng-container *ngFor="let port of entry.spec.ports" class="word-break">
-        <span class="word-break" >
+      <ng-container *ngFor="let port of entry.spec.ports" >
+        <span  >
           {{ entry.metadata.name }}.{{ entry.metadata.namespace }}:
           {{ port.port }}
           {{ port.protocol }}
         </span>
 
-        <span class="word-break">
+        <span >
           {{ entry.metadata.name }}.{{ entry.metadata.namespace }}:
           {{ port.nodePort || 0 }}
           {{ port.protocol }}

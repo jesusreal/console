@@ -11,7 +11,7 @@
   </td>
   <td>{{ entry.creationTimestamp * 1000 | timeAgo }}</td>
   <td>
-    <span *ngFor="let image of entry.containers" class="word-break">
+    <span *ngFor="let image of entry.containers" >
       {{ image.image }}
     </span>
   </td>

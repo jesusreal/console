@@ -1,8 +1,4 @@
 
-.fd-action-bar__actions {
-  flex-shrink: 0;
-}
-
 .y-fd-panel__description {
   padding: 0 16px;
 }
@@ -97,17 +93,21 @@ span {
   }
 }
 
-
-.fd-action-bar__actions {
-  .fd-popover{
-     flex-shrink: 0;
+.fd-action-bar {
+  &__actions {
+    flex-shrink: 0; //another bug when search input is expanded
+    .fd-popover{
+      top: 0; /*  There is a bug from Fiori Fundamentals.
+                  When action bar includes popover with `fd-button--primary` class,
+                  then it's not aligned with other buttons in row anymore,
+                  because it has `top: - fd-space(1)` by default.
+                  Until it's fixed in Fundamentals, better to keep these styles to overwrite it.
+              */
+    }
   }
 }
 
 //helpers
 .y-word-wrap {
   word-wrap: break-word;
-}
-.word-break {
-  word-break: break-all;
 }
