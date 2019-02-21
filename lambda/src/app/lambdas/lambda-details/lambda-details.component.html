@@ -123,6 +123,36 @@
     </fd-panel-header>
 
     <fd-panel-filters>
+      <!-- trigger badges -->
+      <ng-container *ngIf="selectedTriggers.length > 0">
+        <span title="Edit Trigger" class="fd-token y-fd-token triggers" 
+            *ngFor="let trigger of selectedTriggers">
+          <div class="labels__remove" title="Remove label" (mouseover)="log('hidehttp');hideHTTPURL();$event.stopPropagation();" (click)="unselectEvent(trigger);$event.stopPropagation();"></div>
+          <span *ngIf="trigger.eventType === 'http' && isHTTPTriggerAuthenticated" class="securedHTTPTrigger"></span>
+          <span (mouseover)="onMouseOver(trigger)" (click)="onMouseOver(trigger)">
+            {{ trigger.eventType }}
+            <ng-container *ngIf="trigger.eventType!=='http'">- {{ trigger.version }} </ng-container>
+          </span>
+          <div class="fd-popover" *ngIf="showHTTPURL == trigger"
+            clickOutsideEvents="click" (clickOutside)="hideHTTPURL()" [exclude]="'.fd-token'" excludeBeforeClick="true">
+            <div class="fd-popover__body">
+              <div class="trigger-body">
+                https://{{ httpURL }}/
+              </div>
+              <div class="trigger-footer">
+                <button *ngIf="isHTTPTriggerAuthenticated" class="fd-button fd-button--light"
+                        (click)=showFetchTokenModal()>
+                  Fetch Token
+                </button>
+                <button class="fd-button fd-button--light" (click)=copyHTTPURLEndpoint($event)>
+                  Copy to clipboard
+                </button>
+              </div>
+            </div>
+          </div>
+        </span>
+      </ng-container>
+
       <!-- fd-popoper from ngx is not working, z-index is not adjustable -->
       <div class="fd-popover">
         <div class="fd-popover__control" (click)="$event.stopPropagation()">
