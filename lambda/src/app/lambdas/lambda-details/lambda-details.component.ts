@@ -191,7 +191,6 @@ export class LambdaDetailsComponent
                   );
                   this.selectedTriggers.push(httpEndPoint);
                   this.isHTTPTriggerAdded = true;
-                  console.log('http trigger added', this.isHTTPTriggerAdded);
                   this.isHTTPTriggerAuthenticated = httpEndPoint.isAuthEnabled;
                 },
                 err => {
@@ -340,7 +339,7 @@ export class LambdaDetailsComponent
           this.handleFunctionUpdate();
         },
         err => {
-          console.log(err);
+          console.error('deleteHPA Error', err);
           this.showError(err.message);
         },
       );
@@ -762,7 +761,7 @@ export class LambdaDetailsComponent
         }
       },
       err => {
-        console.log(err);
+        console.error('createLambda Error', err);
         this.showError(err.message);
       },
     );
@@ -924,12 +923,8 @@ export class LambdaDetailsComponent
       ...this.selectedTriggers,
     ]);
   }
-  log(str) {
-    console.log('log', str);
-  }
   unselectEvent(event: ITrigger) {
     const index = this.selectedTriggers.indexOf(event);
-    console.log('TCL: unselectEvent -> event', event, index);
     if (index > -1) {
       this.selectedTriggers.splice(index, 1);
     }
@@ -1221,7 +1216,6 @@ export class LambdaDetailsComponent
         }`.toLowerCase();
 
         this.isHTTPTriggerAdded = true;
-        console.log('http trigger added 2', this.isHTTPTriggerAdded);
         this.isHTTPTriggerAuthenticated = (trigger as HTTPEndpoint).isAuthEnabled;
         this.warnUnsavedChanges(true);
 
