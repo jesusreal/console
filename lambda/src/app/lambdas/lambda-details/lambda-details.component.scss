@@ -103,6 +103,12 @@ div[hidden] { display: none; }
   // required to position triger fd-popover above ace-editor
   z-index: 10;
   position: relative;
+
+  .y-fd-popover--position {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+  }
 }
 
 

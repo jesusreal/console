@@ -137,7 +137,7 @@
             {{ trigger.eventType }}
             <ng-container *ngIf="trigger.eventType!=='http'">- {{ trigger.version }} </ng-container>
           </span>
-          <div class="fd-popover" *ngIf="showHTTPURL == trigger"
+          <div class="fd-popover y-fd-popover--position" *ngIf="showHTTPURL == trigger"
             clickOutsideEvents="click" (clickOutside)="hideHTTPURL()" [exclude]="'.fd-token'" excludeBeforeClick="true">
             <div class="fd-popover__body">
               <div class="trigger-body">
@@ -160,11 +160,12 @@
       <!-- fd-popoper from ngx is not working, z-index is not adjustable -->
       <div class="fd-popover">
         <div class="fd-popover__control" (click)="$event.stopPropagation()">
-          <button fd-button [options]="'light'" [glyph]="'add'" 
+          <button fd-button [options]="'light'" [glyph]="'add'" id="functionTriggerSelector"
             (click)="toggleDropdownState('functionTriggerPopover')"
             [disabled]="lambda.metadata.name.length <=0 || isFunctionNameInvalid">Select Function Trigger</button>
         </div>
-        <div class="fd-popover__body" *ngIf="dropDownStates?.functionTriggerPopover">
+        <div class="fd-popover__body" *ngIf="dropDownStates?.functionTriggerPopover"
+          clickOutsideEvents="click" (clickOutside)="toggleDropdownState('functionTriggerPopover')" [exclude]="'#functionTriggerSelector'" excludeBeforeClick="true">
           <nav class="fd-menu">
             <ul class="fd-menu__list">
               <li fd-menu-item>
