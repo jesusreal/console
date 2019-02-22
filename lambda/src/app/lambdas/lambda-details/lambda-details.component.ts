@@ -20,10 +20,14 @@ import 'brace/snippets/json';
 import 'brace/snippets/text';
 import 'brace/mode/javascript';
 import 'brace/mode/json';
+
+// this is a curated list of themes that fit to fiori
+// tomorrow is the one who looks most similar
 // import 'brace/theme/chrome';
 // import 'brace/theme/sqlserver';
 // import 'brace/theme/textmate';
 import 'brace/theme/tomorrow';
+
 import { sha256 } from 'js-sha256';
 import { Clipboard } from 'ts-clipboard';
 import * as randomatic from 'randomatic';
