@@ -100,8 +100,6 @@ div[hidden] { display: none; }
   z-index: 10;
 }
 .y-fd-token {
-  // required to position triger fd-popover above ace-editor
-  z-index: 10;
   position: relative;
 
   .y-fd-popover--position {

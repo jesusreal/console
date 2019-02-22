@@ -749,7 +749,7 @@ export class LambdaDetailsComponent
       'function-size': `${this.selectedFunctionSize['name']}`,
     };
 
-    this.lambda.metadata.labels = this.changeLabels();
+    this.lambda.metadata.labels = this.getUpdatedLabels();
 
     this.setFunctionSize();
 
@@ -934,17 +934,6 @@ export class LambdaDetailsComponent
     if (event.eventType === 'http') {
       this.isHTTPTriggerAdded = false;
     }
-  }
-
-  changeLabels() {
-    const newLabels = {};
-    if (this.labels.length > 0) {
-      this.labels.forEach(label => {
-        const labelSplitted = label.split('=');
-        newLabels[labelSplitted[0]] = labelSplitted[1];
-      });
-    }
-    return newLabels;
   }
 
   isNewLabelValid(label) {
