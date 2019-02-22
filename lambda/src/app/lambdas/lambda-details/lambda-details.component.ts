@@ -141,7 +141,6 @@ export class LambdaDetailsComponent
   @ViewChild('dependencyEditor') dependencyEditor;
   @ViewChild('editor') editor;
   @ViewChild('labelsInput') labelsInput;
-  @ViewChild('errorAlert') errorAlert;
   @ViewChild('isFunctionNameInvalidAlert') isFunctionNameInvalidAlert;
 
   constructor(
@@ -258,7 +257,6 @@ export class LambdaDetailsComponent
 
   showError(error: string): void {
     this.error = error;
-    this.errorAlert.show();
   }
 
   toggleDropdownState(id: string): void {

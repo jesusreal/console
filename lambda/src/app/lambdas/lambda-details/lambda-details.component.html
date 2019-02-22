@@ -34,9 +34,9 @@
     Loading ...
   </p>
 
-  <fd-alert #errorAlert *ngIf="(loaded | async) === true" [dismissible]="false" [type]="'error'">
+  <div class="fd-alert fd-alert--error fd-has-margin-bottom-small" *ngIf="(loaded | async) === true && error">
     <p>{{ error }}</p>
-  </fd-alert>
+  </div>
   
   <div *ngIf="(loaded | async) === true">
     <fd-panel>
