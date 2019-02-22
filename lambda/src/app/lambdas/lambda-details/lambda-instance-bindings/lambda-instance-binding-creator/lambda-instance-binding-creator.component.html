@@ -18,11 +18,12 @@
           <option *ngFor="let i of instances" [ngValue]="i">{{ i.name }}</option>
         </select>
       </div>
-      <div fd-form-item [isInline]="true" [isCheck]="true">
-        <fd-form-label [forValue]="'createSecrets'" class="control-label">
-          <input fd-form-control [type]="'checkbox'" [(ngModel)]="createSecrets" (ngModelChange)="validateSelection()" id="createSecrets">
-          Create new secret for the binding
-        </fd-form-label>
+
+      <div class="fd-form__item fd-form__item--check">
+        <label class="fd-form__label control-label" for="createSecrets">
+            <input type="checkbox" class="fd-form__control" id="createSecrets" [(ngModel)]="createSecrets" (ngModelChange)="validateSelection()">
+            Create new secret for the binding
+        </label>
       </div>
 
       <div fd-form-item *ngIf="!createSecrets">
