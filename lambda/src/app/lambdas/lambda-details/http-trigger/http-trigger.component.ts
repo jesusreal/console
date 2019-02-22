@@ -11,6 +11,7 @@ import { finalize } from 'rxjs/operators';
 import { FetchTokenModalComponent } from '../../../fetch-token-modal/fetch-token-modal.component';
 import * as luigiClient from '@kyma-project/luigi-client';
 import { Jwt } from '../../../shared/datamodel/jwt';
+import { ModalService, ModalComponent } from 'fundamental-ngx';
 
 @Component({
   selector: 'app-http-trigger',
@@ -23,6 +24,7 @@ export class HttpTriggerComponent {
   selectedHTTPTriggers: HTTPEndpoint[] = [];
   @Output() httpEmitter = new EventEmitter<HTTPEndpoint[]>();
   @ViewChild('fetchTokenModal') fetchTokenModal: FetchTokenModalComponent;
+  @ViewChild('httpTriggerModal') httpTriggerModal: ModalComponent;
 
   private title: string;
   public isActive = false;
@@ -50,6 +52,7 @@ export class HttpTriggerComponent {
   constructor(
     private graphQLClientService: GraphqlClientService,
     private httpClient: HttpClient,
+    private modalService: ModalService,
   ) {}
 
   public show(lambda, environment, selectedHTTPTriggers) {
@@ -71,6 +74,11 @@ export class HttpTriggerComponent {
       this.token = `${eventData.idToken}`;
     });
     luigiClient.uxManager().addBackdrop();
+
+    this.modalService.open(this.httpTriggerModal).result.finally(() => {
+      this.isActive = false;
+      luigiClient.uxManager().removeBackdrop();
+    });
   }
 
   addTrigger() {
@@ -107,8 +115,7 @@ export class HttpTriggerComponent {
   pushTrigger(httpTrigger: HTTPEndpoint) {}
 
   closeHttpTriggerModal() {
-    this.isActive = false;
-    luigiClient.uxManager().removeBackdrop();
+    this.modalService.close(this.httpTriggerModal);
   }
 
   public getIDPPresets() {
