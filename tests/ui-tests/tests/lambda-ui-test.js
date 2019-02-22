@@ -75,7 +75,7 @@ describeIf(dex.isStaticUser(), 'Lambda UI tests', () => {
 
     // then
     const frame3 = await kymaConsole.getFrame(page);
-    const lambdasEntry = '.sf-list__body';
+    const lambdasEntry = 'tbody tr';
     await frame3.waitForSelector(lambdasEntry);
     const expectedLambdas = await lambdas.getLambdas(frame3);
     const previousNumberOfLambdas = currentLambdas.length;
