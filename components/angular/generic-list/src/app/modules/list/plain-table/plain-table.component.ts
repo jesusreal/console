@@ -6,6 +6,8 @@ import {
   ViewChild,
   ViewContainerRef,
   ViewEncapsulation,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { PlainListComponent } from '../plain-list/plain-list.component';
 import { Observable } from 'rxjs';
@@ -20,6 +22,9 @@ export class PlainTableComponent extends PlainListComponent {
   @Input() headerRenderer: Type<any>;
   @Input() footerRenderer: Type<any>;
   @Input() entryTagName = 'tbody';
+  @Input()
+  emptyListPlaceholderData: { title: string; body: string; button: string };
+  @Output() emptyListAction = new EventEmitter();
 
   @ViewChild('header', { read: ViewContainerRef })
   headerViewContainer: ViewContainerRef;
@@ -56,5 +61,9 @@ export class PlainTableComponent extends PlainListComponent {
       this.footerViewContainer.clear();
       this.footerViewContainer.insert(component.hostView);
     }
+  }
+
+  onEmptyListActionButtonClicked() {
+    this.emptyListAction.emit();
   }
 }

@@ -7,8 +7,18 @@
 <fd-loading-spinner [loading]="loading"></fd-loading-spinner>
 
 <div class="fd-has-text-align-center" *ngIf="!loading && !errorMessage && (!data || data.length === 0)">
-  <ng-content select="[empty-list-placeholder]"></ng-content>
+  <ng-container *ngIf="emptyListPlaceholderData">
+     <h1 *ngIf="emptyListPlaceholderData.title">{{ emptyListPlaceholderData.title }}</h1>
+     <p *ngIf="emptyListPlaceholderData.body">{{ emptyListPlaceholderData.body }}</p>
+     <button *ngIf="emptyListPlaceholderData.button" class="fd-button--light"
+       (click)="onEmptyListActionButtonClicked()">
+       {{ emptyListPlaceholderData.button }}
+      </button>
+  </ng-container>
+
+  <ng-content *ngIf="!emptyListPlaceholderData" select="[empty-list-placeholder]"></ng-content>
 </div>
+
 <p *ngIf="!loading && errorMessage" class="fd-has-color-status-3">
   {{ errorMessage }}
 </p>
