@@ -29,16 +29,16 @@
       <button fd-button [options]="'emphasized'" (click)="deployLambda()" [disabled]="!lambda.metadata.name || !isLambdaFormValid">{{ mode == 'create'?'Create':'Save' }}</button>
     </fd-action-bar-actions>
   </fd-action-bar>
-      
-  <p *ngIf="(loaded | async) === false">
+
+  <p *ngIf="!loaded">
     Loading ...
   </p>
 
-  <div class="fd-alert fd-alert--error fd-has-margin-bottom-small" *ngIf="(loaded | async) === true && error">
-    <p>{{ error }}</p>
-  </div>
-  
-  <div *ngIf="(loaded | async) === true">
+  <ng-container *ngIf="loaded">
+    <div class="fd-alert fd-alert--error fd-has-margin-bottom-small" *ngIf="error">
+      <p>{{ error }}</p>
+    </div>
+    
     <fd-panel>
       <fd-panel-header>
         <fd-panel-head>
@@ -80,14 +80,16 @@
         </fd-panel-grid>
       </fd-panel-body>
     </fd-panel>
-  </div>
+  </ng-container>
 </section>
+
+<ng-container *ngIf="loaded">
 
 <section class="fd-section">
   <fd-panel>
     <fd-panel-header>
       <fd-panel-head>
-        <fd-panel-title>General informations</fd-panel-title>
+        <fd-panel-title>Settings &amp; Code</fd-panel-title>
       </fd-panel-head>
       <fd-panel-actions>
         <label class="fd-label">Size:</label>
@@ -186,7 +188,7 @@
   </fd-panel>
 </section>
 
-<section class="fd-section" [hidden]="(loaded | async)  === false">
+<section class="fd-section">
   <fd-panel>
     <fd-panel-header>
       <fd-panel-head>
@@ -200,7 +202,7 @@
           Add
         </button>
         <button fd-button [options]="'light'" [glyph]="'less'"
-          *ngIf="(hasDependencies | async)" class="tn-button sf-button--danger tn-button--small tn-button--text"
+          *ngIf="(hasDependencies | async)"
                 (click)="removeDependencies()">
           Remove
         </button>
@@ -213,10 +215,10 @@
 </section>
 
 
-<app-lambda-instance-bindings *ngIf="loaded | async" [lambdaName]="lambda.metadata.name" [isLambdaNameInvalid]="isFunctionNameInvalid"
+<app-lambda-instance-bindings [lambdaName]="lambda.metadata.name" [isLambdaNameInvalid]="isFunctionNameInvalid"
                                 (bindingStateEmitter)="handleBindingStateEmitter($event)"></app-lambda-instance-bindings>
 
-<section class="fd-section" *ngIf="loaded | async">
+<section class="fd-section">
   <app-lambda-env-table [envs]="lambda.spec.deployment.spec.template.spec.containers[0].env" [lambdaName]="lambda.metadata.name"
                         [isLambdaNameInvalid]="isFunctionNameInvalid" (envEmitter)="handleEnvEmitter($event)"></app-lambda-env-table>
 </section>
@@ -224,3 +226,5 @@
 <app-fetch-token-modal #fetchTokenModal></app-fetch-token-modal>
 <app-event-trigger-chooser #eventTriggerChooserModal (eventEmitter)="handleEventEmitter($event)"></app-event-trigger-chooser>
 <app-http-trigger #httpTriggerModal (httpEmitter)="handleHttpEmitter($event)"></app-http-trigger>
+
+</ng-container>

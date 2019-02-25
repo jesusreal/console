@@ -38,9 +38,9 @@
           <td class="y-fd-table__th--col-4">{{ env.name }}</td>
           <td class="y-fd-table__th--col-1 fd-has-text-align-center">→</td>
           <td *ngIf="editVar!=i" class="y-fd-table__th--col-5">{{ env.value }}</td>
-          <td *ngIf="editVar!=i" class="y-fd-table__th--col-2 fd-has-text-align-center">
-            <button class="tn-icon tn-icon--edit tn-button tn-button--small tn-button--icon tn-button--text" (click)="editVariable(i)"></button>
-            <button class="tn-icon tn-icon--delete tn-button tn-button--small tn-button--icon tn-button--text" (click)="removeVarariable(i)"></button>
+          <td *ngIf="editVar!=i" class="y-fd-table__th--col-2 fd-has-text-align-right">
+            <button fd-button [options]="'light'" [glyph]="'edit'" [compact]="true" (click)="editVariable(i)"></button>
+            <button fd-button [options]="'light'" [glyph]="'delete'" [compact]="true" (click)="removeVarariable(i)"></button>
           </td>
           <td *ngIf="editVar==i" class="y-fd-table__td--col-5">
             <input [(ngModel)]="env.value" type="text" id="input-3" (keyup.enter)="updateVariable()">
