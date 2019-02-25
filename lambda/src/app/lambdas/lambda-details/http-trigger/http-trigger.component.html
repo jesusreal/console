@@ -41,7 +41,9 @@
                   <div class="sf-toolbar__header">Identity Provider</div>
                   <div class="sf-toolbar__right">
                     <div *ngIf="secure" class="tn-dropdown" (clickOutside)="autoCloseDropdown()" clickOutsideEvents="click,mousedown">
-                      <button class="tn-button tn-button--small tn-button--link" (click)="loadPreset()">Load Preset</button>
+                      <button fd-button [options]="'light'" (click)="loadPreset()">
+                        Fetch token
+                      </button>
                       <ul class="tn-dropdown__menu tn-contextual-menu actions-menu text-left idp-presets-dropdown"
                         [attr.aria-hidden]="ariaHidden">
                         <li class="tn-dropdown__item" *ngFor="let preset of availablePresets">

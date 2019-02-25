@@ -22,6 +22,11 @@ fd-modal .fd-modal-background {
     max-width: 650px;
   }
 }
+.fd-modal--xlarge {
+  .fd-modal {
+    max-width: 80%;
+  }
+}
 
 //Tables
 .fd-table {

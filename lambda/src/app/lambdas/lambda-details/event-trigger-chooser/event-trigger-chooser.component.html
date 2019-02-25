@@ -1,4 +1,35 @@
-<ng-template [ngIf]="isActive">
+
+<fd-modal class="fd-modal--xlarge" #eventTriggerModal role="dialog">
+  <fd-modal-header>{{ title }}</fd-modal-header>
+  <fd-modal-body>
+    <input type="search" class="fd-input" [(ngModel)]="eventSearchQuery" (ngModelChange)="filterEvents(eventSearchQuery)"
+          placeholder="Search">
+
+    <table class="fd-table">
+      <thead>
+        <th class="y-fd-table__th--col-1"></th>
+        <th class="y-fd-table__th--col-4">Event</th>
+        <th class="y-fd-table__th--col-1">Version</th>
+        <th class="y-fd-table__th--col-2">Application</th>
+        <th class="description y-fd-table__th--col-4">Description</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let event of filteredTriggers">
+          <td><input type="checkbox" (change)="toggleEventSelection(event, $event)"></td>
+          <td>{{ event.eventType }}</td>
+          <td>{{ event.version }}</td>
+          <td>{{ event.sourceId }}</td>
+          <td>{{ event.description }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </fd-modal-body>
+  <fd-modal-footer>
+    <button fd-button [options]="'light'" (click)="closeEventTriggerChooserModal()">Cancel</button>
+    <button fd-button [fdType]="'main'" (click)="addEvents()" [disabled]="!enableAdd">Add</button>
+  </fd-modal-footer>
+</fd-modal>
+<!-- 
   <div class="sf-modal sf-modal--max modalposition" [ngClass]="{'is-active': isActive===true}">
     <div class="tn-modal add-event-modal" role="document">
       <div class="tn-modal__content">
@@ -41,5 +72,4 @@
         </footer>
       </div>
     </div>
-  </div>
-</ng-template>
+  </div> -->
