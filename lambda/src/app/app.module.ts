@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FundamentalNgxModule } from 'fundamental-ngx';
 
 import { ListModule } from 'app/generic-list/list.module';
 import { AppComponent } from './app.component';

@@ -60,9 +60,15 @@ span {
 
 
 //Token
+.fd-panel__filters {
+  .y-fd-token {
+    margin-top: fd-space('tiny') / 2;
+    margin-bottom: fd-space('tiny') / 2;
+  }  
+}
+
 .y-fd-token {
-  margin-top: fd-space('tiny') / 2;
-  margin-bottom: fd-space('tiny') / 2;
+  margin-bottom: fd-space('tiny');
   margin-right: fd-space('tiny');
   &.y-fd-token--no-button {
     cursor: default;
