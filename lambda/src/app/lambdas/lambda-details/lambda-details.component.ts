@@ -812,7 +812,6 @@ export class LambdaDetailsComponent implements OnInit, OnDestroy {
   }
 
   initializeEditor() {
-    console.log('initializeEditor');
     const editorOptions = {
       enableBasicAutocompletion: true,
       enableSnippets: true,
@@ -933,6 +932,7 @@ export class LambdaDetailsComponent implements OnInit, OnDestroy {
       ...this.selectedTriggers,
     ]);
   }
+
   unselectEvent(event: ITrigger) {
     const index = this.selectedTriggers.indexOf(event);
     if (index > -1) {
