@@ -7,7 +7,6 @@
       [status]="(entry.status.readyReplicas || 0)===entry.spec.replicas? 'success' : 'error'">
       {{ entry.status.readyReplicas || '0' }}/{{ entry.spec.replicas }}
     </fd-badge>
-
   </td>
   <td>{{ entry.metadata.creationTimestamp | timeAgo }}</td>
   <td>

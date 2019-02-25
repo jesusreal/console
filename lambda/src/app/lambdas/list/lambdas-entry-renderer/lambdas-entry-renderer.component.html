@@ -5,11 +5,9 @@
     </a>
   </td>
   <td>
-    <span class="fd-status-label" [ngClass]="
-        status ? 'fd-status-label--available' : 'fd-status-label--busy'
-      ">
+    <fd-badge [modifier]="'filled'" [status]="status ? 'success' : 'error'">
       {{ statusText }}
-    </span>
+    </fd-badge>
   </td>
   <td>
     <ng-container *ngIf="entry.getLabels()">
