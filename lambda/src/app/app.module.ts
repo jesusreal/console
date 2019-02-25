@@ -36,6 +36,8 @@ import { EventTriggerChooserComponent } from './lambdas/lambda-details/event-tri
 import { HttpTriggerComponent } from './lambdas/lambda-details/http-trigger/http-trigger.component';
 import { LabelsInputComponent } from './shared/components/labels-input/labels-input.component';
 
+import { FundamentalNgxModule } from 'fundamental-ngx';
+
 const routes: Routes = [
   { path: '', redirectTo: 'lambdas', pathMatch: 'full' },
   { path: 'lambdas', component: LambdasComponent },

@@ -10,7 +10,7 @@ import {
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, finalize } from 'rxjs/operators';
 import { of as observableOf, Observable, forkJoin } from 'rxjs';
 
 import 'brace';
@@ -300,13 +300,22 @@ export class LambdaDetailsComponent implements OnInit, OnDestroy {
   deployLambda() {
     this.lambdaDetailsService
       .getResourceQuotaStatus(this.namespace, this.token)
+      .pipe(
+        finalize(() => {
+          if (this.mode === 'create') {
+            this.createFunction();
+          } else {
+            this.updateFunction();
+          }
+        }),
+      )
       .subscribe(res => {
-        window.parent.postMessage(res.data, '*');
-        if (this.mode === 'create') {
-          this.createFunction();
-        } else {
-          this.updateFunction();
-        }
+        const msg = {
+          msg: 'console.quotaexceeded',
+          data: res.data,
+          env: this.namespace,
+        };
+        window.parent.postMessage(msg, '*');
       });
   }
 

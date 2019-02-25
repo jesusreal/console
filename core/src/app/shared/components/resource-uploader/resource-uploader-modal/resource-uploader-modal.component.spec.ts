@@ -24,12 +24,12 @@ describe('ResourceUploaderModalComponent', () => {
       providers: [
         ComponentCommunicationService,
         {
-          provide: ModalService,
-          useValue: {}
+          provide: ModalService
         }
       ],
       imports: [RouterTestingModule.withRoutes(routes)]
     })
+      .overrideTemplate(ResourceUploaderModalComponent, '')
       .overrideTemplate(InformationModalComponent, '')
       .overrideTemplate(UploaderComponent, '')
       .compileComponents();
