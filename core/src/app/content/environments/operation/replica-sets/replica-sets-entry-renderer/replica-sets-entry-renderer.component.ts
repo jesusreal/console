@@ -2,8 +2,6 @@ import { Component, Injector, OnInit, OnDestroy } from '@angular/core';
 import { AbstractKubernetesEntryRendererComponent } from '../../abstract-kubernetes-entry-renderer.component';
 import { Subscription } from 'rxjs';
 import { ComponentCommunicationService } from '../../../../../shared/services/component-communication.service';
-import { StatusLabelComponent } from '../../../../../shared/components/status-label/status-label.component';
-import { ENETUNREACH } from 'constants';
 
 @Component({
   selector: 'app-replica-sets-entry-renderer',
@@ -55,11 +53,11 @@ export class ReplicaSetsEntryRendererComponent
   getClass(entry) {
     // TODO adjust when ui-api-layer for replica sets is ready
     if (this.hasWarnings(entry)) {
-      return 'sf-indicator--warning';
+      return 'fd-status-label--warning';
     } else if (this.isPending(entry)) {
       return '';
     } else {
-      return 'sf-indicator--success';
+      return 'fd-status-label--success';
     }
   }
 

@@ -1,16 +1,16 @@
 /* tslint:disable:no-submodule-imports */
 import {
+  ChangeDetectorRef,
   Component,
   ViewChild,
-  AfterViewInit,
   HostListener,
   OnInit,
   OnDestroy,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, finalize } from 'rxjs/operators';
 import { of as observableOf, Observable, forkJoin } from 'rxjs';
 
 import 'brace';
@@ -20,10 +20,14 @@ import 'brace/snippets/json';
 import 'brace/snippets/text';
 import 'brace/mode/javascript';
 import 'brace/mode/json';
+
+// this is a curated list of themes that fit to fiori
+// tomorrow is the one who looks most similar
 // import 'brace/theme/chrome';
 // import 'brace/theme/sqlserver';
 // import 'brace/theme/textmate';
 import 'brace/theme/tomorrow';
+
 import { sha256 } from 'js-sha256';
 import { Clipboard } from 'ts-clipboard';
 import * as randomatic from 'randomatic';
@@ -62,8 +66,7 @@ const FUNCTION = 'function';
   styleUrls: ['./lambda-details.component.scss'],
 })
 @HostListener('sf-content')
-export class LambdaDetailsComponent
-  implements AfterViewInit, OnInit, OnDestroy {
+export class LambdaDetailsComponent implements OnInit, OnDestroy {
   selectedTriggers: ITrigger[] = [];
   availableEventTriggers: EventTrigger[] = [];
   existingEventTriggers: EventTrigger[] = [];
@@ -112,7 +115,7 @@ export class LambdaDetailsComponent
   lambda = new Lambda({
     metadata: this.md,
   });
-  loaded: Observable<boolean> = observableOf(false);
+  loaded = false;
   newLabel;
   wrongLabel = false;
   wrongLabelMessage = '';
@@ -137,7 +140,6 @@ export class LambdaDetailsComponent
   @ViewChild('dependencyEditor') dependencyEditor;
   @ViewChild('editor') editor;
   @ViewChild('labelsInput') labelsInput;
-  @ViewChild('errorAlert') errorAlert;
   @ViewChild('isFunctionNameInvalidAlert') isFunctionNameInvalidAlert;
 
   constructor(
@@ -147,6 +149,7 @@ export class LambdaDetailsComponent
     private serviceBindingUsagesService: ServiceBindingUsagesService,
     private serviceBindingsService: ServiceBindingsService,
     private subscriptionsService: SubscriptionsService,
+    private cdr: ChangeDetectorRef,
     protected route: ActivatedRoute,
   ) {
     this.functionSizes = AppConfig.functionSizes.map(s => s['size']).map(s => {
@@ -216,8 +219,9 @@ export class LambdaDetailsComponent
             this.title = 'Create Lambda Function';
             this.lambda = this.lambdaDetailsService.initializeLambda();
             this.lambda.spec.function = this.code = DEFAULT_CODE;
-            this.loaded = observableOf(true);
 
+            this.setLoaded(true);
+            this.initializeEditor();
             if (!this.lambda.metadata.name || this.isFunctionNameInvalid) {
               this.editor.setReadOnly(true);
             }
@@ -254,7 +258,6 @@ export class LambdaDetailsComponent
 
   showError(error: string): void {
     this.error = error;
-    this.errorAlert.show();
   }
 
   toggleDropdownState(id: string): void {
@@ -297,13 +300,22 @@ export class LambdaDetailsComponent
   deployLambda() {
     this.lambdaDetailsService
       .getResourceQuotaStatus(this.namespace, this.token)
+      .pipe(
+        finalize(() => {
+          if (this.mode === 'create') {
+            this.createFunction();
+          } else {
+            this.updateFunction();
+          }
+        }),
+      )
       .subscribe(res => {
-        window.parent.postMessage(res.data, '*');
-        if (this.mode === 'create') {
-          this.createFunction();
-        } else {
-          this.updateFunction();
-        }
+        const msg = {
+          msg: 'console.quotaexceeded',
+          data: res.data,
+          env: this.namespace,
+        };
+        window.parent.postMessage(msg, '*');
       });
   }
 
@@ -747,7 +759,7 @@ export class LambdaDetailsComponent
       'function-size': `${this.selectedFunctionSize['name']}`,
     };
 
-    this.lambda.metadata.labels = this.changeLabels();
+    this.lambda.metadata.labels = this.getUpdatedLabels();
 
     this.setFunctionSize();
 
@@ -803,7 +815,12 @@ export class LambdaDetailsComponent
     return (this.toggleTriggerType = false);
   }
 
-  ngAfterViewInit() {
+  setLoaded(value: boolean): void {
+    this.loaded = value;
+    this.cdr.detectChanges();
+  }
+
+  initializeEditor() {
     const editorOptions = {
       enableBasicAutocompletion: true,
       enableSnippets: true,
@@ -834,7 +851,8 @@ export class LambdaDetailsComponent
               this.dependency !== '',
           );
 
-          this.loaded = observableOf(true);
+          this.setLoaded(true);
+          this.initializeEditor();
           this.functionSizes.forEach(s => {
             if (`${s.name}` === lambda.metadata.annotations['function-size']) {
               this.selectedFunctionSize = s;
@@ -894,7 +912,7 @@ export class LambdaDetailsComponent
       .getEventActivations(this.namespace, this.token)
       .subscribe(
         events => {
-          this.loaded = observableOf(true);
+          this.setLoaded(true);
         },
         err => {
           this.showError(err.message);
@@ -923,6 +941,7 @@ export class LambdaDetailsComponent
       ...this.selectedTriggers,
     ]);
   }
+
   unselectEvent(event: ITrigger) {
     const index = this.selectedTriggers.indexOf(event);
     if (index > -1) {
@@ -932,17 +951,6 @@ export class LambdaDetailsComponent
     if (event.eventType === 'http') {
       this.isHTTPTriggerAdded = false;
     }
-  }
-
-  changeLabels() {
-    const newLabels = {};
-    if (this.labels.length > 0) {
-      this.labels.forEach(label => {
-        const labelSplitted = label.split('=');
-        newLabels[labelSplitted[0]] = labelSplitted[1];
-      });
-    }
-    return newLabels;
   }
 
   isNewLabelValid(label) {

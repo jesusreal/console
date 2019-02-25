@@ -15,22 +15,12 @@ $hover: #008ac6;
   padding: 0;
 }
 
+.fd-breadcrumb__item a {
+  cursor: pointer;
+}
+
 .lambda-name {
   pointer-events: none;
-}
-
-.tn-form__control {
-  background-color: #FFFFFF;
-}
-
-.sf-toolbar__right {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    margin-left: auto !important;
-    font-size: 1rem;
-    color: #21262c;
-    padding: 0.8em 2em 0.8em 2em;
 }
 
 .ace-editor {
@@ -100,9 +90,13 @@ div[hidden] { display: none; }
   z-index: 10;
 }
 .y-fd-token {
-  // required to position triger fd-popover above ace-editor
-  z-index: 10;
   position: relative;
+
+  .y-fd-popover--position {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+  }
 }
 
 

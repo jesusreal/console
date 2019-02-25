@@ -19,17 +19,17 @@
       <table class="fd-table">
         <thead>
           <tr>
-            <td class="y-fd-table__th--col-3">Instance</td>
-            <td class="y-fd-table__th--col-8">Environment Variable Name</td>
-            <td class="y-fd-table__th--col-1"></td>
+            <th class="y-fd-table__th--col-4">Instance</th>
+            <th class="y-fd-table__th--col-7">Environment Variable Name</th>
+            <th class="y-fd-table__th--col-1"></th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let instanceBinding of instanceBindingInfoList; let i = index; last as isLast">
-            <td class="y-fd-table__th--col-3">
+            <td>
               {{ instanceBinding.instanceName }}
             </td>
-            <td class="y-fd-table__th--col-8">
+            <td>
               <table>
                 <tr *ngFor="let envVar of instanceBinding.envVarNames ; index as j" [attr.data-index]="j">
                   <td class="y-fd-table__th--col-12 env-var-position" *ngIf="instanceBinding.instanceBindingPrefix!='undefined-', else onlyEnvVar">
@@ -43,8 +43,8 @@
                 </tr>
               </table>
             </td>
-            <td class="y-fd-table__th--col-1">
-              <button class="tn-icon tn-icon--delete tn-button tn-button--small tn-button--icon tn-button--text" (click)="remove(i)" [disabled]="!lambdaName || isLambdaNameInvalid"></button>
+            <td class="fd-has-text-align-right">
+              <button fd-button [options]="'light'" [glyph]="'delete'" [compact]="true" (click)="remove(i)" [disabled]="!lambdaName || isLambdaNameInvalid"></button>
             </td>
             <td class="y-fd-table__th--col-12" *ngIf="!isLast">
               <hr>

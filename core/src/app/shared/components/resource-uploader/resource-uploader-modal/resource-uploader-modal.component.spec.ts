@@ -24,15 +24,15 @@ describe('ResourceUploaderModalComponent', () => {
       providers: [
         ComponentCommunicationService,
         {
-          provide: ModalService,
-          useValue: {}
+          provide: ModalService
         }
       ],
       imports: [RouterTestingModule.withRoutes(routes)]
     })
-    .overrideTemplate(InformationModalComponent, '')
-    .overrideTemplate(UploaderComponent, '')
-    .compileComponents();
+      .overrideTemplate(ResourceUploaderModalComponent, '')
+      .overrideTemplate(InformationModalComponent, '')
+      .overrideTemplate(UploaderComponent, '')
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -18,7 +18,7 @@ if (clusterConfig) {
     }
   }
 }
-
+console.log('== LAMBDA', config.lambdasModuleUrl);
 var token;
 if (localStorage.getItem('luigi.auth')) {
   token = JSON.parse(localStorage.getItem('luigi.auth')).idToken;
@@ -47,6 +47,35 @@ function getNodes(context) {
       category: { label: 'Configuration', icon: 'key-user-settings' },
       pathSegment: '_configuration_category_placeholder_',
       hideFromNav: true
+    },
+    {
+      label: 'My Lambdas',
+      pathSegment: 'my-lambdas',
+      viewUrl: 'http://console-dev.swinka.cluster.kyma.cx:4201#/lambdas',
+      keepSelectedForChildren: true,
+      children: [
+        {
+          label: 'Lambda Create',
+          pathSegment: 'create',
+          viewUrl: 'http://console-dev.swinka.cluster.kyma.cx:4201#/create',
+          hideFromNav: true
+        },
+        {
+          label: 'Lambda Details',
+          pathSegment: 'details',
+          viewUrl: 'http://console-dev.swinka.cluster.kyma.cx:4201#/lambdas',
+          hideFromNav: true,
+          children: [
+            {
+              label: 'Lambda Details',
+              pathSegment: ':lambda',
+              viewUrl:
+                'http://console-dev.swinka.cluster.kyma.cx:4201#/lambdas/:lambda',
+              hideFromNav: true
+            }
+          ]
+        }
+      ]
     },
     {
       category: 'Configuration',
@@ -216,10 +245,10 @@ function getUiEntities(entityname, environment, placements) {
   if (!window[cacheName]) {
     window[cacheName] = {};
   }
-  const cache = window[cacheName];
+  const cache = {}; // window[cacheName];
   const cacheKey = fetchUrl + (placements || '');
   const fromCache = cache[cacheKey];
-  return (
+  const uiEntities =
     fromCache ||
     fetchFromKyma(fetchUrl)
       .then(result => {
@@ -251,6 +280,13 @@ function getUiEntities(entityname, environment, placements) {
                 };
               }
               processNodeForLocalDevelopment(n);
+              if (n.label.startsWith('Lambda')) {
+                n.viewUrl = n.viewUrl.replace(
+                  'https://lambdas-ui.swinka.cluster.kyma.cx',
+                  'http://console-dev.swinka.cluster.kyma.cx:4201'
+                );
+                console.log('n.labmd', n.label, JSON.stringify(n, null, 2));
+              }
               return n;
             }
 
@@ -292,6 +328,7 @@ function getUiEntities(entityname, environment, placements) {
                     'https://lambdas-ui.kyma.local'.length
                   );
               }
+              console.log('== node', node.viewUrl);
               return node;
             }
 
@@ -364,8 +401,9 @@ function getUiEntities(entityname, environment, placements) {
           resolve(result);
         });
         return result;
-      })
-  );
+      });
+  console.log('uiEntities', uiEntities);
+  return uiEntities;
 }
 
 function fetchFromKyma(url) {
@@ -725,3 +763,62 @@ Promise.all([getBackendModules(), getSelfSubjectRulesReview()])
       }
     });
   });
+
+window.addEventListener('message', e => {
+  if (e.data.msg && e.data.msg === 'console.quotaexceeded') {
+    const env = e.data.env;
+    const data = e.data.data;
+    if (data && data.resourceQuotasStatus) {
+      limitHasBeenExceeded = data.resourceQuotasStatus.exceeded;
+    }
+    if (
+      data &&
+      data.resourceQuotasStatus &&
+      data.resourceQuotasStatus.exceededQuotas &&
+      data.resourceQuotasStatus.exceededQuotas.length > 0
+    ) {
+      limitExceededErrors = setLimitExceededErrorsMessages(
+        data.resourceQuotasStatus.exceededQuotas
+      );
+      const linkdata = {
+        goToResourcesConfig: {
+          text: 'Resources Configuration',
+          url: `/home/namespaces/${env}/resources`
+        }
+      };
+      let errorText = `Error ! The following resource quota limit has been exceeded by the given resource:<br>`;
+      limitExceededErrors.forEach(error => {
+        errorText += `-${error}<br>`;
+      });
+      errorText += `See {goToResourcesConfig} for details.`;
+      const settings = {
+        text: errorText,
+        type: 'error',
+        links: linkdata
+      };
+      window.postMessage(
+        {
+          msg: 'luigi.ux.alert.show',
+          data: { settings }
+        },
+        '*'
+      );
+    }
+  }
+});
+
+function setLimitExceededErrorsMessages(limitExceededErrors) {
+  let limitExceededErrorscomposed = [];
+  limitExceededErrors.forEach(resource => {
+    if (resource.affectedResources && resource.affectedResources.length > 0) {
+      resource.affectedResources.forEach(affectedResource => {
+        limitExceededErrorscomposed.push(
+          `'${resource.resourceName}' by '${affectedResource}' (${
+            resource.quotaName
+          })`
+        );
+      });
+    }
+  });
+  return limitExceededErrorscomposed;
+}

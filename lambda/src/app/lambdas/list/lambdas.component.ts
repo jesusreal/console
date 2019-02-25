@@ -205,7 +205,6 @@ export class LambdasComponent extends GenericTableComponent
 
   showError(error: string): void {
     this.error = error;
-    // this.errorAlert.show();
   }
 
   listeningForChangingTitle() {

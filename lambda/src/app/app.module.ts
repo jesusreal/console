@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FundamentalNgxModule } from 'fundamental-ngx';
 
 import { ListModule } from 'app/generic-list/list.module';
 import { AppComponent } from './app.component';
@@ -35,6 +34,8 @@ import { SubscriptionsService } from './subscriptions/subscriptions.service';
 import { EventTriggerChooserComponent } from './lambdas/lambda-details/event-trigger-chooser/event-trigger-chooser.component';
 import { HttpTriggerComponent } from './lambdas/lambda-details/http-trigger/http-trigger.component';
 import { LabelsInputComponent } from './shared/components/labels-input/labels-input.component';
+
+import { FundamentalNgxModule } from 'fundamental-ngx';
 
 const routes: Routes = [
   { path: '', redirectTo: 'lambdas', pathMatch: 'full' },
