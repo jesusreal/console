@@ -51,11 +51,13 @@ span {
   }
 }
 
-
-
 //helpers
-.word-wrap {
+.y-word-wrap {
   word-wrap: break-word;
+}
+
+.y-word-break {
+  word-break: break-all;
 }
 
 
