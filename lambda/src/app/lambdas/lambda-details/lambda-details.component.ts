@@ -3,7 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   ViewChild,
-  HostListener,
   OnInit,
   OnDestroy,
 } from '@angular/core';
@@ -65,7 +64,6 @@ const FUNCTION = 'function';
   templateUrl: './lambda-details.component.html',
   styleUrls: ['./lambda-details.component.scss'],
 })
-@HostListener('sf-content')
 export class LambdaDetailsComponent implements OnInit, OnDestroy {
   selectedTriggers: ITrigger[] = [];
   availableEventTriggers: EventTrigger[] = [];
