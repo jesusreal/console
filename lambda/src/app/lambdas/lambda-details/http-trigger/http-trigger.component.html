@@ -16,10 +16,15 @@
 
     <div class="fd-container fd-container--flex y-fd-container--space-bottom y-fd-container--border-light">
       <div class="fd-col">
-        <input type="checkbox" id="secure" [(ngModel)]="secure" checked>
-        <label for="secure">Enable Authentication</label>
+        <div class="fd-form__item fd-form__item--check">
+          <label class="fd-form__label" for="Ai4ez611">
+            <input type="checkbox" id="secure" [(ngModel)]="secure" checked>
+            Enable Authentication
+          </label>
+        </div>
       </div>
     </div>
+
     <div *ngIf="secure" class="fd-container fd-container--flex">
       <div class="fd-col y-fd-col--strong">Identity Provider</div>
       <div class="fd-col y-fd-col--popover-right">

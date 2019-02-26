@@ -25,7 +25,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let instanceBinding of instanceBindingInfoList; let i = index; last as isLast">
+          <tr *ngFor="let instanceBinding of instanceBindingInfoList; let i = index">
             <td>
               {{ instanceBinding.instanceName }}
             </td>
@@ -45,9 +45,6 @@
             </td>
             <td class="fd-has-text-align-right">
               <button fd-button [options]="'light'" [glyph]="'delete'" [compact]="true" (click)="remove(i)" [disabled]="!lambdaName || isLambdaNameInvalid"></button>
-            </td>
-            <td class="y-fd-table__th--col-12" *ngIf="!isLast">
-              <hr>
             </td>
           </tr>
         </tbody>

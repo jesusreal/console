@@ -5,7 +5,6 @@ fd-modal .fd-modal-background {
 }
 
 
-
 //Common styles for modals
 .fd-modal__footer {
   .fd-button {
@@ -22,6 +21,7 @@ fd-modal .fd-modal-background {
     max-width: 650px;
   }
 }
+
 .fd-modal--xlarge {
   .fd-modal {
     max-width: 80%;
@@ -55,7 +55,6 @@ span {
     cursor: pointer;
   }
 }
-
 
 //helpers
 .y-word-wrap {

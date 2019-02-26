@@ -35,17 +35,17 @@
       </thead>
       <tbody>
         <tr *ngFor="let env of envs; let i = index">
-          <td class="y-fd-table__th--col-4 y-word-break">{{ env.name }}</td>
-          <td class="y-fd-table__th--col-1 fd-has-text-align-center">→</td>
-          <td *ngIf="editVar!=i" class="y-fd-table__th--col-5 y-word-break">{{ env.value }}</td>
-          <td *ngIf="editVar!=i" class="y-fd-table__th--col-2 fd-has-text-align-right">
+          <td class="y-word-break">{{ env.name }}</td>
+          <td class="fd-has-text-align-center">→</td>
+          <td *ngIf="editVar!=i" class="y-word-break">{{ env.value }}</td>
+          <td *ngIf="editVar!=i" class="fd-has-text-align-right">
             <button fd-button [options]="'light'" [glyph]="'edit'" [compact]="true" (click)="editVariable(i)"></button>
             <button fd-button [options]="'light'" [glyph]="'delete'" [compact]="true" (click)="removeVarariable(i)"></button>
           </td>
-          <td *ngIf="editVar==i" class="y-fd-table__td--col-5">
-            <input [(ngModel)]="env.value" type="text" id="input-3" (keyup.enter)="updateVariable()">
+          <td *ngIf="editVar==i">
+            <input [(ngModel)]="env.value" type="text" (keyup.enter)="updateVariable()">
           </td>
-          <td *ngIf="editVar==i" class="y-fd-table__td--col-2">
+          <td *ngIf="editVar==i">
             <button fd-button [glyph]="'accept'" [options]="'light'" (click)="updateVariable()"></button>
           </td>
         </tr>
