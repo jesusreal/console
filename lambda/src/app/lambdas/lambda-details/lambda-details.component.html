@@ -131,9 +131,9 @@
     <fd-panel-filters>
       <!-- trigger badges -->
       <ng-container *ngIf="selectedTriggers.length > 0">
-        <span title="Edit Trigger" class="fd-token y-fd-token triggers" 
+        <span class="fd-token y-fd-token triggers" 
             *ngFor="let trigger of selectedTriggers">
-          <div class="labels__remove" title="Remove label" (mouseover)="hideHTTPURL();$event.stopPropagation();" (click)="unselectEvent(trigger);$event.stopPropagation();"></div>
+          <div class="labels__remove" title="Remove trigger" (mouseover)="hideHTTPURL();$event.stopPropagation();" (click)="unselectEvent(trigger);$event.stopPropagation();"></div>
           <span *ngIf="trigger.eventType === 'http' && isHTTPTriggerAuthenticated" class="securedHTTPTrigger"></span>
           <span (mouseover)="onMouseOver(trigger)" (click)="onMouseOver(trigger)">
             {{ trigger.eventType }}

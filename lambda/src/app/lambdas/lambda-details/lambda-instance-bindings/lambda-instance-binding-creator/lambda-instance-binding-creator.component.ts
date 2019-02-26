@@ -91,14 +91,7 @@ export class LambdaInstanceBindingCreatorComponent {
         );
     });
 
-    this.modalService
-      .open(this.instanceBindingCreatorModal)
-      .result.finally(() => {
-        this.isActive = false;
-        luigiClient.uxManager().removeBackdrop();
-        this.reset();
-        event.stopPropagation();
-      });
+    this.modalService.open(this.instanceBindingCreatorModal);
   }
 
   public validatesPrefix() {
@@ -114,8 +107,12 @@ export class LambdaInstanceBindingCreatorComponent {
     }
   }
 
-  public cancel(event: Event) {
+  public closeModal(event: Event): void {
+    event.stopPropagation();
+    luigiClient.uxManager().removeBackdrop();
     this.modalService.close(this.instanceBindingCreatorModal);
+    this.isActive = false;
+    this.reset();
   }
 
   public submit(event: Event) {
@@ -133,11 +130,7 @@ export class LambdaInstanceBindingCreatorComponent {
     };
 
     this.selectedServiceBindingEmitter.emit(ibInfo);
-
-    this.isActive = false;
-    luigiClient.uxManager().removeBackdrop();
-    this.reset();
-    event.stopPropagation();
+    this.closeModal(event);
   }
 
   public validateSelection() {
@@ -168,6 +161,4 @@ export class LambdaInstanceBindingCreatorComponent {
     this.selectedBinding = null;
     this.isValid = false;
   }
-
-  vote(agreed: boolean) {}
 }

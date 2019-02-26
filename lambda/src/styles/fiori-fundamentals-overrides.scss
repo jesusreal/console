@@ -57,12 +57,32 @@ span {
 }
 
 
-
 //helpers
 .word-wrap {
   word-wrap: break-word;
 }
 
+.word-break {
+  word-break: break-all;
+}
+
+// Container
+.y-fd-container--space-bottom {
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.y-fd-container--border-light {
+  border-bottom: 1px solid #cccccc;
+}
+
+.y-fd-col--popover-right > * {
+  float: right;
+}
+
+.y-fd-col--strong {
+  font-weight: bold;
+}
 
 //Token
 .fd-panel__filters {

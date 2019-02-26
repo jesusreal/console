@@ -1,88 +1,72 @@
 <fd-modal class="fd-modal--large" #httpTriggerModal role="dialog">
   <fd-modal-header>{{ title }}</fd-modal-header>
   <fd-modal-body>
-    <div class="tn-modal__header" style="padding-bottom: 5px; padding-top: 5px;">
-      <div class="sf-list trigger-entry-list">
-        <div>
-          <div class="row sf-modal__text sf-list__head">
-            <div class="separation col-3">HTTPS-endpoint</div>
-            <div class="separation col-7">
-              <a class="link" href="{{ httpURL }}" target="_blank">{{ httpURL }}</a>
+    <div class="fd-container fd-container--fluid y-fd-container--space-bottom y-fd-container--border-light">
+      <div class="fd-col--3 y-fd-col--strong">HTTPS-endpoint</div>
+      <div class="fd-col--8"><a class="link" href="{{ httpURL }}" target="_blank">{{ httpURL }}</a></div>
+      <div class="fd-col--1"><button fd-button [options]="'light'" [glyph]="'copy'" [compact]="true" (click)="copyHTTPUrlEndpoint(i)"></button></div>
+    </div>
 
-            </div>
-            <div class="col-2">
-              <button class="tn-button tn-button--small tn-button--text" (click)=copyHTTPUrlEndpoint()>
-                Copy endpoint
-              </button>
-            </div>
+    <div class="fd-container fd-container--flex">
+      <div class="fd-col y-fd-col--strong">Security</div>
+    </div>
+    <div class="fd-container fd-container--flex y-fd-container--space-bottom">
+      <div class="fd-col--10">HTTPS endpoint will be exposed securly over the internet</div>
+    </div>
+
+    <div class="fd-container fd-container--flex y-fd-container--space-bottom y-fd-container--border-light">
+      <div class="fd-col">
+        <input type="checkbox" id="secure" [(ngModel)]="secure" checked>
+        <label for="secure">Enable Authentication</label>
+      </div>
+    </div>
+    <div *ngIf="secure" class="fd-container fd-container--flex">
+      <div class="fd-col y-fd-col--strong">Identity Provider</div>
+      <div class="fd-col y-fd-col--popover-right">
+        <fd-popover [compact]="true" [alignment]="'right'">
+          <fd-popover-control>
+            <button fd-button [options]="'light'" [glyph]="'slim-arrow-down'">Load preset</button>
+          </fd-popover-control>
+          <fd-popover-body *ngIf="availablePresets?.length">
+            <fd-menu>
+              <fd-menu-list>
+                <li fd-menu-item  *ngFor="let preset of availablePresets">
+                  <div (click)="selectPreset(preset)" id="{{preset.label}}">{{ preset.label }}</div>
+                </li>
+              </fd-menu-list>
+            </fd-menu>
+          </fd-popover-body>
+        </fd-popover>
+      </div>
+    </div>
+
+    <div class="fd-container fd-container--flex">
+      <div class="fd-col fd-has-margin-bottom-small">
+        <div fd-form-set>
+          <div fd-form-item>
+            <fd-form-label for="input-4">Issuer <sup>*</sup></fd-form-label>
+            <input fd-form-control [type]="'text'" id="input-4" [(ngModel)]="issuer" (ngModelChange)="validateDetails()" (blur)="validateDetails()" [state]="errorIssuer ? 'invalid' : undefind">
+            <fd-form-message [type]="'error'" *ngIf="errorIssuer">
+              {{ errorIssuer }}
+            </fd-form-message>
           </div>
+        </div>
+        <div fd-form-set>
+          <div fd-form-item>
+            <fd-form-label for="input-5">JWKS URI <sup>*</sup></fd-form-label>
+            <input fd-form-control [type]="'text'" id="input-5" [(ngModel)]="jwksUri" (ngModelChange)="validateDetails()" (blur)="validateDetails()" [state]="errorJWKSUri ? 'invalid' : undefind">
+            <fd-form-message [type]="'error'" *ngIf="errorJWKSUri">
+              {{ errorJWKSUri }}
+            </fd-form-message>
+        </div>
         </div>
       </div>
     </div>
-    <div class="tn-modal__header" style="padding-bottom: 15px; padding-top: 10px;">
-      <div style="font-weight: bold; padding-top: 1px; padding-bottom: 5px">
-        Security
-      </div>
-      <div>
-        HTTPS endpoint will be exposed securly over the internet
-      </div>
-      <div style="font-weight: bold; padding-top: 15px;">
-        <input type="checkbox" id="secure" [(ngModel)]="secure" checked> <label for="secure">Enable
-          Authentication</label>
-      </div>
+    <div *ngIf="isDefaultProvider()" class="fd-container fd-container--flex fd-has-padding-tiny">  
+      <button fd-button [options]="'light'" (click)="fetchToken()">
+        Fetch token
+      </button>
     </div>
-
-      <div class="trigger-footer-left" style="padding-top: 5px; padding-bottom: 5px">
-        <section class="sf-section" style="padding-top: 5px; padding-bottom: 5px">
-          <div *ngIf="secure" class="expose-section fd-has-margin-bottom-small">
-            <div class="row">
-              <div class="col-sm-12 input-group">
-                <div class="sf-toolbar">
-                  <div class="sf-toolbar__header">Identity Provider</div>
-                  <div class="sf-toolbar__right">
-                    <div *ngIf="secure" class="tn-dropdown" (clickOutside)="autoCloseDropdown()" clickOutsideEvents="click,mousedown">
-                      <button fd-button [options]="'light'" (click)="loadPreset()">
-                        Fetch token
-                      </button>
-                      <ul class="tn-dropdown__menu tn-contextual-menu actions-menu text-left idp-presets-dropdown"
-                        [attr.aria-hidden]="ariaHidden">
-                        <li class="tn-dropdown__item" *ngFor="let preset of availablePresets">
-                          <div (click)="selectPreset(preset)" id="{{preset.label}}">{{ preset.label }}</div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div fd-form-set>
-              <div fd-form-item>
-                <fd-form-label for="input-4">Issuer*</fd-form-label>
-                <input fd-form-control [type]="'text'" id="input-4" [(ngModel)]="issuer" (ngModelChange)="validateDetails()" (blur)="validateDetails()" [state]="errorIssuer ? 'invalid' : undefind">
-                <fd-form-message [type]="'error'" *ngIf="errorIssuer">
-                  {{ errorIssuer }}
-                </fd-form-message>
-              </div>
-            </div>
-            <div fd-form-set>
-              <div fd-form-item>
-                <fd-form-label for="input-5">JWKS URI*</fd-form-label>
-                <input fd-form-control [type]="'text'" id="input-5" [(ngModel)]="jwksUri" (ngModelChange)="validateDetails()" (blur)="validateDetails()" [state]="errorJWKSUri ? 'invalid' : undefind">
-                <fd-form-message [type]="'error'" *ngIf="errorJWKSUri">
-                  {{ errorJWKSUri }}
-                </fd-form-message>
-            </div>
-            </div>
-          </div>
-          
-          <div *ngIf="secure && isDefaultProvider()">
-            <button fd-button [options]="'light'" (click)="fetchToken()">
-              Fetch token
-            </button>
-          </div>
-                
-        </section>
-      </div>
   </fd-modal-body>
   <fd-modal-footer>
     <button fd-button [options]="'light'" class="cancel" (click)="closeHttpTriggerModal()">Cancel</button>

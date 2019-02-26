@@ -32,11 +32,11 @@
             <td>
               <table>
                 <tr *ngFor="let envVar of instanceBinding.envVarNames ; index as j" [attr.data-index]="j">
-                  <td class="y-fd-table__th--col-12 env-var-position" *ngIf="instanceBinding.instanceBindingPrefix!='undefined-', else onlyEnvVar">
+                  <td class="y-fd-table__th--col-12 word-break" *ngIf="instanceBinding.instanceBindingPrefix!='undefined-', else onlyEnvVar">
                     {{ instanceBinding.instanceBindingPrefix + envVar }}
                   </td>
                   <ng-template #onlyEnvVar>
-                    <td class="y-fd-table__th--col-12 env-var-position">
+                    <td class="y-fd-table__th--col-12 word-break">
                       {{ envVar }}
                     </td>
                   </ng-template>
