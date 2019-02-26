@@ -5,7 +5,7 @@
       <fd-panel-description>Define Environment Variables to be used by your Lambda Function.</fd-panel-description>
     </fd-panel-head>
   </fd-panel-header>
-  <fd-panel-body>
+  <fd-panel-body [bleed]="true">
     <table class="fd-table">
       <thead>
         <tr>
@@ -35,9 +35,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let env of envs; let i = index">
-          <td class="y-fd-table__th--col-4 word-break">{{ env.name }}</td>
+          <td class="y-fd-table__th--col-4 y-word-break">{{ env.name }}</td>
           <td class="y-fd-table__th--col-1 fd-has-text-align-center">→</td>
-          <td *ngIf="editVar!=i" class="y-fd-table__th--col-5 word-break">{{ env.value }}</td>
+          <td *ngIf="editVar!=i" class="y-fd-table__th--col-5 y-word-break">{{ env.value }}</td>
           <td *ngIf="editVar!=i" class="y-fd-table__th--col-2 fd-has-text-align-right">
             <button fd-button [options]="'light'" [glyph]="'edit'" [compact]="true" (click)="editVariable(i)"></button>
             <button fd-button [options]="'light'" [glyph]="'delete'" [compact]="true" (click)="removeVarariable(i)"></button>

@@ -1,4 +1,4 @@
-<fd-modal class="fd-modal--large" #httpTriggerModal role="dialog">
+<fd-modal class="http-trigger-modal fd-modal--large" #httpTriggerModal role="dialog">
   <fd-modal-header>{{ title }}</fd-modal-header>
   <fd-modal-body>
     <div class="fd-container fd-container--fluid y-fd-container--space-bottom y-fd-container--border-light">
@@ -62,10 +62,8 @@
         </div>
       </div>
     </div>
-    <div *ngIf="isDefaultProvider()" class="fd-container fd-container--flex fd-has-padding-tiny">  
-      <button fd-button [options]="'light'" (click)="fetchToken()">
-        Fetch token
-      </button>
+    <div *ngIf="isDefaultProvider()" class="fd-container fd-container--flex">  
+      <a (click)="fetchToken()">Fetch token</a>
     </div>
   </fd-modal-body>
   <fd-modal-footer>

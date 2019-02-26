@@ -58,11 +58,11 @@ span {
 
 
 //helpers
-.word-wrap {
+.y-word-wrap {
   word-wrap: break-word;
 }
 
-.word-break {
+.y-word-break {
   word-break: break-all;
 }
 
@@ -118,5 +118,19 @@ $possible-columns: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;
 
   .y-fd-table__tr--no-border-below + tr {
     border-top: 0;
+  }
+}
+
+
+//Workaroud before techne is not removed
+input[type=checkbox] {
+
+  border-color: var(--fd-forms-border-color);
+  background-color: var(--fd-forms-background-color);
+
+  &:checked {
+    &:after {
+      display: none;
+    }
   }
 }
