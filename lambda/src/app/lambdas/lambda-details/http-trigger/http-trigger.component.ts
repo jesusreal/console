@@ -26,9 +26,9 @@ export class HttpTriggerComponent {
   @ViewChild('fetchTokenModal') fetchTokenModal: FetchTokenModalComponent;
   @ViewChild('httpTriggerModal') httpTriggerModal: ModalComponent;
 
-  private title: string;
+  public title: string;
   public isActive = false;
-  private httpURL = '';
+  public httpURL = '';
 
   public apiName = '';
   public serviceName = '';

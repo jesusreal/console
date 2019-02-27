@@ -24,7 +24,7 @@ export class EventTriggerChooserComponent {
 
   public eventSearchQuery = '';
   public filteredTriggers: EventTrigger[] = [];
-  private title: string;
+  public title: string;
   public isActive = false;
   private eventsSelected = 0;
   public enableAdd = false;

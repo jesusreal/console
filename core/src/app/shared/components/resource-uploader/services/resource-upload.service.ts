@@ -92,7 +92,7 @@ export class ResourceUploadService implements OnDestroy {
   public getFileContent(file: File) {
     return new Observable(observer => {
       this.read(file).subscribe(
-        resources => {
+        (resources: string[]) => {
           try {
             const fileContents = this.convertFileContents(file, resources);
             if (resources.length > 0) {

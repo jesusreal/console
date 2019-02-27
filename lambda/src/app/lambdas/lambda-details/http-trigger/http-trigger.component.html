@@ -4,7 +4,7 @@
     <div class="fd-container fd-container--fluid y-fd-container--space-bottom y-fd-container--border-light">
       <div class="fd-col--3 y-fd-col--strong">HTTPS-endpoint</div>
       <div class="fd-col--8"><a class="link" href="{{ httpURL }}" target="_blank">{{ httpURL }}</a></div>
-      <div class="fd-col--1"><button fd-button [options]="'light'" [glyph]="'copy'" [compact]="true" (click)="copyHTTPUrlEndpoint(i)"></button></div>
+      <div class="fd-col--1"><button fd-button [options]="'light'" [glyph]="'copy'" [compact]="true" (click)="copyHTTPUrlEndpoint()"></button></div>
     </div>
 
     <div class="fd-container fd-container--flex">
@@ -53,7 +53,7 @@
         <div fd-form-set>
           <div fd-form-item>
             <fd-form-label for="input-4">Issuer *</fd-form-label>
-            <input fd-form-control [type]="'text'" id="input-4" [(ngModel)]="issuer" (ngModelChange)="validateDetails()" (blur)="validateDetails()" [state]="errorIssuer ? 'invalid' : undefind">
+            <input fd-form-control [type]="'text'" id="input-4" [(ngModel)]="issuer" (ngModelChange)="validateDetails()" (blur)="validateDetails()" [state]="errorIssuer ? 'invalid' : undefined">
             <fd-form-message [type]="'error'" *ngIf="errorIssuer">
               {{ errorIssuer }}
             </fd-form-message>
@@ -62,7 +62,7 @@
         <div fd-form-set>
           <div fd-form-item>
             <fd-form-label for="input-5">JWKS URI *</fd-form-label>
-            <input fd-form-control [type]="'text'" id="input-5" [(ngModel)]="jwksUri" (ngModelChange)="validateDetails()" (blur)="validateDetails()" [state]="errorJWKSUri ? 'invalid' : undefind">
+            <input fd-form-control [type]="'text'" id="input-5" [(ngModel)]="jwksUri" (ngModelChange)="validateDetails()" (blur)="validateDetails()" [state]="errorJWKSUri ? 'invalid' : undefined">
             <fd-form-message [type]="'error'" *ngIf="errorJWKSUri">
               {{ errorJWKSUri }}
             </fd-form-message>
