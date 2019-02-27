@@ -49,35 +49,6 @@ function getNodes(context) {
       hideFromNav: true
     },
     {
-      label: 'My Lambdas',
-      pathSegment: 'my-lambdas',
-      viewUrl: 'http://console-dev.swinka.cluster.kyma.cx:4201#/lambdas',
-      keepSelectedForChildren: true,
-      children: [
-        {
-          label: 'Lambda Create',
-          pathSegment: 'create',
-          viewUrl: 'http://console-dev.swinka.cluster.kyma.cx:4201#/create',
-          hideFromNav: true
-        },
-        {
-          label: 'Lambda Details',
-          pathSegment: 'details',
-          viewUrl: 'http://console-dev.swinka.cluster.kyma.cx:4201#/lambdas',
-          hideFromNav: true,
-          children: [
-            {
-              label: 'Lambda Details',
-              pathSegment: ':lambda',
-              viewUrl:
-                'http://console-dev.swinka.cluster.kyma.cx:4201#/lambdas/:lambda',
-              hideFromNav: true
-            }
-          ]
-        }
-      ]
-    },
-    {
       category: 'Configuration',
       pathSegment: 'permissions',
       navigationContext: 'permissions',
@@ -245,7 +216,8 @@ function getUiEntities(entityname, environment, placements) {
   if (!window[cacheName]) {
     window[cacheName] = {};
   }
-  const cache = {}; // window[cacheName];
+
+  const cache = window[cacheName];
   const cacheKey = fetchUrl + (placements || '');
   const fromCache = cache[cacheKey];
   const uiEntities =
@@ -269,8 +241,14 @@ function getUiEntities(entityname, environment, placements) {
                   ? spec.viewBaseUrl + node.viewUrl
                   : node.viewUrl,
                 hideFromNav: node.showInNavigation === false || undefined,
-                order: node.order
+                order: node.order,
+                context: {
+                  settings: node.settings
+                    ? { ...node.settings, ...(node.context || undefined) }
+                    : undefined
+                }
               };
+
               if (node.externalLink) {
                 delete n.viewUrl;
                 delete n.pathSegment;
@@ -279,14 +257,8 @@ function getUiEntities(entityname, environment, placements) {
                   sameWindow: false
                 };
               }
+
               processNodeForLocalDevelopment(n);
-              if (n.label.startsWith('Lambda')) {
-                n.viewUrl = n.viewUrl.replace(
-                  'https://lambdas-ui.swinka.cluster.kyma.cx',
-                  'http://console-dev.swinka.cluster.kyma.cx:4201'
-                );
-                console.log('n.labmd', n.label, JSON.stringify(n, null, 2));
-              }
               return n;
             }
 
@@ -382,6 +354,7 @@ function getUiEntities(entityname, environment, placements) {
                     node.viewGroup = node.navigationContext;
                     node.keepSelectedForChildren = true;
                   }
+
                   return node;
                 });
             }
