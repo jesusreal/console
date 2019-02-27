@@ -6,12 +6,11 @@
 
 <fd-loading-spinner [loading]="loading"></fd-loading-spinner>
 
-<ng-container *ngIf="!loading && !errorMessage && (!data || data.length === 0)">
-  <div class="fd-has-text-align-center">
-    <y-empty-list [emptyListPlaceholderData]="emptyListPlaceholderData" (buttonClicked)="onEmptyListActionButtonClicked()"></y-empty-list>
-    <ng-content *ngIf="!emptyListPlaceholderData" select="[empty-list-placeholder]"></ng-content>
-  </div>
-</ng-container>
+<div [attr.data-e2e]="'empty-list-placeholder'" class="fd-has-text-align-center"
+    *ngIf="!loading && !errorMessage && (!data || data.length === 0)">
+  <y-empty-list [emptyListPlaceholderData]="emptyListPlaceholderData" (buttonClicked)="onEmptyListActionButtonClicked()"></y-empty-list>
+  <ng-content *ngIf="!emptyListPlaceholderData" select="[empty-list-placeholder]"></ng-content>
+</div>
 
 <p *ngIf="!loading && errorMessage" class="fd-has-color-status-3">
   {{ errorMessage }}
