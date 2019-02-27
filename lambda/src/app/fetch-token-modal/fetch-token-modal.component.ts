@@ -12,10 +12,10 @@ import { ModalService, ModalComponent } from 'fundamental-ngx';
 export class FetchTokenModalComponent {
   @ViewChild('fetchTokenModal') fetchTokenModal: ModalComponent;
 
-  private title: string;
+  public title: string;
+  public token: string;
   public isActive = false;
-  private token: string;
-  private isTokenCopied: boolean = false;
+  public isTokenCopied = false;
 
   constructor(private modalService: ModalService) {}
 

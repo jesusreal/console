@@ -123,8 +123,8 @@ export class LambdaDetailsComponent implements OnInit, OnDestroy {
   newLabel;
   wrongLabel = false;
   wrongLabelMessage = '';
-  error: string = null;
-  hasDependencies: boolean = false;
+  error: string;
+  hasDependencies = false;
   envVarKey = '';
   envVarValue = '';
   isEnvVariableNameInvalid = false;
