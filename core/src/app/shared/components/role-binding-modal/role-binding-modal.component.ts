@@ -1,9 +1,10 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { RbacService } from '../../services/rbac.service';
 import * as _ from 'lodash';
 import { CurrentEnvironmentService } from '../../../content/environments/services/current-environment.service';
 import { Subscription } from 'rxjs';
 import { ComponentCommunicationService } from '../../services/component-communication.service';
+import { ModalComponent, ModalService } from 'fundamental-ngx';
 
 @Component({
   selector: 'app-role-binding-modal',
@@ -11,27 +12,29 @@ import { ComponentCommunicationService } from '../../services/component-communic
   styleUrls: ['./role-binding-modal.component.scss']
 })
 export class RoleBindingModalComponent implements OnDestroy {
+  @ViewChild('createBindingModal') createBindingModal: ModalComponent;
   public isActive = false;
   public roles = [];
   public userGroup = '';
-  private selectedRole = '';
-  private selectedKind = '';
+  public selectedRole = '';
+  public selectedKind = '';
   private currentEnvironmentId: string;
   private currentEnvironmentSubscription: Subscription;
-  private ariaExpandedRole = false;
+  public ariaExpandedRole = false;
   private ariaExpandedKind = false;
-  private error = '';
+  public error = '';
   public filteredRoles = [];
-  private filteredKinds = ['Role', 'ClusterRole'];
+  public filteredKinds = ['Role', 'ClusterRole'];
   private kinds = ['Role', 'ClusterRole'];
-  private userGroupError: string;
+  public userGroupError: string;
 
   @Input() isGlobalPermissionsView: boolean;
 
   constructor(
     private rbacService: RbacService,
     private currentEnvironmentService: CurrentEnvironmentService,
-    private communicationService: ComponentCommunicationService
+    private communicationService: ComponentCommunicationService,
+    private modalService: ModalService
   ) {
     this.currentEnvironmentSubscription = this.currentEnvironmentService
       .getCurrentEnvironmentId()
@@ -92,10 +95,14 @@ export class RoleBindingModalComponent implements OnDestroy {
     if (this.isGlobalPermissionsView) {
       this.selectKind('ClusterRole');
     }
+    this.modalService.open(this.createBindingModal).result.finally(() => {
+      this.isActive = false;
+    });
   }
 
   public close() {
     this.isActive = false;
+    this.modalService.close(this.createBindingModal);
     this.userGroup = '';
     this.selectedRole = '';
     this.selectedKind = '';
@@ -152,7 +159,7 @@ export class RoleBindingModalComponent implements OnDestroy {
     );
   }
 
-  private toggleDropDown(dropdown) {
+  public toggleDropDown(dropdown) {
     switch (dropdown) {
       case 'Kind':
         this.ariaExpandedRole = false;
@@ -163,7 +170,7 @@ export class RoleBindingModalComponent implements OnDestroy {
     }
   }
 
-  private closeDropDown(dropdown) {
+  public closeDropDown(dropdown) {
     switch (dropdown) {
       case 'Kind':
         return (this.ariaExpandedKind = false);
@@ -175,7 +182,7 @@ export class RoleBindingModalComponent implements OnDestroy {
     }
   }
 
-  private openDropDown(dropdown: any, event: Event) {
+  public openDropDown(dropdown: any, event: Event) {
     event.stopPropagation();
     switch (dropdown) {
       case 'Kind':
