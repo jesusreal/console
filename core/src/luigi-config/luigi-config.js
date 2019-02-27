@@ -18,7 +18,7 @@ if (clusterConfig) {
     }
   }
 }
-console.log('== LAMBDA', config.lambdasModuleUrl);
+
 var token;
 if (localStorage.getItem('luigi.auth')) {
   token = JSON.parse(localStorage.getItem('luigi.auth')).idToken;
@@ -220,7 +220,7 @@ function getUiEntities(entityname, environment, placements) {
   const cache = window[cacheName];
   const cacheKey = fetchUrl + (placements || '');
   const fromCache = cache[cacheKey];
-  const uiEntities =
+  return (
     fromCache ||
     fetchFromKyma(fetchUrl)
       .then(result => {
@@ -300,7 +300,6 @@ function getUiEntities(entityname, environment, placements) {
                     'https://lambdas-ui.kyma.local'.length
                   );
               }
-              console.log('== node', node.viewUrl);
               return node;
             }
 
@@ -374,9 +373,8 @@ function getUiEntities(entityname, environment, placements) {
           resolve(result);
         });
         return result;
-      });
-  console.log('uiEntities', uiEntities);
-  return uiEntities;
+      })
+  );
 }
 
 function fetchFromKyma(url) {
