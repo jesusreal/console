@@ -1,7 +1,27 @@
 <ng-container *ngIf="emptyListPlaceholderData">
-  <h1 *ngIf="emptyListPlaceholderData.title">{{ emptyListPlaceholderData.title }}</h1>
-  <p *ngIf="emptyListPlaceholderData.body">{{ emptyListPlaceholderData.body }}</p>
-  <button *ngIf="emptyListPlaceholderData.button" class="fd-button--light" (click)="onButtonClicked()">
-    {{ emptyListPlaceholderData.button }}
-  </button>
+  <fd-panel>
+    <fd-panel-header>
+      <fd-panel-head>
+        <fd-panel-title>{{ emptyListPlaceholderData.title }}</fd-panel-title>
+      </fd-panel-head>
+      <fd-panel-actions>
+        <button fd-button *ngIf="emptyListPlaceholderData.buttons?.header" class="fd-button--light fd-has-float-right" (click)="onButtonClicked()">
+          {{ emptyListPlaceholderData.buttons.header }}
+        </button> 
+    </fd-panel-actions>
+    </fd-panel-header>
+    <fd-panel-body>
+      <p class="fd-has-margin-top-small">
+        {{ emptyListPlaceholderData.body }}
+      </p>
+      <p class="fd-has-margin-top-medium fd-has-margin-bottom-small">
+        <button fd-button *ngIf="emptyListPlaceholderData.buttons?.body" class="fd-button" (click)="onButtonClicked()">
+          {{ emptyListPlaceholderData.buttons.body }}
+        </button>  
+      </p>
+    </fd-panel-body>
+  </fd-panel>
 </ng-container>
+
+
+
