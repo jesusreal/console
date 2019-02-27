@@ -31,7 +31,7 @@
     <div class="fd-container fd-container--flex">
       <div class="fd-col y-fd-col--strong">Identity Provider</div>
       <div class="fd-col y-fd-col--popover-right">
-        <fd-popover [compact]="true" [alignment]="'right'">
+        <fd-popover [compact]="true" [alignment]="'left'">
           <fd-popover-control>
             <button fd-button [options]="'light'" [glyph]="'slim-arrow-down'">Load preset</button>
           </fd-popover-control>
@@ -39,7 +39,7 @@
             <fd-menu>
               <fd-menu-list>
                 <li fd-menu-item  *ngFor="let preset of availablePresets">
-                  <div (click)="selectPreset(preset)" id="{{preset.label}}">{{ preset.label }}</div>
+                  <a (click)="selectPreset(preset)" [id]="preset.label">{{ preset.label }}</a>
                 </li>
               </fd-menu-list>
             </fd-menu>
