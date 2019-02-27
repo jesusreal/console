@@ -1,0 +1,7 @@
+<ng-container *ngIf="emptyListPlaceholderData">
+  <h1 *ngIf="emptyListPlaceholderData.title">{{ emptyListPlaceholderData.title }}</h1>
+  <p *ngIf="emptyListPlaceholderData.body">{{ emptyListPlaceholderData.body }}</p>
+  <button *ngIf="emptyListPlaceholderData.button" class="fd-button--light" (click)="onButtonClicked()">
+    {{ emptyListPlaceholderData.button }}
+  </button>
+</ng-container>
