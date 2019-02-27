@@ -1047,6 +1047,7 @@ export class LambdaDetailsComponent implements OnInit, OnDestroy {
   }
 
   changeDependencies(status: boolean): void {
+    console.log('status', status);
     if (status) {
       this.hasDependencies = true;
     } else {
