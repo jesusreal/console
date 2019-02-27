@@ -16,16 +16,19 @@
 
     <div class="fd-container fd-container--flex y-fd-container--space-bottom y-fd-container--border-light">
       <div class="fd-col">
-        <div class="fd-form__item fd-form__item--check">
-          <label class="fd-form__label" for="Ai4ez611">
-            <input type="checkbox" id="secure" [(ngModel)]="secure" checked>
-            Enable Authentication
-          </label>
-        </div>
+        <fieldset class="fd-form__set">
+          <div class="fd-form__item fd-form__item--check">
+            <label class="fd-form__label" for="Ai4ez611">
+              <input type="checkbox" class="fd-form__control" id="Ai4ez611" [(ngModel)]="secure" checked>
+              Enable Authentication
+            </label>
+          </div>
+        </fieldset>
       </div>
     </div>
 
-    <div *ngIf="secure" class="fd-container fd-container--flex">
+    <ng-container *ngIf="secure">
+    <div class="fd-container fd-container--flex">
       <div class="fd-col y-fd-col--strong">Identity Provider</div>
       <div class="fd-col y-fd-col--popover-right">
         <fd-popover [compact]="true" [alignment]="'right'">
@@ -49,7 +52,7 @@
       <div class="fd-col fd-has-margin-bottom-small">
         <div fd-form-set>
           <div fd-form-item>
-            <fd-form-label for="input-4">Issuer <sup>*</sup></fd-form-label>
+            <fd-form-label for="input-4">Issuer *</fd-form-label>
             <input fd-form-control [type]="'text'" id="input-4" [(ngModel)]="issuer" (ngModelChange)="validateDetails()" (blur)="validateDetails()" [state]="errorIssuer ? 'invalid' : undefind">
             <fd-form-message [type]="'error'" *ngIf="errorIssuer">
               {{ errorIssuer }}
@@ -58,7 +61,7 @@
         </div>
         <div fd-form-set>
           <div fd-form-item>
-            <fd-form-label for="input-5">JWKS URI <sup>*</sup></fd-form-label>
+            <fd-form-label for="input-5">JWKS URI *</fd-form-label>
             <input fd-form-control [type]="'text'" id="input-5" [(ngModel)]="jwksUri" (ngModelChange)="validateDetails()" (blur)="validateDetails()" [state]="errorJWKSUri ? 'invalid' : undefind">
             <fd-form-message [type]="'error'" *ngIf="errorJWKSUri">
               {{ errorJWKSUri }}
@@ -70,6 +73,7 @@
     <div *ngIf="isDefaultProvider()" class="fd-container fd-container--flex">  
       <a (click)="fetchToken()">Fetch token</a>
     </div>
+    </ng-container>
   </fd-modal-body>
   <fd-modal-footer>
     <button fd-button [options]="'light'" class="cancel" (click)="closeHttpTriggerModal()">Cancel</button>

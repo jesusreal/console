@@ -118,7 +118,7 @@ export class LambdaDetailsComponent implements OnInit, OnDestroy {
   wrongLabel = false;
   wrongLabelMessage = '';
   error: string = null;
-  hasDependencies: Observable<boolean> = observableOf(false);
+  hasDependencies: boolean = false;
   envVarKey = '';
   envVarValue = '';
   isEnvVariableNameInvalid = false;
@@ -843,11 +843,10 @@ export class LambdaDetailsComponent implements OnInit, OnDestroy {
           this.code = lambda.spec.function;
           this.kind = lambda.spec.runtime;
           this.dependency = lambda.spec.deps;
-          this.hasDependencies = observableOf(
+          this.hasDependencies =
             this.dependency != null &&
-              this.dependency !== undefined &&
-              this.dependency !== '',
-          );
+            this.dependency !== undefined &&
+            this.dependency !== '';
 
           this.setLoaded(true);
           this.initializeEditor();
@@ -1044,13 +1043,14 @@ export class LambdaDetailsComponent implements OnInit, OnDestroy {
     }, {});
   }
 
-  addDependencies() {
-    this.hasDependencies = observableOf(true);
-  }
-  removeDependencies() {
-    this.dependency = '';
-    this.lambda.spec.deps = null;
-    this.hasDependencies = observableOf(false);
+  changeDependencies(status: boolean): void {
+    if (status) {
+      this.hasDependencies = true;
+    } else {
+      this.dependency = '';
+      this.lambda.spec.deps = null;
+      this.hasDependencies = false;
+    }
   }
 
   /** validatesName checks whether a function name is a valid DNS-1035 label */
