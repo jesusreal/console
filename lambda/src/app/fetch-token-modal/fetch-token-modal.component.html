@@ -1,7 +1,7 @@
 <fd-modal #fetchTokenModal role="dialog" aria-labelledby="confirm" (click)="$event.stopPropagation()">
   <fd-modal-header>{{ title }}</fd-modal-header>
   <fd-modal-body>
-    <textarea fd-form-control class="y-fd-form__control" type="text" value={{ token }} placeholder="content will be copy after click the copy button" rows="10" cols="50"></textarea>
+    <textarea fd-form-control class="y-fd-form__control" type="text" value="{{ token }}" placeholder="content will be copy after click the copy button" rows="10" cols="50"></textarea>
   </fd-modal-body>
   <fd-modal-footer>
     <div class="fd-has-clearfix">
