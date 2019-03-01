@@ -5,8 +5,9 @@
         <fd-panel-title>{{ emptyListPlaceholderData.header.text }}</fd-panel-title>
       </fd-panel-head>
       <fd-panel-actions *ngIf="emptyListPlaceholderData.header.actionButton">
-        <button fd-button class="fd-button--light fd-has-float-right" (click)="onButtonClicked()">
-          {{ emptyListPlaceholderData.header.actionButton }}
+        <button fd-button class="fd-button--light fd-has-float-right" (click)="onButtonClicked()"
+            [glyph]="emptyListPlaceholderData.header.actionButton.glyph">
+          {{ emptyListPlaceholderData.header.actionButton.text }}
         </button>
     </fd-panel-actions>
     </fd-panel-header>
@@ -15,8 +16,8 @@
         {{ emptyListPlaceholderData.body.text }}
       </p>
       <p *ngIf="emptyListPlaceholderData.body.actionButton" class="fd-has-margin-top-medium fd-has-margin-bottom-small">
-        <button fd-button (click)="onButtonClicked()">
-          {{ emptyListPlaceholderData.body.actionButton }}
+        <button fd-button (click)="onButtonClicked()" [glyph]="emptyListPlaceholderData.body.actionButton.glyph">
+          {{ emptyListPlaceholderData.body.actionButton.text }}
         </button>
       </p>
     </fd-panel-body>

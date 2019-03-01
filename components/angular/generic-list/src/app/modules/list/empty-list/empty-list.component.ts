@@ -8,8 +8,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class EmptyListComponent {
   @Input()
   emptyListPlaceholderData: {
-    header: { text: string; actionButton: string };
-    body: { text: string; actionButton: string };
+    header: { text: string; actionButton: { glyph: string; text: string } };
+    body: { text: string; actionButton: { glyph: string; text: string } };
   };
   @Output() buttonClicked = new EventEmitter();
 
