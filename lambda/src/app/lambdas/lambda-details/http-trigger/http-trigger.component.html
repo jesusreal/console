@@ -81,4 +81,4 @@
       [disabled]="secure && !isAbleToMakeRequest()" (click)=addTrigger()>Add</button>
   </fd-modal-footer>
 </fd-modal>
-<app-fetch-token-modal #fetchTokenModal></app-fetch-token-modal>
+<app-fetch-token-modal #fetchTokenModal [useLuigiBackdrop]="false"></app-fetch-token-modal>

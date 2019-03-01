@@ -10,6 +10,7 @@ import { ModalService, ModalComponent } from 'fundamental-ngx';
   templateUrl: './fetch-token-modal.component.html',
 })
 export class FetchTokenModalComponent {
+  @Input('useLuigiBackdrop') useLuigiBackdrop = true;
   @ViewChild('fetchTokenModal') fetchTokenModal: ModalComponent;
 
   public title: string;
@@ -26,9 +27,15 @@ export class FetchTokenModalComponent {
       this.token = `Bearer ${eventData.idToken}`;
     });
 
+    if (this.useLuigiBackdrop !== false) {
+      luigiClient.uxManager().addBackdrop();
+    }
     this.modalService.open(this.fetchTokenModal).result.finally(() => {
       this.isTokenCopied = false;
       event.stopPropagation();
+      if (this.useLuigiBackdrop !== false) {
+        luigiClient.uxManager().removeBackdrop();
+      }
     });
   }
 
