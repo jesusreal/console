@@ -8,7 +8,6 @@ describe('FetchTokenModalComponent', () => {
     open: jasmine
       .createSpy('open')
       .and.returnValue({ result: { finally: () => {} } }),
-    close: jasmine.createSpy('close').and.returnValue({ result: () => {} }),
   };
 
   let component: FetchTokenModalComponent;
@@ -16,7 +15,6 @@ describe('FetchTokenModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
       declarations: [FetchTokenModalComponent],
       providers: [ModalService],
     })

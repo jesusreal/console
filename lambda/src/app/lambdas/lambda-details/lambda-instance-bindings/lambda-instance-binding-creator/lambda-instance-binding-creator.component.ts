@@ -25,7 +25,6 @@ export class LambdaInstanceBindingCreatorComponent {
   @ViewChild('instanceBindingCreatorModal')
   instanceBindingCreatorModal: ModalComponent;
 
-  public isActive = false;
   public isValid = false;
   public isSelectedInstanceBindingPrefixInvalid = false;
   public createSecrets = true;
@@ -52,7 +51,6 @@ export class LambdaInstanceBindingCreatorComponent {
   selectedServiceBindingEmitter = new EventEmitter<InstanceBindingInfo>();
 
   public show() {
-    this.isActive = true;
     luigiClient.uxManager().addBackdrop();
     luigiClient.addInitListener(() => {
       const eventData = luigiClient.getEventData();
@@ -91,7 +89,11 @@ export class LambdaInstanceBindingCreatorComponent {
         );
     });
 
-    this.modalService.open(this.instanceBindingCreatorModal);
+    this.modalService
+      .open(this.instanceBindingCreatorModal)
+      .result.finally(() => {
+        luigiClient.uxManager().removeBackdrop();
+      });
   }
 
   public validatesPrefix() {
@@ -111,7 +113,6 @@ export class LambdaInstanceBindingCreatorComponent {
     event.stopPropagation();
     luigiClient.uxManager().removeBackdrop();
     this.modalService.close(this.instanceBindingCreatorModal);
-    this.isActive = false;
     this.reset();
   }
 

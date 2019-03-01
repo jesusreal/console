@@ -14,15 +14,12 @@ export class FetchTokenModalComponent {
 
   public title: string;
   public token: string;
-  public isActive = false;
   public isTokenCopied = false;
 
   constructor(private modalService: ModalService) {}
 
   public show() {
     this.title = 'Fetch token';
-    this.isActive = true;
-    luigiClient.uxManager().addBackdrop();
 
     luigiClient.addInitListener(() => {
       const eventData = luigiClient.getEventData();
@@ -30,9 +27,7 @@ export class FetchTokenModalComponent {
     });
 
     this.modalService.open(this.fetchTokenModal).result.finally(() => {
-      this.isActive = false;
       this.isTokenCopied = false;
-      luigiClient.uxManager().removeBackdrop();
       event.stopPropagation();
     });
   }

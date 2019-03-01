@@ -67,20 +67,12 @@ span {
 
 // Container
 .y-fd-container--space-bottom {
-  padding-bottom: 15px;
-  margin-bottom: 15px;
+  @extend .fd-has-margin-small;
+  @extend .fd-has-padding-small;
 }
 
 .y-fd-container--border-light {
   border-bottom: 1px solid #cccccc;
-}
-
-.y-fd-col--popover-right > * {
-  float: right;
-}
-
-.y-fd-col--strong {
-  font-weight: bold;
 }
 
 //Token

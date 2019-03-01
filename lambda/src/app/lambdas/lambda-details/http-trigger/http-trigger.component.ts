@@ -1,17 +1,18 @@
 import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
-import * as _ from 'lodash';
+import { HttpClient } from '@angular/common/http';
+import { finalize } from 'rxjs/operators';
+import { isEmpty } from 'lodash';
+import { ModalService, ModalComponent } from 'fundamental-ngx';
 import { Clipboard } from 'ts-clipboard';
+import * as luigiClient from '@kyma-project/luigi-client';
+
 import { AppConfig } from '../../../app.config';
 import { Authentication } from '../../../shared/datamodel/authentication';
 import { HTTPEndpoint } from '../../../shared/datamodel/http-endpoint';
-import { Lambda, IFunctionSpec } from '../../../shared/datamodel/k8s/function';
+import { Lambda } from '../../../shared/datamodel/k8s/function';
 import { GraphqlClientService } from '../../../graphql-client/graphql-client.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { finalize } from 'rxjs/operators';
 import { FetchTokenModalComponent } from '../../../fetch-token-modal/fetch-token-modal.component';
-import * as luigiClient from '@kyma-project/luigi-client';
 import { Jwt } from '../../../shared/datamodel/jwt';
-import { ModalService, ModalComponent } from 'fundamental-ngx';
 
 @Component({
   selector: 'app-http-trigger',
@@ -43,9 +44,6 @@ export class HttpTriggerComponent {
   public errorHostname = '';
   public errorJWKSUri = '';
   public errorIssuer = '';
-
-  public ariaExpanded = false;
-  public ariaHidden = true;
 
   public availablePresets = [];
 
@@ -154,6 +152,7 @@ export class HttpTriggerComponent {
               this.jwksUri = jwksUri;
               this.issuer = issuer;
             }
+            console.log('avail1');
             if (isLocal) {
               this.jwksUri = localJwksUri;
               this.issuer = localIssuer;
@@ -181,6 +180,7 @@ export class HttpTriggerComponent {
                   jwksUri = preset.jwksUri;
                   issuer = preset.issuer;
                 }
+                console.log('avail2');
                 this.availablePresets.push({
                   label: preset.name,
                   jwksUri: preset.jwksUri,
@@ -209,29 +209,10 @@ export class HttpTriggerComponent {
     );
   }
 
-  private fetchToken() {
-    this.fetchTokenModal.show();
-  }
-
   public selectPreset(preset) {
     this.jwksUri = preset.jwksUri;
     this.issuer = preset.issuer;
-    this.autoCloseDropdown();
     this.validateDetails();
-  }
-
-  private loadPreset() {
-    this.toggleDropdown();
-  }
-
-  public toggleDropdown() {
-    this.ariaExpanded = !this.ariaExpanded;
-    this.ariaHidden = !this.ariaHidden;
-  }
-
-  public autoCloseDropdown() {
-    this.ariaExpanded = false;
-    this.ariaHidden = true;
   }
 
   public validateDetails() {
@@ -250,7 +231,7 @@ export class HttpTriggerComponent {
     if (!this.secure) {
       return '';
     }
-    if (_.isEmpty(this.jwksUri)) {
+    if (isEmpty(this.jwksUri)) {
       return 'JWKS URI is required.';
     }
     return '';
@@ -260,13 +241,13 @@ export class HttpTriggerComponent {
     if (!this.secure) {
       return '';
     }
-    if (_.isEmpty(this.issuer)) {
+    if (isEmpty(this.issuer)) {
       return 'Issuer is required.';
     }
     return '';
   }
 
   public isAbleToMakeRequest() {
-    return _.isEmpty(this.errorJWKSUri) && _.isEmpty(this.errorIssuer);
+    return isEmpty(this.errorJWKSUri) && isEmpty(this.errorIssuer);
   }
 }

@@ -10,7 +10,6 @@ $fd-fonts-path: "~fiori-fundamentals/scss/fonts/";
 @import 'styles/list';
 @import 'styles/panel';
 @import 'styles/alert';
-@import 'styles/modal';
 
 .fd-input-group {
   input[type='search']:not(:disabled):focus,
