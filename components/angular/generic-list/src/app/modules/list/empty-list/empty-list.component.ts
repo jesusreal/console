@@ -7,7 +7,10 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class EmptyListComponent {
   @Input()
-  emptyListPlaceholderData: { title: string; body: string; button: string };
+  emptyListPlaceholderData: {
+    header: { text: string; actionButton: string };
+    body: { text: string; actionButton: string };
+  };
   @Output() buttonClicked = new EventEmitter();
 
   onButtonClicked() {
