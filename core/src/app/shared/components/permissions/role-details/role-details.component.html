@@ -35,7 +35,7 @@
       </fd-panel-head>
     </fd-panel-header>
     <fd-panel-body [bleed]="true">
-      <table class="fd-table">
+      <table class="fd-table fd-table--no-borders">
         <tbody>
           <tr>
             <td class="y-fd-table__th--col-2 fd-has-color-text-4">Name</td>
@@ -56,27 +56,22 @@
 </section>
 
 <section class="fd-section" *ngIf="roleDetails">
-  <fd-panel>
-    <fd-panel-header>
-      <fd-panel-head>
-        <fd-panel-title>Rules</fd-panel-title>
-      </fd-panel-head>
-    </fd-panel-header>
-    <fd-panel-body [bleed]="true">
-      <table class="fd-table">
-        <ng-container *ngFor="let rule of roleDetails.rules">
-          <thead>
-            <tr>
-              <th colspan="3">Rule</th>
-            </tr>
-          </thead>
+  <fd-panel-grid [col]="2">
+    <fd-panel *ngFor="let rule of roleDetails.rules">
+      <fd-panel-header>
+        <fd-panel-head>
+          <fd-panel-title>Rule</fd-panel-title>
+        </fd-panel-head>
+      </fd-panel-header>
+      <fd-panel-body [bleed]="true">
+        <table class="fd-table fd-table--no-borders">
           <tbody>
             <tr>
-              <td class="y-fd-table__th--col-2 fd-has-color-text-4">API Groups</td>
+              <td class="y-fd-table__th--col-4 fd-has-color-text-4 fd-has-background-color-neutral-1">API Groups</td>
               <td><span *ngFor="let apiGroup of rule.apiGroups; let last = last">{{ apiGroup !== '' ? apiGroup : coreGroup }}{{ last ? '': ',' }}</span></td>
             </tr>
             <tr>
-              <td class="fd-has-color-text-4">Verbs</td>
+              <td class="fd-has-color-text-4 fd-has-background-color-neutral-1">Verbs</td>
               <td>
                 <ng-container *ngFor="let verb of rule.verbs; let last = last">
                   <span>{{ verb }}{{ last ? '': ', ' }}</span>
@@ -84,7 +79,7 @@
               </td>
             </tr>
             <tr>
-              <td class="fd-has-color-text-4">Resources</td>
+              <td class="fd-has-color-text-4 fd-has-background-color-neutral-1">Resources</td>
               <td>
                 <ng-container *ngFor="let resource of rule.resources; let last = last">
                   <span>{{ resource }}{{ last ? '': ', ' }}</span><br />
@@ -92,8 +87,8 @@
               </td>
             </tr>
           </tbody>
-        </ng-container>
-      </table>
-    </fd-panel-body>
-  </fd-panel>
+        </table>
+      </fd-panel-body>
+    </fd-panel>
+  </fd-panel-grid>
 </section>
