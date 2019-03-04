@@ -21,7 +21,10 @@ export class PlainTableComponent extends PlainListComponent {
   @Input() footerRenderer: Type<any>;
   @Input() entryTagName = 'tbody';
   @Input()
-  emptyListPlaceholderData: { title: string; body: string; button: string };
+  emptyListPlaceholderData: {
+    header: { text: string; actionButton: { glyph: string; text: string } };
+    body: { text: string; actionButton: { glyph: string; text: string } };
+  };
   @Output() emptyListAction = new EventEmitter();
 
   @ViewChild('header', { read: ViewContainerRef })
