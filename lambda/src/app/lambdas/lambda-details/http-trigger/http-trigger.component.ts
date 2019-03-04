@@ -152,7 +152,6 @@ export class HttpTriggerComponent {
               this.jwksUri = jwksUri;
               this.issuer = issuer;
             }
-            console.log('avail1');
             if (isLocal) {
               this.jwksUri = localJwksUri;
               this.issuer = localIssuer;
@@ -180,7 +179,6 @@ export class HttpTriggerComponent {
                   jwksUri = preset.jwksUri;
                   issuer = preset.issuer;
                 }
-                console.log('avail2');
                 this.availablePresets.push({
                   label: preset.name,
                   jwksUri: preset.jwksUri,
