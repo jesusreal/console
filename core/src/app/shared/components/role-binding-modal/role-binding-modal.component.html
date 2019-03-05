@@ -7,8 +7,8 @@
             <div fd-form-set>
               <div fd-form-item>
                 <fd-form-label>UserGroup *</fd-form-label>
-                <input fd-form__control
-                  class="fd-form__control y-fd-form__control"
+                <input fd-form-control
+                  class="y-fd-form__control"
                   type="text" 
                   name="userGroup"
                   placeholder="Enter User Group"
@@ -25,8 +25,8 @@
                     [attr.aria-expanded]="ariaExpandedKind"
                     aria-controls="kinds"
                     (click)="toggleDropDown('Kind')">
-                    <input fd-form__control
-                      class="fd-form__control y-fd-form__control"
+                    <input fd-form-control
+                      class="y-fd-form__control"
                       type="text" 
                       name="selectedKind"
                       placeholder="Select Kind"
@@ -57,8 +57,8 @@
                     [attr.aria-expanded]="ariaExpandedRole"
                     aria-controls="roles"
                     (click)="toggleDropDown('Role')">
-                    <input fd-form__control
-                      class="fd-form__control y-fd-form__control"
+                    <input fd-form-control
+                      class="y-fd-form__control"
                       type="text" 
                       name="selectedRole"
                       placeholder="Select Role"
