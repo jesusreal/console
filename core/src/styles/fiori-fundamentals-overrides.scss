@@ -114,13 +114,6 @@ fd-modal {
   }
 }
 
-//for link-button in tables
-span {
-  &.fd-link {
-    cursor: pointer;
-  }
-}
-
 //helpers
 .y-word-wrap {
   word-wrap: break-word;
@@ -170,4 +163,9 @@ span {
       }
     }
   }
+}
+
+//Cursor pointer for all links
+a {
+  cursor: pointer;
 }
