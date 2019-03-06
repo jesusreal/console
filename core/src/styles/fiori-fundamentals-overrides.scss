@@ -36,6 +36,12 @@ fd-modal {
   }
 }
 
+//Forms
+.y-fd-form__message--disabled {
+  // color: var(--fd-color-text-4);
+  color: var(--fd-color-status-4) !important;
+}
+
 //Tables
 .fd-table {
   &__th--min,
