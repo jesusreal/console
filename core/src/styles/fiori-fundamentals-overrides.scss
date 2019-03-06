@@ -145,3 +145,11 @@
     }
   }
 }
+
+.y-fd-menu {
+  .fd-menu__item {
+    input[type='checkbox'] {
+      margin-right: 3px; //fix for too small gap between checkbox and its label in popover menu (Filter list)
+    }
+  }
+}
