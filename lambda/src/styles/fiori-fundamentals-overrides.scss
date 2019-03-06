@@ -16,18 +16,6 @@ fd-modal .fd-modal-background {
   }
 }
 
-.fd-modal--large {
-  .fd-modal {
-    max-width: 650px;
-  }
-}
-
-.fd-modal--xlarge {
-  .fd-modal {
-    max-width: 80%;
-  }
-}
-
 //Tables
 .fd-table {
   &__th--min,
