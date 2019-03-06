@@ -1,10 +1,5 @@
 //Overwrite bg color for modals overlay
 .y-fd-modal {
-  .fd-modal-background {
-    background-color: rgba(74, 80, 92, 0.3) !important;
-    opacity: 1 !important;
-  }
-
   //Common styles for modals
   .fd-modal__footer {
     .fd-button {
@@ -16,7 +11,7 @@
     }
   }
 
-  .fd-modal--large {
+  &.fd-modal--large {
     .fd-modal {
       max-width: 650px;
     }
@@ -27,7 +22,7 @@
   }
 }
 
-.y-fd-action-bar {
+.fd-action-bar {
   flex-shrink: 0;
   .fd-action-bar__actions {
     .fd-popover {
@@ -163,10 +158,8 @@
   word-wrap: break-word;
 }
 
-
 //Workaroud before techne is not removed
-input[type=checkbox] {
-
+input[type='checkbox'] {
   border-color: var(--fd-forms-border-color);
   background-color: var(--fd-forms-background-color);
 
