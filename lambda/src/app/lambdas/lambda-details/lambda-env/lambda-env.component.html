@@ -20,9 +20,9 @@
               [attr.disabled]="!lambdaName || isLambdaNameInvalid ? '' : null" />
           </th>
           <th class="y-fd-table__th--col-2 fd-has-text-align-right">
-            <button class="fd-button fd-button--compact fd-button--light" (click)="addVariable()"
-              [disabled]="disableAddVar || !lambdaName || isLambdaNameInvalid">
-              + Add Variable
+            <button fd-button [options]="'light'" [glyph]="'add'" (click)="addVariable()" [compact]="true"
+              [state]="(disableAddVar || !lambdaName || isLambdaNameInvalid) ?'disabled':''">
+              Add Variable
             </button>
           </th>
         </tr>
