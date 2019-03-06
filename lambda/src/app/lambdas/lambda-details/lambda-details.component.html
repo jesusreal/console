@@ -17,7 +17,7 @@
     </fd-breadcrumb-item>
   </fd-breadcrumb>
 
-  <fd-action-bar class="y-fd-action-bar">
+  <fd-action-bar>
     <fd-action-bar-header>
       <fd-action-bar-title>
         {{ lambda?.metadata?.name }}
@@ -25,12 +25,8 @@
     </fd-action-bar-header>
     <fd-action-bar-actions [hidden]="!loaded">
       <button fd-button [options]="'light'" (click)="cancel()">Cancel</button>
-      <button
-        fd-button
-        [options]="'emphasized'"
-        (click)="deployLambda()"
-        [disabled]="!lambda.metadata.name || !isLambdaFormValid"
-      >
+      <button fd-button [options]="'emphasized'" (click)="deployLambda()"
+        [disabled]="!lambda.metadata.name || !isLambdaFormValid">
         {{ mode == 'create' ? 'Create' : 'Save' }}
       </button>
     </fd-action-bar-actions>
@@ -41,10 +37,7 @@
   </p>
 
   <ng-container *ngIf="loaded">
-    <div
-      class="fd-alert fd-alert--error fd-has-margin-bottom-small"
-      *ngIf="error"
-    >
+    <div class="fd-alert fd-alert--error fd-has-margin-bottom-small" *ngIf="error">
       <p>{{ error }}</p>
     </div>
 
@@ -63,19 +56,10 @@
                 <div class="fd-form__item">
                   <label class="fd-form__label" for="">Function Name * </label>
                   <div class="fd-input-group">
-                    <input
-                      type="text"
-                      id="input-1"
-                      name="function_name"
-                      [(ngModel)]="lambda.metadata.name"
-                      [attr.disabled]="mode === 'create' ? null : ''"
-                      (keyup)="validatesName()"
-                    />
+                    <input type="text" id="input-1" name="function_name" [(ngModel)]="lambda.metadata.name"
+                      [attr.disabled]="mode === 'create' ? null : ''" (keyup)="validatesName()" />
                   </div>
-                  <fd-form-message
-                    [type]="'error'"
-                    *ngIf="isFunctionNameInvalid"
-                  >
+                  <fd-form-message [type]="'error'" *ngIf="isFunctionNameInvalid">
                     Invalid name: must consist of lower case alphanumeric
                     characters or '-', start with an alphabetic character, and
                     end with an alphanumeric character (e.g. 'my-name', or
@@ -91,10 +75,8 @@
                 <div fd-form-set>
                   <div fd-form-item>
                     <fd-form-label>Labels</fd-form-label>
-                    <app-labels-input
-                      [labels]="updatedLabels"
-                      (labelsChangeEmitter$)="updateLabelsData($event)"
-                    ></app-labels-input>
+                    <app-labels-input [labels]="updatedLabels" (labelsChangeEmitter$)="updateLabelsData($event)">
+                    </app-labels-input>
                   </div>
                 </div>
               </form>
@@ -117,14 +99,9 @@
           <label class="fd-label">Size:</label>
           <fd-popover [compact]="true" [alignment]="'right'">
             <fd-popover-control>
-              <button
-                fd-button
-                [options]="'light'"
-                [glyph]="'slim-arrow-down'"
-                [disabled]="
+              <button fd-button [options]="'light'" [glyph]="'slim-arrow-down'" [disabled]="
                   lambda.metadata.name.length <= 0 || isFunctionNameInvalid
-                "
-              >
+                ">
                 {{ selectedFunctionSizeName }}
               </button>
             </fd-popover-control>
@@ -133,10 +110,7 @@
               <fd-menu>
                 <fd-menu-list>
                   <li fd-menu-item *ngFor="let option of functionSizes">
-                    <a (click)="selectSize(option)"
-                      ><strong>{{ option.name }}</strong
-                      ><br />{{ option.description }}</a
-                    >
+                    <a (click)="selectSize(option)"><strong>{{ option.name }}</strong><br />{{ option.description }}</a>
                   </li>
                 </fd-menu-list>
               </fd-menu>
@@ -146,14 +120,9 @@
           <label class="fd-label">Type:</label>
           <fd-popover [compact]="true" [alignment]="'right'">
             <fd-popover-control>
-              <button
-                fd-button
-                [options]="'light'"
-                [glyph]="'slim-arrow-down'"
-                [disabled]="
+              <button fd-button [options]="'light'" [glyph]="'slim-arrow-down'" [disabled]="
                   lambda.metadata.name.length <= 0 || isFunctionNameInvalid
-                "
-              >
+                ">
                 {{ kind }}
               </button>
             </fd-popover-control>
@@ -174,51 +143,25 @@
       <fd-panel-filters>
         <!-- trigger badges -->
         <ng-container *ngIf="selectedTriggers.length > 0">
-          <span
-            class="fd-token y-fd-token triggers"
-            *ngFor="let trigger of selectedTriggers"
-          >
-            <div
-              class="labels__remove"
-              title="Remove trigger"
-              (mouseover)="hideHTTPURL(); $event.stopPropagation()"
-              (click)="unselectEvent(trigger); $event.stopPropagation()"
-            ></div>
-            <span
-              *ngIf="trigger.eventType === 'http' && isHTTPTriggerAuthenticated"
-              class="securedHTTPTrigger"
-            ></span>
-            <span
-              (mouseover)="onMouseOver(trigger)"
-              (click)="onMouseOver(trigger)"
-            >
+          <span class="fd-token y-fd-token triggers" *ngFor="let trigger of selectedTriggers">
+            <div class="labels__remove" title="Remove trigger" (mouseover)="hideHTTPURL(); $event.stopPropagation()"
+              (click)="unselectEvent(trigger); $event.stopPropagation()"></div>
+            <span *ngIf="trigger.eventType === 'http' && isHTTPTriggerAuthenticated" class="securedHTTPTrigger"></span>
+            <span (mouseover)="onMouseOver(trigger)" (click)="onMouseOver(trigger)">
               {{ trigger.eventType }}
-              <ng-container *ngIf="trigger.eventType !== 'http'"
-                >- {{ trigger.version }}
+              <ng-container *ngIf="trigger.eventType !== 'http'">- {{ trigger.version }}
               </ng-container>
             </span>
-            <div
-              class="fd-popover y-fd-popover--position"
-              *ngIf="showHTTPURL == trigger"
-              clickOutsideEvents="click"
-              (clickOutside)="hideHTTPURL()"
-              [exclude]="'.fd-token'"
-              excludeBeforeClick="true"
-            >
+            <div class="fd-popover y-fd-popover--position" *ngIf="showHTTPURL == trigger" clickOutsideEvents="click"
+              (clickOutside)="hideHTTPURL()" [exclude]="'.fd-token'" excludeBeforeClick="true">
               <div class="fd-popover__body">
                 <div class="trigger-body">https://{{ httpURL }}/</div>
                 <div class="trigger-footer">
-                  <button
-                    *ngIf="isHTTPTriggerAuthenticated"
-                    class="fd-button fd-button--light"
-                    (click)="showFetchTokenModal()"
-                  >
+                  <button *ngIf="isHTTPTriggerAuthenticated" class="fd-button fd-button--light"
+                    (click)="showFetchTokenModal()">
                     Fetch Token
                   </button>
-                  <button
-                    class="fd-button fd-button--light"
-                    (click)="copyHTTPURLEndpoint($event)"
-                  >
+                  <button class="fd-button fd-button--light" (click)="copyHTTPURLEndpoint($event)">
                     Copy to clipboard
                   </button>
                 </div>
@@ -230,49 +173,29 @@
         <!-- fd-popoper from ngx is not working, z-index is not adjustable -->
         <div class="fd-popover">
           <div class="fd-popover__control" (click)="$event.stopPropagation()">
-            <button
-              fd-button
-              [options]="'light'"
-              [glyph]="'add'"
-              id="functionTriggerSelector"
-              (click)="toggleDropdownState('functionTriggerPopover')"
-              [disabled]="
+            <button fd-button [options]="'light'" [glyph]="'add'" id="functionTriggerSelector"
+              (click)="toggleDropdownState('functionTriggerPopover')" [disabled]="
                 lambda.metadata.name.length <= 0 || isFunctionNameInvalid
-              "
-            >
+              ">
               Select Function Trigger
             </button>
           </div>
-          <div
-            class="fd-popover__body"
-            *ngIf="dropDownStates?.functionTriggerPopover"
-            clickOutsideEvents="click"
-            (clickOutside)="toggleDropdownState('functionTriggerPopover')"
-            [exclude]="'#functionTriggerSelector'"
-            excludeBeforeClick="true"
-          >
+          <div class="fd-popover__body" *ngIf="dropDownStates?.functionTriggerPopover" clickOutsideEvents="click"
+            (clickOutside)="toggleDropdownState('functionTriggerPopover')" [exclude]="'#functionTriggerSelector'"
+            excludeBeforeClick="true">
             <nav class="fd-menu">
               <ul class="fd-menu__list">
                 <li fd-menu-item>
-                  <a
-                    class="fd-menu__item"
-                    (click)="
+                  <a class="fd-menu__item" (click)="
                       showEventTrigger();
                       toggleDropdownState('functionTriggerPopover')
-                    "
-                    >Event Trigger</a
-                  >
+                    ">Event Trigger</a>
                 </li>
                 <li fd-menu-item>
-                  <a
-                    class="fd-menu__item"
-                    [class.disabled]="isHTTPTriggerAdded"
-                    (click)="
+                  <a class="fd-menu__item" [class.disabled]="isHTTPTriggerAdded" (click)="
                       showHTTPTrigger();
                       toggleDropdownState('functionTriggerPopover')
-                    "
-                    >Expose via HTTPS</a
-                  >
+                    ">Expose via HTTPS</a>
                 </li>
               </ul>
             </nav>
@@ -280,13 +203,8 @@
         </div>
       </fd-panel-filters>
       <fd-panel-body>
-        <ace-editor
-          #editor
-          [(text)]="code"
-          [mode]="aceMode"
-          [theme]="theme"
-          (textChanged)="onCodeChange($event)"
-        ></ace-editor>
+        <ace-editor #editor [(text)]="code" [mode]="aceMode" [theme]="theme" (textChanged)="onCodeChange($event)">
+        </ace-editor>
       </fd-panel-body>
     </fd-panel>
   </section>
@@ -300,43 +218,28 @@
           </fd-panel-title>
         </fd-panel-head>
         <fd-panel-actions>
-          <fd-toggle [size]="'xs'" (change)="changeDependencies(hasDependencies)" [(ngModel)]="hasDependencies"></fd-toggle>
+          <fd-toggle [size]="'xs'" (change)="changeDependencies(hasDependencies)" [(ngModel)]="hasDependencies">
+          </fd-toggle>
         </fd-panel-actions>
       </fd-panel-header>
       <fd-panel-body [hidden]="!hasDependencies">
-        <ace-editor
-          #dependencyEditor
-          [(text)]="dependency"
-          [mode]="aceDependencyMode"
-          [theme]="theme"
-          (textChanged)="onDependencyChange($event)"
-        ></ace-editor>
+        <ace-editor #dependencyEditor [(text)]="dependency" [mode]="aceDependencyMode" [theme]="theme"
+          (textChanged)="onDependencyChange($event)"></ace-editor>
       </fd-panel-body>
     </fd-panel>
   </section>
 
-  <app-lambda-instance-bindings
-    [lambdaName]="lambda.metadata.name"
-    [isLambdaNameInvalid]="isFunctionNameInvalid"
-    (bindingStateEmitter)="handleBindingStateEmitter($event)"
-  ></app-lambda-instance-bindings>
+  <app-lambda-instance-bindings [lambdaName]="lambda.metadata.name" [isLambdaNameInvalid]="isFunctionNameInvalid"
+    (bindingStateEmitter)="handleBindingStateEmitter($event)"></app-lambda-instance-bindings>
 
   <section class="fd-section">
-    <app-lambda-env-table
-      [envs]="lambda.spec.deployment.spec.template.spec.containers[0].env"
-      [lambdaName]="lambda.metadata.name"
-      [isLambdaNameInvalid]="isFunctionNameInvalid"
-      (envEmitter)="handleEnvEmitter($event)"
-    ></app-lambda-env-table>
+    <app-lambda-env-table [envs]="lambda.spec.deployment.spec.template.spec.containers[0].env"
+      [lambdaName]="lambda.metadata.name" [isLambdaNameInvalid]="isFunctionNameInvalid"
+      (envEmitter)="handleEnvEmitter($event)"></app-lambda-env-table>
   </section>
 
   <app-fetch-token-modal #fetchTokenModal></app-fetch-token-modal>
-  <app-event-trigger-chooser
-    #eventTriggerChooserModal
-    (eventEmitter)="handleEventEmitter($event)"
-  ></app-event-trigger-chooser>
-  <app-http-trigger
-    #httpTriggerModal
-    (httpEmitter)="handleHttpEmitter($event)"
-  ></app-http-trigger>
+  <app-event-trigger-chooser #eventTriggerChooserModal (eventEmitter)="handleEventEmitter($event)">
+  </app-event-trigger-chooser>
+  <app-http-trigger #httpTriggerModal (httpEmitter)="handleHttpEmitter($event)"></app-http-trigger>
 </ng-container>
