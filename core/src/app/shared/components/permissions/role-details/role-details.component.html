@@ -88,8 +88,10 @@
         <fd-panel class="y-fd-panel" [columnSpan]="4">
           <fd-panel-body>
             <div *ngFor="let apiGroup of rule.apiGroups; let last = last">
-              <span>{{ apiGroup !== '' ? apiGroup : coreGroup
-                }}{{ last ? '' : ',' }}</span>
+              <span>
+                {{ apiGroup !== '' ? apiGroup : coreGroup }}
+                {{ last ? '' : ',' }}
+              </span>
             </div>
           </fd-panel-body>
         </fd-panel>

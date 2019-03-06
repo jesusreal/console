@@ -116,7 +116,7 @@ async function getEnvironmentsFromContextSwitcher(page) {
 }
 
 async function getEnvironmentNamesFromEnvironmentsPage(page) {
-  return await getNamesOnCurrentPage(page, '.tn-card__header');
+  return await getNamesOnCurrentPage(page, '.fd-panel__title');
 }
 
 async function getRemoteEnvironmentNames(page) {

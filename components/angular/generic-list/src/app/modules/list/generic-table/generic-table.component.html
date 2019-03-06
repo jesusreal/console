@@ -1,8 +1,8 @@
 <fd-action-bar>
   <fd-action-bar-header>
-    <fd-action-bar-title *ngIf="!showEmptyPage">{{
-      title
-    }}</fd-action-bar-title>
+    <fd-action-bar-title *ngIf="!showEmptyPage">
+      {{ title }}
+    </fd-action-bar-title>
   </fd-action-bar-header>
   <fd-action-bar-actions [hidden]="!initialized">
     <y-list-search [filterState]="filterState" [hidden]="!initialized || showEmptyPage"
