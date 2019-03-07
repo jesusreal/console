@@ -3,11 +3,11 @@
     <fd-panel-head>
       <fd-panel-title>{{ title }}</fd-panel-title>
     </fd-panel-head>
-    <fd-panel-actions [hidden]="!initialized" class="y-fd-panel__actions">
-      <y-list-search [hidden]="!initialized || showEmptyPage" [filterState]="filterState"
+    <fd-panel-actions [hidden]="!initialized || showEmptyPage" class="y-fd-panel__actions">
+      <y-list-search [filterState]="filterState"
             (onFilterChanged)="onFilterChanged($event)">
       </y-list-search>
-      <y-list-filter [hidden]="!initialized || showEmptyPage" [filterState]="filterState"
+      <y-list-filter [filterState]="filterState"
         (onFilterChanged)="onFilterChanged($event)">
       </y-list-filter>
     </fd-panel-actions>
