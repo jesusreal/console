@@ -38,15 +38,15 @@
       <table class="fd-table fd-table--no-borders">
         <tbody>
           <tr>
-            <td class="y-fd-table__th--col-2 fd-has-color-text-4">Name</td>
+            <td class="y-fd-table__td--col-2 fd-has-color-text-4">Name</td>
             <td>{{ roleDetails.metadata.name }}</td>
           </tr>
           <tr>
-            <td class="y-fd-table__th--col-2 fd-has-color-text-4">Namespace</td>
+            <td class="y-fd-table__td--col-2 fd-has-color-text-4">Namespace</td>
             <td>{{ roleDetails.metadata.namespace }}</td>
           </tr>
           <tr>
-            <td class="y-fd-table__th--col-2 fd-has-color-text-4">Creation Date</td>
+            <td class="y-fd-table__td--col-2 fd-has-color-text-4">Creation Date</td>
             <td>{{ roleDetails.metadata.creationTimestamp }}</td>
           </tr>
         </tbody>
@@ -67,7 +67,7 @@
         <table class="fd-table fd-table--no-borders">
           <tbody>
             <tr>
-              <td class="y-fd-table__th--col-4 fd-has-color-text-4 fd-has-background-color-neutral-1">API Groups</td>
+              <td class="y-fd-table__td--col-4 fd-has-color-text-4 fd-has-background-color-neutral-1">API Groups</td>
               <td><span *ngFor="let apiGroup of rule.apiGroups; let last = last">{{ apiGroup !== '' ? apiGroup : coreGroup }}{{ last ? '': ',' }}</span></td>
             </tr>
             <tr>

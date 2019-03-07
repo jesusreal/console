@@ -30,7 +30,6 @@ fd-modal .fd-modal-background {
 
 //Forms
 .y-fd-form__message--disabled {
-  // color: var(--fd-color-text-4);
   color: var(--fd-color-status-4) !important;
 }
 
@@ -54,14 +53,14 @@ fd-modal .fd-modal-background {
               */
     }
   }
+  &__header {
+    .fd-breadcrumb {
+      font-size: 23px;
+    }
+  }
 }
 
 //Breadcrumbs inside of title
-.fd-action-bar__header {
-  .fd-breadcrumb {
-    font-size: 23px;
-  }
-}
 
 //Panel
 .fd-panel {
