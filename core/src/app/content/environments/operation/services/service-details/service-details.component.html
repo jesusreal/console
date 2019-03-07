@@ -64,7 +64,7 @@
             </td>
           </tr>
           <tr>
-            <td class="fd-has-color-text-4">Internal endpoints</td>
+            <td class="fd-has-color-text-4">Internal Endpoints</td>
             <td>
               <ng-container *ngFor="let port of serviceDetails.spec.ports">
                 <span>{{ serviceDetails.metadata.name }}.{{ serviceDetails.metadata.namespace }}:{{ port.port }} {{ port.protocol }}</span>
