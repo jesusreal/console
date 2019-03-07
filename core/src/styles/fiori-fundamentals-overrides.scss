@@ -154,8 +154,7 @@ fd-modal {
   .fd-panel__actions {
     display: flex;
 
-    > *,
-    > button {
+    > * {
       margin-left: 8px;
   
       &:first-child {
