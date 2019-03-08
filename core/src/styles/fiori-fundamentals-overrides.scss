@@ -23,7 +23,7 @@
 }
 
 .fd-action-bar {
-  .fd-action-bar__actions {
+  &__actions {
     flex-shrink: 0;
     .fd-popover {
       top: 0; /*  There is a bug from Fiori Fundamentals.
@@ -124,6 +124,35 @@
   }
 }
 
+.y-fd-panel {
+  &--button {
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 0 5px 0 rgba(fd-color('text', 3), 0.4);
+    }
+  }
+
+  &--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &__actions {
+    .fd-panel__actions {
+      display: flex;
+
+      > * {
+        margin-left: 8px;
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
+
 //helpers
 .y-word-wrap {
   word-wrap: break-word;
@@ -152,4 +181,9 @@
       margin-right: 3px; //fix for too small gap between checkbox and its label in popover menu (Filter list)
     }
   }
+}
+
+//Cursor pointer for all links
+a {
+  cursor: pointer;
 }
