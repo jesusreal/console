@@ -91,6 +91,8 @@
 
 //Panel
 .y-fd-panel {
+  @extend .fd-panel;
+
   display: block;
   &--button {
     cursor: pointer;
@@ -119,21 +121,6 @@
         }
       }
     }
-  }
-}
-
-.y-fd-panel {
-  &--button {
-    cursor: pointer;
-
-    &:hover {
-      box-shadow: 0 0 5px 0 rgba(fd-color('text', 3), 0.4);
-    }
-  }
-
-  &--disabled {
-    opacity: 0.5;
-    pointer-events: none;
   }
 
   &__actions {
