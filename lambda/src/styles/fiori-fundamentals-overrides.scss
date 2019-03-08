@@ -22,25 +22,7 @@
   }
 }
 
-.fd-action-bar {
-  &__actions {
-    flex-shrink: 0;
-    .fd-popover {
-      top: 0; /*  There is a bug from Fiori Fundamentals.
-                  When action bar includes popover with `fd-button--primary` class,
-                  then it's not aligned with other buttons in row anymore,
-                  because it has `top: - fd-space(1)` by default.
-                  Until it's fixed in Fundamentals, better to keep these styles to overwrite it.
-              */
-    }
-  }
-}
 
-.fd-modal--xlarge {
-  .fd-modal {
-    max-width: 80%;
-  }
-}
 
 //Forms
 .y-fd-form__message--disabled {
@@ -76,13 +58,6 @@
       cursor: pointer;
     }
   }
-
-  //for link-button in tables
-  span {
-    &.fd-link {
-      cursor: pointer;
-    }
-  }
 }
 
 //Breadcrumbs
@@ -112,6 +87,8 @@
 
 //Panel
 .y-fd-panel {
+  @extend .fd-panel;
+
   display: block;
   &--button {
     cursor: pointer;
@@ -141,21 +118,6 @@
       }
     }
   }
-}
-
-.y-fd-panel {
-  &--button {
-    cursor: pointer;
-
-    &:hover {
-      box-shadow: 0 0 5px 0 rgba(fd-color('text', 3), 0.4);
-    }
-  }
-
-  &--disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
 
   &__actions {
     .fd-panel__actions {
@@ -171,6 +133,12 @@
     }
   }
 }
+
+
+
+
+
+
 
 //helpers
 .y-word-wrap {
@@ -225,35 +193,7 @@
 .y-fd-container--border-light {
   border-bottom: 1px solid #cccccc;
 }
-.y-fd-table {
-  margin-bottom: 0;
 
-  $possible-columns: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;
-  @each $i in $possible-columns {
-    &__th--col-#{$i} {
-      width: calc(100% / 12 * #{$i});
-    }
-    &__td--col-#{$i} {
-      width: calc(100% / 12 * #{$i});
-    }
-  }
-
-  &__tr--no-border-below {
-    border-bottom: 0;
-  }
-
-  &__tr--no-border-below + tr {
-    border-top: 0;
-  }
-
-  tr {
-    cursor: default;
-  }
-
-  td a {
-    cursor: pointer;
-  }
-}
 
 //Cursor pointer for all links
 a {

@@ -36,11 +36,6 @@
   }
 }
 
-//Forms
-.y-fd-form__message--disabled {
-  color: var(--fd-color-status-4) !important;
-}
-
 //Tables
 .fd-table {
   &--min {
@@ -82,13 +77,6 @@
   td {
     vertical-align: top;
     a {
-      cursor: pointer;
-    }
-  }
-
-  //for link-button in tables
-  span {
-    &.fd-link {
       cursor: pointer;
     }
   }
