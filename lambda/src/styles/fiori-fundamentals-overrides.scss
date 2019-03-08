@@ -120,7 +120,7 @@
   }
 
   &__actions {
-    .fd-panel__actions {
+    &.fd-panel__actions {
       display: flex;
 
       > * {
