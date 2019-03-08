@@ -116,7 +116,7 @@ async function getEnvironmentsFromContextSwitcher(page) {
 }
 
 async function getEnvironmentNamesFromEnvironmentsPage(page) {
-  return await getNamesOnCurrentPage(page, '.fd-panel__title');
+  return await getNamesOnCurrentPage(page, '[data-e2e-id=namespace-name]');
 }
 
 async function getRemoteEnvironmentNames(page) {
