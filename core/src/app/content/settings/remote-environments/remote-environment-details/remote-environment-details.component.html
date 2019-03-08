@@ -1,5 +1,5 @@
 <section class="fd-section">
-  <fd-breadcrumb>
+  <fd-breadcrumb class="y-fd-breadcrumb">
     <fd-breadcrumb-item>
       <a fd-breadcrumb-link (click)="navigateToList()" href="#">
         Applications
@@ -25,7 +25,7 @@
     </fd-action-bar-actions>
   </fd-action-bar>
 
-  <fd-panel *ngIf="remoteEnvironment">
+  <fd-panel class="y-fd-panel" *ngIf="remoteEnvironment">
     <fd-panel-header>
       <fd-panel-head>
         <fd-panel-title>General Information</fd-panel-title>
@@ -38,6 +38,7 @@
     </fd-panel-header>
 
     <fd-panel-body [bleed]="true">
+
       <table class="fd-table fd-table--no-borders">
         <tbody>
           <tr>
@@ -76,13 +77,14 @@
           </tr>
         </tbody>
       </table>
+
     </fd-panel-body>
   </fd-panel>
 </section>
 
 <ng-container *ngIf="remoteEnvironment">
   <section class="fd-section">
-    <fd-panel>
+    <fd-panel class="y-fd-panel">
       <fd-panel-header>
         <fd-panel-head>
           <fd-panel-title>Namespace Bindings</fd-panel-title>
@@ -98,7 +100,9 @@
         <fd-table *ngIf="boundEnvironments.length > 0">
           <fd-table-header>
             <th>Name</th>
-            <th class="y-fd-table--col-1"></th>
+            <th class="y-fd-table--col-1">
+            </th>
+
           </fd-table-header>
           <fd-table-body>
             <tr *ngFor="let environment of boundEnvironments">
@@ -115,7 +119,7 @@
   </section>
 
   <section class="fd-section" *ngIf="remoteEnvironment.services.length > 0">
-    <fd-panel>
+    <fd-panel class="y-fd-panel">
       <fd-panel-header>
         <fd-panel-head>
           <fd-panel-title>Provided Services & Events</fd-panel-title>
@@ -130,17 +134,25 @@
           </fd-table-header>
           <fd-table-body>
             <tr *ngFor="let service of remoteEnvironment.services">
-              <td><span class="fd-has-font-weight-bold">{{ service.displayName }}</span></td>
               <td>
-                <span class="sap-icon--l"
-                  ngClass="{{hasType(service.entries, 'API') ? 'sap-icon--accept fd-has-color-status-1' : 'sap-icon--decline fd-has-color-status-4'}}"
-                  role="presentation">
+                <span class="fd-has-font-weight-bold">
+                  {{ service.displayName }}
                 </span>
               </td>
               <td>
-                <span class="sap-icon--l"
-                  ngClass="{{hasType(service.entries, 'Events') ? 'sap-icon--accept fd-has-color-status-1' : 'sap-icon--decline fd-has-color-status-4'}}"
-                  role="presentation">
+                <span class="sap-icon--l" ngClass="{{
+                    hasType(service.entries, 'API')
+                      ? 'sap-icon--accept fd-has-color-status-1'
+                      : 'sap-icon--decline fd-has-color-status-4'
+                  }}" role="presentation">
+                </span>
+              </td>
+              <td>
+                <span class="sap-icon--l" ngClass="{{
+                    hasType(service.entries, 'Events')
+                      ? 'sap-icon--accept fd-has-color-status-1'
+                      : 'sap-icon--decline fd-has-color-status-4'
+                  }}" role="presentation">
                 </span>
               </td>
             </tr>
