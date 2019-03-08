@@ -19,10 +19,6 @@ fd-modal {
 
 //Tables
 .fd-table {
-  &--min {
-    width: 8.33333%;
-  }
-
   .disabled {
     opacity: 0.5;
     pointer-events: none;
@@ -97,7 +93,7 @@ fd-modal {
     cursor: pointer;
 
     &:hover {
-      box-shadow: 0 0 5px 0 rgba(fd-color("text",3), 0.4);
+      box-shadow: 0 0 5px 0 rgba(fd-color('text', 3), 0.4);
     }
   }
 

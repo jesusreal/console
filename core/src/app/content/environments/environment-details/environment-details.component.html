@@ -77,8 +77,9 @@
             <td>
               <a (click)="navigateToRemoteEnvs(env.name)">{{ env.name }}</a>
             </td>
-            <td class="fd-table__td--min fd-has-float-right">
-              <y-list-actions [entry]="env" [entryEventHandler]="entryEventHandler" [actions]="actions"></y-list-actions>
+            <td class="fd-table--col-1 fd-has-float-right">
+              <y-list-actions [entry]="env" [entryEventHandler]="entryEventHandler" [actions]="actions">
+              </y-list-actions>
             </td>
           </tr>
         </fd-table-body>

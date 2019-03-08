@@ -1,9 +1,8 @@
 //Overwrite bg color for modals overlay
 fd-modal .fd-modal-background {
-  background-color: rgba(74,80,92,.3) !important;
+  background-color: rgba(74, 80, 92, 0.3) !important;
   opacity: 1 !important;
 }
-
 
 //Common styles for modals
 .fd-modal__footer {
@@ -19,14 +18,6 @@ fd-modal .fd-modal-background {
 //Forms
 .y-fd-form__message--disabled {
   color: var(--fd-color-status-4) !important;
-}
-
-//Tables
-.fd-table {
-  &__th--min,
-  &__td--min {
-    width: 8.33333%;
-  }
 }
 
 .fd-action-bar {
@@ -91,14 +82,8 @@ fd-modal .fd-modal-background {
   }
 }
 
-
 //Tables
 .fd-table {
-  &__th--min,
-  &__td--min {
-    width: 8.33333%;
-  }
-
   .disabled {
     opacity: 0.5;
     pointer-events: none;
@@ -139,10 +124,8 @@ fd-modal .fd-modal-background {
   }
 }
 
-
 //Workaroud before techne is not removed
-input[type=checkbox] {
-
+input[type='checkbox'] {
   border-color: var(--fd-forms-border-color);
   background-color: var(--fd-forms-background-color);
 
