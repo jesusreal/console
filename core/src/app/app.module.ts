@@ -64,6 +64,7 @@ import { InformationModalComponent } from './shared/components/information-modal
 import { JsonEditorModalComponent } from './shared/components/json-editor-modal/json-editor-modal.component';
 import { JsonEditorComponent } from './shared/components/json-editor-modal/json-editor/json-editor.component';
 import { K8sResourceEditorService } from './shared/components/json-editor-modal/services/k8s-resource-editor.service';
+import { ResourceUploaderComponent } from './shared/components/resource-uploader/resource-uploader-component/resource-uploader.component';
 import { ResourceUploaderModalComponent } from './shared/components/resource-uploader/resource-uploader-modal/resource-uploader-modal.component';
 import { ResourceUploadService } from './shared/components/resource-uploader/services/resource-upload.service';
 import { UploaderComponent } from './shared/components/resource-uploader/uploader/uploader.component';
@@ -154,7 +155,7 @@ import { AbstractGraphqlElementListComponent } from 'environments/operation/abst
     ServiceDetailsComponent,
     UploaderComponent,
     ResourceUploaderModalComponent,
-
+    ResourceUploaderComponent,
     ExposeApiComponent,
     ApisComponent,
     FilteredApisComponent,
