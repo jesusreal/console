@@ -7,8 +7,9 @@
       <fd-action-bar-title>{{ environment.getLabel() }}</fd-action-bar-title>
     </fd-action-bar-header>
     <fd-action-bar-actions>
-      <button fd-button (click)="openUploadResourceModal()" *ngIf="!showSelectFileButton">
-        + Deploy new resource to the namespace
+      <button fd-button [options]="'light'" [glyph]="'add'" (click)="openUploadResourceModal()"
+        *ngIf="!showSelectFileButton">
+        Deploy new resource to the namespace
       </button>
     </fd-action-bar-actions>
   </fd-action-bar>
