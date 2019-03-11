@@ -188,14 +188,3 @@
 a {
   cursor: pointer;
 }
-
-//Workaroud before techne is not removed
-input[type='checkbox'] {
-  border-color: var(--fd-forms-border-color);
-  background-color: var(--fd-forms-background-color);
-  &:checked {
-    &:after {
-      all: unset;
-    }
-  }
-}
